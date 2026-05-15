@@ -76,10 +76,6 @@ export default function CarDetailsPage() {
     <main className="bg-luxury-black min-h-screen selection:bg-gold selection:text-black text-white">
       <Navbar />
 
-
-
-      <Navbar />
-
       {/* Hero image */}
       <section className="w-full mb-8 -mt-0">
         <div className="relative w-full h-screen overflow-hidden bg-luxury-gray">
