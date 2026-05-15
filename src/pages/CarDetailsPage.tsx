@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
 import { Contact } from "@/components/Contact";
 import { motion } from "motion/react";
@@ -7,11 +7,13 @@ import { ArrowLeft, Heart, ShieldCheck, Gauge, Zap, Wind, Activity } from "lucid
 import { useWishlist } from "@/context/WishlistContext";
 import { useVehicle } from "@/hooks/useSupabase";
 
+
 function fmtPrice(n: number) {
   return n ? "৳ " + Math.round(n).toLocaleString("en-BD") : "Price on Request";
 }
 
 export default function CarDetailsPage() {
+  const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const { vehicle: car, loading } = useVehicle(id);
   const { toggleWishlist, isInWishlist } = useWishlist();
@@ -74,17 +76,13 @@ export default function CarDetailsPage() {
     <main className="bg-luxury-black min-h-screen selection:bg-gold selection:text-black text-white">
       <Navbar />
 
-      {/* Back nav */}
-      <div className="container mx-auto px-6 md:px-12 pt-32 pb-8">
-        <Link to="/inventory" className="inline-flex items-center gap-3 text-white/30 hover:text-white transition-colors group">
-          <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
-          <span className="text-[10px] uppercase tracking-[0.4em] font-black">Back to Inventory</span>
-        </Link>
-      </div>
+
+
+      <Navbar />
 
       {/* Hero image */}
-      <section className="container mx-auto px-6 md:px-12 mb-16">
-        <div className="relative aspect-[16/7] overflow-hidden rounded-sm bg-luxury-gray">
+      <section className="w-full mb-8 -mt-0">
+        <div className="relative w-full h-screen overflow-hidden bg-luxury-gray">
           {allImages.length > 0 ? (
             <img
               src={allImages[activeImage]}
@@ -92,17 +90,24 @@ export default function CarDetailsPage() {
               className="w-full h-full object-cover transition-all duration-700"
             />
           ) : (
-            <div className="w-full h-full flex flex-col items-center justify-center">
-              <p className="text-white/10 text-6xl font-display font-black tracking-tighter">{car.make}</p>
-              <p className="text-white/5 text-3xl font-serif italic mt-2">{car.model}</p>
+            <div className="w-full h-full flex flex-col items-center justify-center bg-luxury-gray">
+              <p className="text-white/10 text-6xl font-display font-black tracking-tighter">
+                {car.make}
+              </p>
+              <p className="text-white/5 text-3xl font-serif italic mt-2">
+                {car.model}
+              </p>
             </div>
           )}
-          <div className="absolute inset-0 bg-gradient-to-t from-luxury-black/80 via-transparent to-transparent" />
+
+          <div className="absolute inset-0 bg-gradient-to-t from-luxury-black/90 via-luxury-black/20 to-luxury-black/40" />
 
           {/* Wishlist */}
           <button
             onClick={() => toggleWishlist(car.id)}
-            className={`absolute top-6 right-6 w-12 h-12 rounded-full border backdrop-blur-md flex items-center justify-center transition-all duration-500 ${isInWishlist(car.id) ? "bg-gold text-black border-gold" : "bg-black/20 text-white/40 border-white/10 hover:text-white"
+            className={`absolute top-28 right-6 md:right-12 w-12 h-12 rounded-full border backdrop-blur-md flex items-center justify-center transition-all duration-500 ${isInWishlist(car.id)
+              ? "bg-gold text-black border-gold"
+              : "bg-black/20 text-white/40 border-white/10 hover:text-white"
               }`}
           >
             <Heart size={18} fill={isInWishlist(car.id) ? "currentColor" : "none"} />
@@ -110,28 +115,51 @@ export default function CarDetailsPage() {
 
           {/* Status */}
           {car.status && car.status !== "Available" && (
-            <div className="absolute bottom-6 left-6 px-4 py-2 bg-black/60 backdrop-blur-sm">
-              <p className="text-[10px] uppercase tracking-widest font-black text-gold">{car.status}</p>
+            <div className="absolute bottom-8 left-6 md:left-12 px-4 py-2 bg-black/60 backdrop-blur-sm">
+              <p className="text-[10px] uppercase tracking-widest font-black text-gold">
+                {car.status}
+              </p>
             </div>
           )}
         </div>
 
         {/* Gallery thumbnails */}
         {allImages.length > 1 && (
-          <div className="flex gap-3 mt-4 overflow-x-auto pb-2">
-            {allImages.map((img, i) => (
-              <button
-                key={i}
-                onClick={() => setActiveImage(i)}
-                className={`shrink-0 w-24 h-16 overflow-hidden rounded-sm border transition-all ${activeImage === i ? "border-gold" : "border-white/10 opacity-50 hover:opacity-100"
-                  }`}
-              >
-                <img src={img} alt="" className="w-full h-full object-cover" />
-              </button>
-            ))}
+          <div className="container mx-auto px-6 md:px-12">
+            <div className="flex gap-3 mt-4 overflow-x-auto pb-2">
+              {allImages.map((img, i) => (
+                <button
+                  key={i}
+                  onClick={() => setActiveImage(i)}
+                  className={`shrink-0 w-24 h-16 overflow-hidden rounded-sm border transition-all ${activeImage === i
+                    ? "border-gold"
+                    : "border-white/10 opacity-50 hover:opacity-100"
+                    }`}
+                >
+                  <img src={img} alt="" className="w-full h-full object-cover" />
+                </button>
+              ))}
+            </div>
           </div>
         )}
       </section>
+
+      {/* Back nav */}
+      <div className="container mx-auto px-6 md:px-12 pt-4 pb-10">
+        <button
+          type="button"
+          onClick={() => navigate(-1)}
+          className="inline-flex items-center gap-3 text-white/30 hover:text-white transition-colors group"
+        >
+          <ArrowLeft
+            size={16}
+            className="group-hover:-translate-x-1 transition-transform"
+          />
+          <span className="text-[10px] uppercase tracking-[0.4em] font-black">
+            Go Back
+          </span>
+        </button>
+      </div>
 
       {/* Content */}
       <section className="container mx-auto px-6 md:px-12 pb-32">
