@@ -1,113 +1,209 @@
-import { motion, useScroll, useTransform } from "motion/react";
-import { useRef } from "react";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useMotionValueEvent,
+  AnimatePresence,
+  MotionValue,
+} from "motion/react";
+import { useRef, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { ALL_CARS } from "@/data/cars";
 import { ArrowRight } from "lucide-react";
+import { useVaultFeatureVehicles } from "@/hooks/useSupabase";
 
-export function VaultFeature() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"]
-  });
+function VaultSlide({
+  item,
+  index,
+  total,
+  scrollYProgress,
+}: {
+  item: any;
+  index: number;
+  total: number;
+  scrollYProgress: MotionValue<number>;
+}) {
+  const sliceSize = 1 / total;
+  const start = index * sliceSize;
+  const end = (index + 1) * sliceSize;
 
-  const vaultCars = ALL_CARS.filter(car => car.id.startsWith("v"));
+  const scale = useTransform(scrollYProgress, [start, end], [1.12, 1.0]);
+  const yText = useTransform(scrollYProgress, [start, end], [60, -60]);
+
+  const filter = useTransform(
+    scrollYProgress,
+    [start, start + sliceSize * 0.45, start + sliceSize * 0.65],
+    ["brightness(0.25)", "brightness(0.25)", "brightness(1)"]
+  );
 
   return (
-    <section ref={containerRef} className="relative h-[600vh] bg-luxury-black">
-      <div className="sticky top-0 h-screen w-full overflow-hidden">
-        {vaultCars.map((item, index) => {
-          const start = index / vaultCars.length;
-          const end = (index + 1) / vaultCars.length;
-          const range = end - start;
-          
-          // Custom segments for 3-step interaction within the car's range:
-          // 1. Enter and stay dark (0% to 35% of its range)
-          // 2. Transition to clear (35% to 65% of its range)
-          // 3. Move to next (beyond 70%)
-          const landStage = start + range * 0.35;
-          const clearStage = start + range * 0.65;
-          const exitStage = end - range * 0.1;
+    <motion.div
+      key={item.id}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.45, ease: "easeOut" }}
+      className="absolute inset-0 flex items-center justify-center bg-luxury-black"
+    >
+      {/* Background */}
+      <div className="absolute inset-0 z-0 overflow-hidden bg-luxury-black">
+        {item.image_url ? (
+          <motion.img
+            src={item.image_url}
+            alt={`${item.make} ${item.model}`}
+            style={{ scale, filter }}
+            className="w-full h-full object-cover"
+          />
+        ) : (
+          <motion.div
+            style={{ scale }}
+            className="w-full h-full bg-white/[0.02] flex items-center justify-center"
+          >
+            <p className="text-white/5 text-[20vw] font-display font-black tracking-tighter">
+              {item.make}
+            </p>
+          </motion.div>
+        )}
 
-          // eslint-disable-next-line react-hooks/rules-of-hooks
-          const opacity = useTransform(scrollYProgress, 
-            [start, start + range * 0.05, exitStage, end], 
-            [0, 1, 1, 0]
-          );
+        <div className="absolute inset-0 bg-gradient-to-t from-luxury-black/80 via-transparent to-luxury-black/40" />
+      </div>
 
-          // Brightness logic: Stay dark (0.2) until landStage, then clear to 1.0
-          // eslint-disable-next-line react-hooks/rules-of-hooks
-          const brightness = useTransform(scrollYProgress, 
-            [start, landStage, clearStage], 
-            [0.2, 0.2, 1.0]
-          );
+      {/* Text */}
+      <motion.div
+        style={{ y: yText }}
+        className="relative z-10 text-center max-w-4xl px-6"
+      >
+        <p className="text-[10px] uppercase tracking-[0.8em] font-black text-gold mb-6 opacity-80">
+          {item.make} · {item.year}
+        </p>
 
-          // eslint-disable-next-line react-hooks/rules-of-hooks
-          const scale = useTransform(scrollYProgress, [start, end], [1.1, 1]);
-          // eslint-disable-next-line react-hooks/rules-of-hooks
-          const yText = useTransform(scrollYProgress, [start, end], [60, -60]);
+        <h2 className="text-6xl md:text-9xl font-serif italic text-white leading-[0.85] tracking-tighter mb-8">
+          {item.model}
+        </h2>
 
-          return (
-            <motion.div
-              key={item.id}
-              style={{ opacity }}
-              className="absolute inset-0 flex items-center justify-center p-6"
-            >
-              <div className="absolute inset-0 z-0 overflow-hidden">
-                <motion.img 
-                  src={item.image} 
-                  alt={item.name} 
-                  style={{ 
-                    scale, 
-                    filter: useTransform(brightness, (b) => `brightness(${b})`) 
-                  }}
-                  className="w-full h-full object-cover transition-all"
-                />
-                <div className="absolute inset-0 bg-black/40 z-10" />
-              </div>
+        <p className="text-white/30 text-sm uppercase tracking-[0.3em] font-black mb-12">
+          {item.engine_cc}cc · {item.transmission} · {item.fuel_type}
+        </p>
 
-              <div className="relative z-20 text-center w-full max-w-6xl mx-auto">
-                 <motion.div style={{ y: yText }}>
-                   <p className="text-gold font-serif italic text-3xl md:text-4xl mb-6 tracking-wide drop-shadow-lg">{item.brand}</p>
-                   <h2 className="text-[12vw] md:text-[9vw] font-display font-medium text-white uppercase tracking-tighter leading-[0.8] mb-12 drop-shadow-2xl">
-                      {item.name}
-                   </h2>
-                   
-                   <div className="flex flex-col md:flex-row justify-center items-center gap-12 mt-16 pt-16 border-t border-white/5">
-                      <div className="text-center md:text-left space-y-4">
-                        <p className="text-[10px] uppercase tracking-[0.6em] text-gold font-black">Performance Specs</p>
-                        <p className="text-lg md:text-xl font-serif italic text-white/80">{item.specs}</p>
-                      </div>
-                      
-                      <Link to={`/inventory/${item.id}`} className="group px-12 py-6 bg-gold text-black rounded-full text-[11px] uppercase tracking-[0.4em] font-black hover:bg-white transition-all duration-700 flex items-center gap-4">
-                        View Full Dossier <ArrowRight size={16} className="group-hover:translate-x-2 transition-transform" />
-                      </Link>
+        <Link
+          to={`/inventory/${item.id}`}
+          className="inline-flex items-center gap-4 text-[10px] uppercase tracking-[0.4em] font-black text-white/60 hover:text-gold transition-colors group"
+        >
+          Access Full Dossier
+          <ArrowRight
+            size={14}
+            className="group-hover:translate-x-2 transition-transform"
+          />
+        </Link>
+      </motion.div>
 
-                      <div className="text-center md:text-left space-y-4">
-                        <p className="text-[10px] uppercase tracking-[0.6em] text-gold font-black">Configuration</p>
-                        <p className="text-lg md:text-xl font-serif italic text-white/80">{item.color}</p>
-                      </div>
-                   </div>
-                 </motion.div>
-              </div>
+      {/* Price */}
+      {item.selling_price > 0 && (
+        <div className="absolute bottom-12 right-12 text-right z-10">
+          <p className="text-[9px] uppercase tracking-widest text-white/20 font-black mb-1">
+            Acquisition Price
+          </p>
 
-              {/* Progress indicator on side */}
-              <div className="absolute right-12 top-1/2 -translate-y-1/2 flex flex-col gap-6 z-30">
-                 {vaultCars.map((_, i) => (
-                    <div 
-                      key={i} 
-                      className={`w-[2px] h-12 transition-colors duration-500 ${i === index ? 'bg-gold' : 'bg-white/10'}`} 
-                    />
-                 ))}
-              </div>
-            </motion.div>
-          );
-        })}
-
-        <div className="absolute top-12 left-12 z-40">
-           <p className="text-[10px] uppercase tracking-[0.5em] font-black text-white/20">The Vault / Feature</p>
+          <p className="text-2xl font-display font-bold text-gold">
+            ৳ {Math.round(item.selling_price).toLocaleString("en-BD")}
+          </p>
         </div>
+      )}
+
+      {/* Counter */}
+      <div className="absolute bottom-12 left-12 z-10">
+        <p className="text-[9px] uppercase tracking-[0.4em] font-black text-white/20">
+          {String(index + 1).padStart(2, "0")} /{" "}
+          {String(total).padStart(2, "0")}
+        </p>
+      </div>
+
+      {/* Dot nav */}
+      <div className="absolute right-8 top-1/2 -translate-y-1/2 flex flex-col gap-2 z-10">
+        {Array.from({ length: total }).map((_, i) => (
+          <div
+            key={i}
+            className={`w-1 rounded-full transition-all duration-300 ${i === index ? "h-6 bg-gold" : "h-1.5 bg-white/20"
+              }`}
+          />
+        ))}
+      </div>
+    </motion.div>
+  );
+}
+
+function VaultInner({ vaultCars }: { vaultCars: any[] }) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [ready, setReady] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  useEffect(() => {
+    let id1: number;
+    let id2: number;
+
+    id1 = requestAnimationFrame(() => {
+      id2 = requestAnimationFrame(() => setReady(true));
+    });
+
+    return () => {
+      cancelAnimationFrame(id1);
+      cancelAnimationFrame(id2);
+    };
+  }, []);
+
+  const { scrollYProgress } = useScroll({
+    target: ready ? containerRef : undefined,
+    offset: ["start start", "end end"],
+  });
+
+  useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    const nextIndex = Math.min(
+      vaultCars.length - 1,
+      Math.floor(latest * vaultCars.length)
+    );
+
+    setActiveIndex(nextIndex);
+  });
+
+  const scrollPerCar = 220;
+  const totalHeight = 100 + vaultCars.length * scrollPerCar;
+
+  const activeCar = vaultCars[activeIndex];
+
+  return (
+    <section
+      ref={containerRef}
+      className="relative bg-luxury-black"
+      style={{ height: `${totalHeight}vh` }}
+    >
+      <div className="sticky top-0 h-screen w-full overflow-hidden bg-luxury-black">
+        {ready && activeCar && (
+          <AnimatePresence mode="wait">
+            <VaultSlide
+              key={activeCar.id}
+              item={activeCar}
+              index={activeIndex}
+              total={vaultCars.length}
+              scrollYProgress={scrollYProgress}
+            />
+          </AnimatePresence>
+        )}
       </div>
     </section>
   );
+}
+
+export function VaultFeature() {
+  const { vehicles: vaultCars, loading } = useVaultFeatureVehicles();
+
+  if (loading) {
+    return (
+      <section className="h-screen bg-luxury-black flex items-center justify-center">
+        <div className="w-8 h-8 border border-white/20 border-t-white rounded-full animate-spin" />
+      </section>
+    );
+  }
+
+  if (vaultCars.length === 0) return null;
+
+  return <VaultInner vaultCars={vaultCars} />;
 }

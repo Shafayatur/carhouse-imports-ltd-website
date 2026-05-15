@@ -1,313 +1,258 @@
 import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { ALL_CARS } from "@/data/cars";
 import { Navbar } from "@/components/Navbar";
 import { Contact } from "@/components/Contact";
 import { motion } from "motion/react";
-import { ArrowLeft, Share2, Heart, ShieldCheck, Gauge, Zap, Wind, Download, Info, Activity, Settings, Layout } from "lucide-react";
+import { ArrowLeft, Heart, ShieldCheck, Gauge, Zap, Wind, Activity } from "lucide-react";
 import { useWishlist } from "@/context/WishlistContext";
+import { useVehicle } from "@/hooks/useSupabase";
+
+function fmtPrice(n: number) {
+  return n ? "৳ " + Math.round(n).toLocaleString("en-BD") : "Price on Request";
+}
 
 export default function CarDetailsPage() {
-  const { id } = useParams();
-  const car = ALL_CARS.find((c) => c.id === id);
+  const { id } = useParams<{ id: string }>();
+  const { vehicle: car, loading } = useVehicle(id);
   const { toggleWishlist, isInWishlist } = useWishlist();
+  const [activeImage, setActiveImage] = useState(0);
 
-  if (!car) {
+  if (loading) {
     return (
-      <div className="bg-luxury-black min-h-screen text-white flex flex-col items-center justify-center">
-        <h1 className="text-4xl font-serif italic mb-8">Vehicle not found</h1>
-        <Link to="/inventory" className="text-gold uppercase tracking-widest border-b border-gold pb-2">Return to Inventory</Link>
+      <div className="bg-luxury-black min-h-screen text-white flex items-center justify-center">
+        <div className="w-8 h-8 border border-white/20 border-t-white rounded-full animate-spin" />
       </div>
     );
   }
 
+  if (!car) {
+    return (
+      <div className="bg-luxury-black min-h-screen text-white flex flex-col items-center justify-center gap-8">
+        <h1 className="text-4xl font-serif italic">Vehicle not found</h1>
+        <Link to="/inventory" className="text-gold uppercase tracking-widest border-b border-gold pb-2">
+          Return to Inventory
+        </Link>
+      </div>
+    );
+  }
+
+  const allImages = [
+    ...(car.image_url ? [car.image_url] : []),
+    ...(car.gallery_urls ?? []),
+  ];
+
   const mainSpecs = [
-    { icon: <Gauge size={20} />, label: "Performance", value: car.technicalSpecs?.topSpeed || car.specs?.split("•")[0] || "High Performance" },
-    { icon: <Zap size={20} />, label: "Acceleration", value: car.technicalSpecs?.acceleration || car.specs?.split("•")[1] || "Class Leading" },
-    { icon: <Wind size={20} />, label: "Aero", value: "Active Dynamics" },
-    { icon: <ShieldCheck size={20} />, label: "Condition", value: "Pristine" },
+    { icon: <Gauge size={20} />, label: "Engine", value: `${car.engine_cc}cc` },
+    { icon: <Zap size={20} />, label: "Transmission", value: car.transmission || "—" },
+    { icon: <Wind size={20} />, label: "Fuel", value: car.fuel_type || "—" },
+    { icon: <ShieldCheck size={20} />, label: "Condition", value: car.condition || "—" },
   ];
 
   const techDetails = [
-    { label: "Engine", value: car.technicalSpecs?.engine || "Consult Data Sheet" },
-    { label: "Transmission", value: car.technicalSpecs?.transmission || "Consult Data Sheet" },
-    { label: "Max Power", value: car.technicalSpecs?.power || "Consult Data Sheet" },
-    { label: "Max Torque", value: car.technicalSpecs?.torque || "Consult Data Sheet" },
-    { label: "Drivetrain", value: car.technicalSpecs?.drivetrain || "Consult Data Sheet" },
-    { label: "Dry Weight", value: car.technicalSpecs?.weight || "Consult Data Sheet" },
+    { label: "Make", value: car.make },
+    { label: "Model", value: car.model },
+    { label: "Year", value: String(car.year) },
+    { label: "Colour", value: car.color || "—" },
+    { label: "Engine", value: `${car.engine_cc}cc` },
+    { label: "Transmission", value: car.transmission || "—" },
+    { label: "Fuel Type", value: car.fuel_type || "—" },
+    { label: "Mileage", value: car.mileage ? `${car.mileage.toLocaleString()} km` : "—" },
+    { label: "Drivetrain", value: "—" },
+    { label: "Origin", value: car.origin || "—" },
+    { label: "Chassis No.", value: car.chassis_no || "—" },
+    { label: "VIN", value: car.vin || "—" },
   ];
 
-  const [isDownloading, setIsDownloading] = useState(false);
-
-  const handleDownload = () => {
-    setIsDownloading(true);
-    setTimeout(() => {
-      setIsDownloading(false);
-      // Simulate real download trigger
-      const link = document.createElement('a');
-      link.href = '#';
-      link.setAttribute('download', `${car.name}_technical_spec.pdf`);
-      document.body.appendChild(link);
-      // alert for user feedback since we can't actually download a real pdf from nowhere
-      // but let's just use console log or a toast if I had one
-      console.log("Downloading spec sheet for", car.name);
-    }, 2000);
-  };
+  const roadmap = [
+    { phase: "01", title: "Source & Verify", desc: "Vehicle identification, provenance check, and condition report.", duration: "3–5 Days" },
+    { phase: "02", title: "Acquisition", desc: "Secure purchase, title audit, and export documentation.", duration: "7–14 Days" },
+    { phase: "03", title: "Logistics", desc: "International freight, insurance, and customs clearance.", duration: "21–45 Days" },
+    { phase: "04", title: "Delivery", desc: "Local registration, final inspection, and white-glove handover.", duration: "3–7 Days" },
+  ];
 
   return (
-    <main className="bg-luxury-black min-h-screen selection:bg-gold selection:text-black text-white relative">
+    <main className="bg-luxury-black min-h-screen selection:bg-gold selection:text-black text-white">
       <Navbar />
 
-      {/* Floating Back Button */}
-      <div className="fixed left-0 top-1/2 -translate-y-1/2 z-[100] group">
-        <Link 
-          to="/inventory" 
-          className="flex items-center gap-4 bg-white/5 hover:bg-gold/90 backdrop-blur-md text-white hover:text-black pl-6 pr-8 py-10 rounded-r-full transition-all duration-700 border-y border-r border-white/10 group-hover:pl-8"
-        >
-          <ArrowLeft size={24} className="group-hover:-translate-x-1 transition-transform" />
-          <span className="text-[10px] uppercase tracking-[0.5em] font-black [writing-mode:vertical-lr] rotate-180">Back</span>
+      {/* Back nav */}
+      <div className="container mx-auto px-6 md:px-12 pt-32 pb-8">
+        <Link to="/inventory" className="inline-flex items-center gap-3 text-white/30 hover:text-white transition-colors group">
+          <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
+          <span className="text-[10px] uppercase tracking-[0.4em] font-black">Back to Inventory</span>
         </Link>
       </div>
 
-      {/* Hero Full-width Image */}
-      <section className="relative h-[80vh] w-full overflow-hidden">
-        <motion.img 
-          initial={{ scale: 1.1 }}
-          animate={{ scale: 1 }}
-          transition={{ duration: 2.5, ease: "easeOut" }}
-          src={car.image} 
-          alt={car.name} 
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-luxury-black via-transparent to-transparent" />
-        
-        <div className="absolute bottom-12 left-12 md:left-24">
-          <motion.p 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
-            className="text-[11px] uppercase tracking-[1em] font-black text-gold mb-6"
+      {/* Hero image */}
+      <section className="container mx-auto px-6 md:px-12 mb-16">
+        <div className="relative aspect-[16/7] overflow-hidden rounded-sm bg-luxury-gray">
+          {allImages.length > 0 ? (
+            <img
+              src={allImages[activeImage]}
+              alt={`${car.make} ${car.model}`}
+              className="w-full h-full object-cover transition-all duration-700"
+            />
+          ) : (
+            <div className="w-full h-full flex flex-col items-center justify-center">
+              <p className="text-white/10 text-6xl font-display font-black tracking-tighter">{car.make}</p>
+              <p className="text-white/5 text-3xl font-serif italic mt-2">{car.model}</p>
+            </div>
+          )}
+          <div className="absolute inset-0 bg-gradient-to-t from-luxury-black/80 via-transparent to-transparent" />
+
+          {/* Wishlist */}
+          <button
+            onClick={() => toggleWishlist(car.id)}
+            className={`absolute top-6 right-6 w-12 h-12 rounded-full border backdrop-blur-md flex items-center justify-center transition-all duration-500 ${isInWishlist(car.id) ? "bg-gold text-black border-gold" : "bg-black/20 text-white/40 border-white/10 hover:text-white"
+              }`}
           >
-            {car.brand} • {car.year}
-          </motion.p>
-          <motion.h1 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.7 }}
-            className="text-7xl md:text-[8vw] font-serif italic leading-none tracking-tighter"
-          >
-            {car.name}
-          </motion.h1>
+            <Heart size={18} fill={isInWishlist(car.id) ? "currentColor" : "none"} />
+          </button>
+
+          {/* Status */}
+          {car.status && car.status !== "Available" && (
+            <div className="absolute bottom-6 left-6 px-4 py-2 bg-black/60 backdrop-blur-sm">
+              <p className="text-[10px] uppercase tracking-widest font-black text-gold">{car.status}</p>
+            </div>
+          )}
         </div>
+
+        {/* Gallery thumbnails */}
+        {allImages.length > 1 && (
+          <div className="flex gap-3 mt-4 overflow-x-auto pb-2">
+            {allImages.map((img, i) => (
+              <button
+                key={i}
+                onClick={() => setActiveImage(i)}
+                className={`shrink-0 w-24 h-16 overflow-hidden rounded-sm border transition-all ${activeImage === i ? "border-gold" : "border-white/10 opacity-50 hover:opacity-100"
+                  }`}
+              >
+                <img src={img} alt="" className="w-full h-full object-cover" />
+              </button>
+            ))}
+          </div>
+        )}
       </section>
 
-      <section className="py-24 container mx-auto px-6 md:px-24">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-24 items-start">
-          {/* Details */}
-          <div className="lg:col-span-8 space-y-32">
-            
-            {/* Quick Stats Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 pt-12 border-t border-white/10">
-               {mainSpecs.map((spec, idx) => (
-                 <div key={idx} className="space-y-4">
-                   <div className="flex items-center gap-4 text-gold opacity-50">
-                     {spec.icon}
-                     <span className="text-[10px] uppercase tracking-[0.4em] font-black">{spec.label}</span>
-                   </div>
-                   <p className="text-2xl font-serif italic text-white/90">{spec.value}</p>
-                 </div>
-               ))}
-            </div>
+      {/* Content */}
+      <section className="container mx-auto px-6 md:px-12 pb-32">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-16">
 
-            {/* Narrative Context */}
-            <div className="space-y-12">
-              <h3 className="text-[11px] uppercase tracking-[0.5em] font-black text-white/30 flex items-center gap-4">
-                <Info size={14} className="text-gold" /> The Narrative
-              </h3>
-              <p className="text-2xl md:text-3xl font-serif italic text-white/60 leading-relaxed max-w-4xl">
-                {car.description || "A masterwork of automotive engineering. This specific example has been meticulously maintained and features a bespoke configuration requested by its original owner."}
+          {/* Left: main info */}
+          <div className="lg:col-span-2 space-y-16">
+            {/* Title + price */}
+            <div>
+              <p className="text-[10px] uppercase tracking-[0.6em] font-black text-gold mb-4">
+                {car.make} • {car.year} • {car.origin}
               </p>
+              <h1 className="text-5xl md:text-7xl font-serif italic leading-tight mb-6">{car.model}</h1>
+              <p className="text-3xl font-display font-bold text-gold">{fmtPrice(car.selling_price)}</p>
             </div>
 
-            {/* Comprehensive Technical Data */}
-            <div className="space-y-16 py-16 border-y border-white/10">
-               <div className="flex items-center justify-between">
-                  <h3 className="text-[11px] uppercase tracking-[0.5em] font-black text-white/30 flex items-center gap-4">
-                    <Activity size={14} className="text-gold" /> Technical Data
-                  </h3>
-                  <button 
-                    onClick={handleDownload}
-                    disabled={isDownloading}
-                    className="flex items-center gap-3 text-[9px] uppercase tracking-widest text-gold hover:text-white transition-colors disabled:opacity-50"
-                  >
-                    {isDownloading ? (
-                      <span className="flex items-center gap-2">
-                        <motion.div 
-                          animate={{ rotate: 360 }}
-                          transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                        >
-                          <Activity size={12} />
-                        </motion.div>
-                        Generating Dossier...
-                      </span>
-                    ) : (
-                      <>
-                        <Download size={14} /> Full Spec PDF
-                      </>
-                    )}
-                  </button>
-               </div>
-               
-               <div className="grid grid-cols-1 md:grid-cols-2 gap-x-20 gap-y-10">
-                  {techDetails.map((detail, idx) => (
-                    <div key={idx} className="flex justify-between items-end border-b border-white/5 pb-4 group">
-                       <span className="text-[10px] uppercase tracking-[0.2em] text-white/40 font-bold group-hover:text-white transition-colors">{detail.label}</span>
-                       <span className="font-serif italic text-lg text-white group-hover:text-gold transition-colors">{detail.value}</span>
-                    </div>
-                  ))}
-               </div>
+            {/* Quick specs */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {mainSpecs.map((s, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.1 }}
+                  className="bg-white/[0.03] border border-white/8 p-6 text-center"
+                >
+                  <div className="text-gold mx-auto mb-3 flex justify-center">{s.icon}</div>
+                  <p className="text-white font-medium text-sm mb-1">{s.value}</p>
+                  <p className="text-[9px] uppercase tracking-widest text-white/30 font-black">{s.label}</p>
+                </motion.div>
+              ))}
             </div>
 
-            {/* Bespoke Features */}
-            {car.features && (
-              <div className="space-y-12">
-                <h3 className="text-[11px] uppercase tracking-[0.5em] font-black text-white/30 flex items-center gap-4">
-                  <Settings size={14} className="text-gold" /> Bespoke Configuration
-                </h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                   {car.features.map((feature, idx) => (
-                      <div key={idx} className="flex items-center gap-6 p-6 bg-white/[0.02] border border-white/5 rounded-sm">
-                         <div className="w-1.5 h-1.5 rounded-full bg-gold" />
-                         <span className="text-[11px] uppercase tracking-[0.2em] text-white/70 font-medium">{feature}</span>
-                      </div>
-                   ))}
-                </div>
-              </div>
-            )}
-
-            {/* Provenance & History */}
-            <div className="space-y-12 p-12 bg-white/[0.01] border border-white/5 rounded-sm">
-              <h3 className="text-[11px] uppercase tracking-[0.5em] font-black text-white/30 flex items-center gap-4">
-                <Layout size={14} className="text-gold" /> Verified Provenance
-              </h3>
-              <div className="space-y-8">
-                <div className="flex gap-8 group">
-                  <div className="text-white/20 group-hover:text-gold transition-colors pt-1">
-                    <ShieldCheck size={24} />
-                  </div>
-                  <div>
-                    <h4 className="text-lg font-serif italic text-white mb-2">Authenticated Documentation</h4>
-                    <p className="text-[10px] text-white/40 uppercase tracking-widest leading-relaxed">Complete service history from official manufacturers. Validated mileage and single-owner history where applicable.</p>
-                  </div>
-                </div>
-                <div className="flex gap-8 group">
-                  <div className="text-white/20 group-hover:text-gold transition-colors pt-1">
-                    <Activity size={24} />
-                  </div>
-                  <div>
-                    <h4 className="text-lg font-serif italic text-white mb-2">Heritage Certification</h4>
-                    <p className="text-[10px] text-white/40 uppercase tracking-widest leading-relaxed">Certified as a matching-numbers example by our in-house heritage experts. Provenance audit includes auction records and private sale history.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Logistics Timeline */}
-            <div className="space-y-16">
-              <h3 className="text-[11px] uppercase tracking-[0.5em] font-black text-white/30">Acquisition Roadmap</h3>
-              <div className="relative space-y-12 pl-8 border-l border-white/5">
-                {[
-                  { stage: "Phase 01", title: "Inquiry & Verification", time: "Day 1-2" },
-                  { stage: "Phase 02", title: "Due Diligence & Title Audit", time: "Day 3-7" },
-                  { stage: "Phase 03", title: "Secure Escrow Transaction", time: "Day 8-10" },
-                  { stage: "Phase 04", title: "Enclosed Global Transit", time: "Estimated 14 Days" }
-                ].map((item, idx) => (
-                  <div key={idx} className="relative group">
-                    <div className="absolute -left-10 top-2 w-4 h-4 rounded-full bg-luxury-black border-2 border-white/10 group-hover:border-gold transition-colors" />
-                    <div>
-                      <p className="text-gold text-[8px] font-black tracking-widest mb-2">{item.stage} • {item.time}</p>
-                      <h4 className="text-xl font-serif italic text-white/80 group-hover:text-white transition-colors">{item.title}</h4>
-                    </div>
+            {/* Technical specs table */}
+            <div>
+              <p className="text-[10px] uppercase tracking-[0.6em] font-black text-white/30 mb-6">Technical Specification</p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-white/5">
+                {techDetails.map((d, i) => (
+                  <div key={i} className="bg-luxury-black px-6 py-4 flex justify-between items-center">
+                    <span className="text-[10px] uppercase tracking-wider text-white/30 font-black">{d.label}</span>
+                    <span className="text-sm text-white font-medium">{d.value}</span>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Visual Documentation */}
-            <div className="space-y-12">
-              <h3 className="text-[11px] uppercase tracking-[0.5em] font-black text-white/30 flex items-center gap-4">
-                <Layout size={14} className="text-gold" /> Visual Documentation
-              </h3>
-              <div className="grid grid-cols-2 gap-8">
-                {(car.gallery || [car.image, car.image]).map((img, idx) => (
-                  <motion.div 
-                    key={idx} 
-                    initial={{ opacity: 0, y: 40 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    className="aspect-[16/10] overflow-hidden rounded-sm bg-luxury-gray relative group"
+            {/* Acquisition roadmap */}
+            <div>
+              <p className="text-[10px] uppercase tracking-[0.6em] font-black text-white/30 mb-8">Acquisition Roadmap</p>
+              <div className="space-y-px">
+                {roadmap.map((phase, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ delay: i * 0.1 }}
+                    className="flex gap-8 items-start bg-white/[0.02] border border-white/5 p-6 hover:border-gold/20 transition-colors group"
                   >
-                    <img src={img} alt={`${car.name} detail ${idx}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[2s]" />
-                    <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <span className="text-4xl font-display font-black text-white/10 group-hover:text-gold/20 transition-colors shrink-0">
+                      {phase.phase}
+                    </span>
+                    <div className="flex-1">
+                      <p className="font-display font-bold uppercase tracking-widest text-white mb-2">{phase.title}</p>
+                      <p className="text-white/30 text-sm leading-relaxed">{phase.desc}</p>
+                    </div>
+                    <span className="text-[10px] uppercase tracking-wider text-gold/60 shrink-0 font-black">{phase.duration}</span>
                   </motion.div>
                 ))}
               </div>
             </div>
           </div>
 
-          {/* Right Column: Pricing & Action */}
-          <div className="lg:col-span-4 sticky top-32 space-y-12">
-            <div className="p-12 border border-white/10 bg-white/[0.02] backdrop-blur-md rounded-sm space-y-10 shadow-2xl">
-               <div>
-                  <p className="text-[10px] uppercase tracking-[0.4em] font-black text-white/30 mb-4">Investment Value</p>
-                  <p className="text-4xl font-display font-medium text-gold">{car.price || "Contact for Pricing"}</p>
-               </div>
-
-               <div className="space-y-4">
-                 <button className="w-full py-8 bg-gold text-black rounded-full font-black uppercase text-[11px] tracking-[0.4em] hover:bg-white transition-all duration-700 shadow-lg shadow-gold/20">
-                    Initiate Inquiry
-                 </button>
-                 <button 
-                  onClick={handleDownload}
-                  disabled={isDownloading}
-                  className="w-full py-8 border border-white/10 text-white rounded-full font-black uppercase text-[11px] tracking-[0.4em] hover:bg-white/5 transition-all duration-700 flex items-center justify-center gap-4 disabled:opacity-50"
-                 >
-                    {isDownloading ? "Generating..." : "Digital Dossier"} <Download size={16} />
-                 </button>
-               </div>
-
-               <div className="pt-8 border-t border-white/5 space-y-6">
-                  <div className="flex items-center gap-4 opacity-40 hover:opacity-100 transition-opacity cursor-pointer">
-                    <Share2 size={16} />
-                    <span className="text-[9px] uppercase tracking-widest font-black">Share Configuration</span>
-                  </div>
-                  <div 
-                    onClick={() => car && toggleWishlist(car.id)}
-                    className={`flex items-center gap-4 transition-opacity cursor-pointer ${isInWishlist(car?.id || '') ? 'text-gold' : 'opacity-40 hover:opacity-100'}`}
-                  >
-                    <Heart size={16} fill={isInWishlist(car?.id || '') ? "currentColor" : "none"} />
-                    <span className="text-[9px] uppercase tracking-widest font-black">
-                      {isInWishlist(car?.id || '') ? 'In Favorites' : 'Add to Favorites'}
-                    </span>
-                  </div>
-               </div>
+          {/* Right: enquiry sidebar */}
+          <div className="space-y-6">
+            <div className="bg-white/[0.03] border border-white/8 p-8 sticky top-32">
+              <p className="text-[10px] uppercase tracking-[0.4em] font-black text-gold mb-6">Initiate Acquisition</p>
+              <div className="space-y-3 mb-8">
+                <div>
+                  <p className="text-[9px] uppercase tracking-wider text-white/30 mb-1">Vehicle</p>
+                  <p className="text-white font-medium">{car.year} {car.make} {car.model}</p>
+                </div>
+                <div>
+                  <p className="text-[9px] uppercase tracking-wider text-white/30 mb-1">Asking Price</p>
+                  <p className="text-gold font-bold text-xl">{fmtPrice(car.selling_price)}</p>
+                </div>
+                <div>
+                  <p className="text-[9px] uppercase tracking-wider text-white/30 mb-1">Status</p>
+                  <p className="text-white">{car.status}</p>
+                </div>
+              </div>
+              <Link
+                to="/consultation"
+                className="block w-full py-4 bg-white text-black text-center text-[10px] uppercase tracking-[0.3em] font-black hover:bg-gold transition-colors duration-500"
+              >
+                Request Consultation
+              </Link>
+              <Link
+                to="/sourcing"
+                className="block w-full py-4 border border-white/10 text-center text-[10px] uppercase tracking-[0.3em] font-black text-white/40 hover:text-white hover:border-white/30 transition-colors mt-3"
+              >
+                Custom Sourcing Enquiry
+              </Link>
             </div>
 
-            <div className="px-6 space-y-8">
-               <div className="flex items-start gap-6">
-                  <ShieldCheck className="text-gold mt-1" size={20} />
-                  <p className="text-[9px] uppercase tracking-[0.3em] leading-relaxed text-white/20 font-black">
-                     Certified Historical Verification. All documents authenticated by our heritage specialists. Worldwide shipping and VAT handling included.
-                  </p>
-               </div>
-               
-               {/* Quick Info */}
-               <div className="p-8 border-l border-gold/30 bg-gold/[0.02]">
-                  <p className="text-[10px] uppercase tracking-widest text-gold font-black mb-2">Location</p>
-                  <p className="text-sm font-serif italic text-white/60">London Private Showroom, UK</p>
-               </div>
+            {/* Key details card */}
+            <div className="bg-white/[0.03] border border-white/8 p-6 space-y-4">
+              <p className="text-[10px] uppercase tracking-[0.4em] font-black text-white/30">Key Details</p>
+              {[
+                ["Colour", car.color],
+                ["Mileage", car.mileage ? `${car.mileage.toLocaleString()} km` : "—"],
+                ["Origin", car.origin],
+                ["Port", car.port],
+              ].map(([label, value]) => (
+                <div key={label} className="flex justify-between items-center border-b border-white/5 pb-3">
+                  <span className="text-[10px] uppercase tracking-wider text-white/30 font-black">{label}</span>
+                  <span className="text-sm text-white">{value || "—"}</span>
+                </div>
+              ))}
             </div>
           </div>
+
         </div>
       </section>
 
