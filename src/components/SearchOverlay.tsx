@@ -68,7 +68,7 @@ export function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
             </button>
           </div>
 
-          <div className="flex-1 overflow-y-auto pb-24">
+          <div data-lenis-prevent className="flex-1 overflow-y-auto pb-24">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-24">
               <div className="space-y-12">
                 <p className="text-[10px] uppercase tracking-[0.5em] font-black text-white/20 border-b border-white/5 pb-4">
