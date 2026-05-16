@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from "motion/react";
 import { X, User, Settings, Heart, LogOut, Shield, Car, Bell } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
 
 interface ProfileMenuProps {
   isOpen: boolean;
@@ -15,6 +16,19 @@ export function ProfileMenu({ isOpen, onClose }: ProfileMenuProps) {
     { icon: <Bell size={18} />, label: "Notifications", desc: "3 new market updates", path: "/updates" },
     { icon: <Settings size={18} />, label: "Bespoke Settings", desc: "Interface & security", path: "/settings" },
   ];
+
+  // Properly stop/start Lenis so background page can't scroll behind panel
+  useEffect(() => {
+    const lenis = (window as any).__lenis;
+    if (isOpen) {
+      lenis?.stop();
+    } else {
+      lenis?.start();
+    }
+    return () => {
+      lenis?.start();
+    };
+  }, [isOpen]);
 
   return (
     <AnimatePresence>
@@ -35,6 +49,7 @@ export function ProfileMenu({ isOpen, onClose }: ProfileMenuProps) {
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "spring", damping: 30, stiffness: 300 }}
+            data-lenis-prevent
             className="fixed top-0 right-0 h-full w-full max-w-md bg-luxury-black border-l border-white/5 z-[1002] p-8 md:p-12 overflow-y-auto"
           >
             <div className="flex items-center justify-between mb-16">
@@ -47,7 +62,7 @@ export function ProfileMenu({ isOpen, onClose }: ProfileMenuProps) {
                   <p className="text-white font-serif italic text-lg">Guest Collector</p>
                 </div>
               </div>
-              <button 
+              <button
                 onClick={onClose}
                 className="w-10 h-10 flex items-center justify-center text-white/40 hover:text-white transition-colors"
               >
@@ -57,10 +72,10 @@ export function ProfileMenu({ isOpen, onClose }: ProfileMenuProps) {
 
             <div className="space-y-4">
               <p className="text-[9px] uppercase tracking-[0.5em] text-white/20 font-black mb-8">The Registry</p>
-              
+
               <div className="grid gap-2">
                 {menuItems.map((item, idx) => (
-                  <Link 
+                  <Link
                     key={idx}
                     to={item.path}
                     onClick={onClose}
@@ -99,9 +114,9 @@ export function ProfileMenu({ isOpen, onClose }: ProfileMenuProps) {
             </div>
 
             <div className="mt-12 text-center overflow-hidden">
-               <span className="text-[60px] font-display font-black text-white/[0.02] uppercase whitespace-nowrap">
-                  ESTABLISHED 2024
-               </span>
+              <span className="text-[60px] font-display font-black text-white/[0.02] uppercase whitespace-nowrap">
+                ESTABLISHED 2024
+              </span>
             </div>
           </motion.div>
         </>

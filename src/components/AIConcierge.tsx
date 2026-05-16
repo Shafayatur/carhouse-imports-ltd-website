@@ -43,10 +43,17 @@ export function AIConcierge() {
     }
   }, [settingsLoading, welcomeMessage]);
 
-  // Lock body scroll when open
+  // Stop Lenis so background page can't scroll behind the chatbot panel
   useEffect(() => {
-    document.body.style.overflow = isOpen ? "hidden" : "unset";
-    return () => { document.body.style.overflow = "unset"; };
+    const lenis = (window as any).__lenis;
+    if (isOpen) {
+      lenis?.stop();
+    } else {
+      lenis?.start();
+    }
+    return () => {
+      lenis?.start();
+    };
   }, [isOpen]);
 
   // Auto scroll to bottom
@@ -189,8 +196,8 @@ INSTRUCTIONS:
                 </button>
               </div>
 
-              {/* Messages */}
-              <div ref={scrollRef} className="flex-1 min-h-0 overflow-y-auto p-6 space-y-8 scroll-smooth">
+              {/* Messages — data-lenis-prevent lets the list scroll natively */}
+              <div ref={scrollRef} data-lenis-prevent className="flex-1 min-h-0 overflow-y-auto p-6 space-y-8 scroll-smooth">
                 {messages.map((m, idx) => (
                   <motion.div
                     key={idx}

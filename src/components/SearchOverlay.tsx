@@ -27,9 +27,17 @@ export function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
     setResults(filtered);
   }, [query, vehicles]);
 
+  // Properly stop/start Lenis so background page can't scroll behind overlay
   useEffect(() => {
-    document.body.style.overflow = isOpen ? "hidden" : "unset";
-    return () => { document.body.style.overflow = "unset"; };
+    const lenis = (window as any).__lenis;
+    if (isOpen) {
+      lenis?.stop();
+    } else {
+      lenis?.start();
+    }
+    return () => {
+      lenis?.start();
+    };
   }, [isOpen]);
 
   const displayList = results.length > 0 ? results : vehicles.slice(0, 4);

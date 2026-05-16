@@ -18,8 +18,8 @@ export function Hero() {
 
   const tagline = get("hero_tagline", "Automotive Excellence Since 1995");
   const headline = get("hero_title", "The Art of Superiority");
-  const videoUrl = get("hero_video_url", "https://videos.pexels.com/video-files/3815048/3815048-uhd_2560_1440_25fps.mp4");
-  const ctaText = get("hero_cta_text", "Explore Collection");
+  const videoUrl = get("hero_video_url", "https://go.screenpal.com/watch/cOhoodntvjj");
+  const ctaText = get("hero_cta_text", "Explore Collectionsssss");
   const showreelUrl = get("hero_showreel_url", "");
 
   return (
