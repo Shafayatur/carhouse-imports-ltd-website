@@ -2,8 +2,12 @@ import { Navbar } from "@/components/Navbar";
 import { Contact } from "@/components/Contact";
 import { motion } from "motion/react";
 import { Trophy, History, Zap, Flag } from "lucide-react";
+import { useSiteSettings } from "@/hooks/useSupabase";
 
 export default function HeritagePage() {
+  const { get } = useSiteSettings();
+  const heritageVideoUrl = get("heritage_video_url", "/videos/heritage.mp4");
+
   const achievements = [
     { year: "1962", event: "Le Mans 24h", title: "GT Class Victory", icon: <Flag /> },
     { year: "1971", event: "Targa Florio", title: "Overall Winner", icon: <Trophy /> },
@@ -12,22 +16,22 @@ export default function HeritagePage() {
   ];
 
   return (
-    <main className="bg-luxury-black min-h-screen pt-32 selection:bg-gold selection:text-black text-white">
+    <main className="bg-luxury-black min-h-screen selection:bg-gold selection:text-black text-white">
       <Navbar />
 
-      {/* Cinematic Header */}
-      <section className="relative h-[90vh] flex items-center justify-center overflow-hidden">
+      {/* Cinematic Header — full screen from top, beneath fixed Navbar */}
+      <section className="relative h-screen flex items-center justify-center overflow-hidden">
          <div className="absolute inset-0">
             <video 
                autoPlay 
                loop 
                muted 
                playsInline
-               className="w-full h-full object-cover opacity-30 grayscale"
+               className="w-full h-full object-cover brightness-75"
             >
-               <source src="https://assets.mixkit.co/videos/preview/mixkit-vintage-car-driving-in-the-street-at-night-41279-large.mp4" type="video/mp4" />
+                <source src={heritageVideoUrl} type="video/mp4" />
             </video>
-            <div className="absolute inset-0 bg-gradient-to-t from-luxury-black via-transparent to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-luxury-black via-black/30 to-transparent" />
          </div>
          
          <div className="relative z-10 text-center space-y-12 max-w-6xl px-6">

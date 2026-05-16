@@ -33,7 +33,7 @@ export function VideoSection({ videoUrl, title, subtitle, quote, reverse }: Vide
           loop
           muted
           playsInline
-          className="w-full h-full object-cover brightness-50"
+          className="w-full h-full object-cover brightness-75"
         >
           <source src={videoUrl.toString()} type="video/mp4" />
         </video>

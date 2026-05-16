@@ -18,7 +18,7 @@ export function Hero() {
 
   const tagline = get("hero_tagline", "Automotive Excellence Since 1995");
   const headline = get("hero_title", "The Art of Superiority");
-  const videoUrl = get("hero_video_url", "https://go.screenpal.com/watch/cOhoodntvjj");
+  const videoUrl = get("hero_video_url", "/videos/hero.mp4");
   const ctaText = get("hero_cta_text", "Explore Collectionsssss");
   const showreelUrl = get("hero_showreel_url", "");
 
@@ -29,7 +29,7 @@ export function Hero() {
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/20 to-black/80 z-10" />
         <video
           autoPlay loop muted playsInline
-          className="w-full h-full object-cover grayscale brightness-50"
+          className="w-full h-full object-cover brightness-100"
           poster="https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=2670"
         >
           <source src={videoUrl} type="video/mp4" />
