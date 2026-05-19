@@ -6,9 +6,10 @@ import { useEffect } from "react";
 interface FullMenuProps {
   isOpen: boolean;
   onClose: () => void;
+  onOpenProfile?: () => void;
 }
 
-export function FullMenu({ isOpen, onClose }: FullMenuProps) {
+export function FullMenu({ isOpen, onClose, onOpenProfile }: FullMenuProps) {
   const menuLinks = [
     { name: "The Collection", path: "/inventory" },
     { name: "The Philosophy", path: "/philosophy" },
@@ -19,7 +20,7 @@ export function FullMenu({ isOpen, onClose }: FullMenuProps) {
     { name: "Brand History", path: "/#strategic-network" },
     { name: "The Showroom", path: "/showroom" },
     { name: "Member Login", path: "/" },
-    { name: "Legal & Terms", path: "/" },
+    { name: "Legal & Terms", path: "/legal" },
   ];
 
   // Properly stop/start Lenis so background page can't scroll behind menu
@@ -82,7 +83,14 @@ export function FullMenu({ isOpen, onClose }: FullMenuProps) {
                   >
                     <Link
                       to={link.path}
-                      onClick={onClose}
+                      onClick={(e) => {
+                        if (link.name === "Member Login" && onOpenProfile) {
+                          e.preventDefault();
+                          onOpenProfile();
+                        } else {
+                          onClose();
+                        }
+                      }}
                       className={`group flex items-center justify-between text-3xl font-serif tracking-tighter ${
                         isActive
                           ? 'text-gold'

@@ -93,7 +93,14 @@ export function Navbar() {
         </div>
       </motion.header>
 
-      <FullMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
+      <FullMenu 
+        isOpen={isMenuOpen} 
+        onClose={() => setIsMenuOpen(false)} 
+        onOpenProfile={() => {
+          setIsMenuOpen(false);
+          setIsProfileOpen(true);
+        }}
+      />
       <SearchOverlay isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
       <ProfileMenu isOpen={isProfileOpen} onClose={() => setIsProfileOpen(false)} />
     </>

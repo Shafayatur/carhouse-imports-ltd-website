@@ -38,6 +38,7 @@ import GaragePage from "@/pages/GaragePage";
 import WishlistPage from "@/pages/WishlistPage";
 import UpdatesPage from "@/pages/UpdatesPage";
 import SettingsPage from "@/pages/SettingsPage";
+import LegalPage from "@/pages/LegalPage";
 
 function HomePage() {
   const { get } = useSiteSettings();
@@ -178,6 +179,7 @@ export default function App() {
             <Route path="/wishlist" element={<WishlistPage />} />
             <Route path="/updates" element={<UpdatesPage />} />
             <Route path="/settings" element={<SettingsPage />} />
+            <Route path="/legal" element={<LegalPage />} />
           </Routes>
 
           <AIConcierge />

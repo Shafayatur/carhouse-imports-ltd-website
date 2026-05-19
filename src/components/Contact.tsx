@@ -1,5 +1,6 @@
 import { motion } from "motion/react";
 import { Instagram, Twitter, Linkedin, ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export function Contact() {
   return (
@@ -47,9 +48,9 @@ export function Contact() {
               <span className="text-[7px] uppercase tracking-[0.5em] font-black">Back to Top</span>
             </button>
 
-            <button className="text-[9px] uppercase tracking-[0.4em] font-black text-gold hover:text-white transition-colors">
+            <Link to="/legal" className="text-[9px] uppercase tracking-[0.4em] font-black text-gold hover:text-white transition-colors">
               Terms & Legal
-            </button>
+            </Link>
         </div>
       </div>
     </footer>
