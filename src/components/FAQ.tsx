@@ -25,50 +25,65 @@ export function FAQ() {
   const list = (!loading && faqs.length > 0) ? faqs : fallbackFaqs;
 
   return (
-    <section className="py-32 bg-luxury-black border-t border-white/5">
+    <section className="py-20 bg-luxury-black border-t border-white/5 relative overflow-hidden">
       <div className="container mx-auto px-6 md:px-12">
-        <div className="max-w-4xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-24"
-          >
-            <p className="text-[10px] uppercase tracking-[0.8em] font-black text-gold mb-6">Common Enquiries</p>
-            <h2 className="text-4xl md:text-6xl font-serif  text-white tracking-tighter">Strategic Intelligence</h2>
-          </motion.div>
+        <div className="max-w-3xl mx-auto">
+          
+          {/* Sleek, Compact Header */}
+          <div className="text-center mb-16 space-y-3">
+            <p className="text-[9px] uppercase tracking-[0.5em] font-black text-gold">Common Enquiries</p>
+            <h2 className="text-3xl md:text-4xl font-serif text-white tracking-tighter uppercase">
+              Strategic <span className="font-display font-medium text-white/50">Intelligence</span>
+            </h2>
+          </div>
 
-          <div className="space-y-4">
+          {/* Liquid Smooth Accordion Grid */}
+          <div className="space-y-3">
             {list.map((item, idx) => (
-              <motion.div
+              <div
                 key={idx}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: idx * 0.05 }}
-                className={`border transition-all duration-500 ${openIndex === idx ? "border-gold/30 bg-gold/[0.02]" : "border-white/5 bg-white/[0.01]"}`}
+                className={`border transition-all duration-500 rounded-sm overflow-hidden ${
+                  openIndex === idx 
+                    ? "border-gold/30 bg-gold/[0.01]" 
+                    : "border-white/5 bg-white/[0.005] hover:border-white/15"
+                }`}
               >
                 <button
                   onClick={() => setOpenIndex(openIndex === idx ? null : idx)}
-                  className="w-full flex items-center justify-between p-8 text-left gap-8"
+                  className="w-full flex items-center justify-between p-5 px-6 md:p-6 md:px-8 text-left gap-6 outline-none"
                 >
-                  <h3 className="text-lg md:text-xl font-serif  text-white">{item.question}</h3>
-                  <div className={`w-10 h-10 rounded-full border flex items-center justify-center shrink-0 transition-colors ${openIndex === idx ? "border-gold text-gold" : "border-white/10 text-white/30"}`}>
-                    {openIndex === idx ? <Minus size={16} /> : <Plus size={16} />}
+                  <h3 className="text-[11px] md:text-xs font-display uppercase tracking-widest font-bold text-white/90">
+                    {item.question}
+                  </h3>
+                  <div className={`w-8 h-8 rounded-full border flex items-center justify-center shrink-0 transition-all duration-500 ${
+                    openIndex === idx 
+                      ? "border-gold text-gold rotate-180" 
+                      : "border-white/10 text-white/30"
+                  }`}>
+                    {openIndex === idx ? <Minus size={14} /> : <Plus size={14} />}
                   </div>
                 </button>
-                {openIndex === idx && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="px-8 pb-8"
-                  >
-                    <p className="text-white/40 leading-relaxed font-light text-lg">{item.answer}</p>
-                  </motion.div>
-                )}
-              </motion.div>
+                
+                {/* Liquid Smooth Expansion Container */}
+                <motion.div
+                  initial={false}
+                  animate={{ 
+                    height: openIndex === idx ? "auto" : 0,
+                    opacity: openIndex === idx ? 1 : 0
+                  }}
+                  transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                  className="overflow-hidden"
+                >
+                  <div className="px-6 pb-6 md:px-8 md:pb-6 border-t border-white/[0.02] pt-4">
+                    <p className="text-[10px] md:text-[11px] text-white/40 leading-relaxed font-light uppercase tracking-widest">
+                      {item.answer}
+                    </p>
+                  </div>
+                </motion.div>
+              </div>
             ))}
           </div>
+
         </div>
       </div>
     </section>

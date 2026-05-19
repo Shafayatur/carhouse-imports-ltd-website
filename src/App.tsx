@@ -94,8 +94,8 @@ function HomePage() {
               className="absolute inset-0 z-0 pointer-events-none"
             >
               <img
-                src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&w=2670&auto=format&fit=crop"
-                alt="BG"
+                src="/images/avik-homepage.jpg"
+                alt="Bespoke Collection"
                 className="w-full h-full object-cover grayscale"
               />
             </motion.div>
