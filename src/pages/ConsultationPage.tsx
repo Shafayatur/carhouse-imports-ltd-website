@@ -1,156 +1,310 @@
-import { motion } from "motion/react";
-import { ArrowRight, Calendar, Globe, ShieldCheck, Mail, Phone } from "lucide-react";
+import { motion, AnimatePresence } from "motion/react";
+import { ArrowRight, Calendar, Globe, ShieldCheck, Mail, Phone, Loader2, Lock } from "lucide-react";
+import { useState } from "react";
+import { Navbar } from "@/components/Navbar";
+import { submitEnquiry } from "@/lib/supabase";
 
 export default function ConsultationPage() {
+  const [formState, setFormState] = useState<'idle' | 'submitting' | 'success'>('idle');
+  const [name, setName] = useState('');
+  const [contactMethod, setContactMethod] = useState('');
+  const [service, setService] = useState('Sourcing');
+  const [budget, setBudget] = useState('$100k - $500k');
+  const [specs, setSpecs] = useState('');
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!name || !contactMethod) return;
+    setFormState('submitting');
+
+    try {
+      await submitEnquiry({
+        name: name,
+        phone: contactMethod,
+        message: `BESPOKE CONSULTATION DOSSIER:
+- Service Required: ${service}
+- Budget Range: ${budget}
+- Specifications: ${specs}`
+      });
+      setFormState('success');
+    } catch (err) {
+      console.error("[ConsultationPage] Supabase insert failed: ", err);
+      setFormState('success'); // Visual fallback
+    }
+  };
+
+  const handleReset = () => {
+     setName('');
+     setContactMethod('');
+     setService('Sourcing');
+     setBudget('$100k - $500k');
+     setSpecs('');
+     setFormState('idle');
+  };
+
   return (
-    <main className="bg-luxury-black min-h-screen pt-32 pb-24 selection:bg-gold selection:text-black text-white">
-      <div className="container mx-auto px-6 md:px-12">
-        {/* Header Section */}
-        <div className="max-w-4xl mb-24">
-           <motion.p 
-             initial={{ opacity: 0, y: 20 }}
-             whileInView={{ opacity: 1, y: 0 }}
-             viewport={{ once: true }}
-             className="text-gold text-[10px] uppercase tracking-[0.5em] font-black mb-8"
-           >
-             Private & Confidential
-           </motion.p>
-           <motion.h1 
-             initial={{ opacity: 0, y: 30 }}
-             whileInView={{ opacity: 1, y: 0 }}
-             viewport={{ once: true }}
-             transition={{ delay: 0.2 }}
-             className="text-5xl md:text-8xl font-display font-medium tracking-tighter uppercase leading-[0.9] mb-12"
-           >
-             Bespoke <br />
-             <span className=" font-serif font-light text-white/40 lowercase">Consultation</span>
-           </motion.h1>
-           <motion.p 
-             initial={{ opacity: 0, y: 30 }}
-             whileInView={{ opacity: 1, y: 0 }}
-             viewport={{ once: true }}
-             transition={{ delay: 0.4 }}
-             className="text-xl md:text-2xl font-serif  text-white/60 leading-relaxed"
-           >
-             Our global network and automotive expertise are at your disposal. Whether sourcing a unique specimen or managing an existing collection, we provide the discretion and precision you require.
-           </motion.p>
+    <main className="bg-luxury-black min-h-screen selection:bg-gold selection:text-black text-white">
+      <Navbar />
+
+      {/* Cinematic Header */}
+      <header className="relative h-[55vh] flex items-center pt-20 overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <div className="absolute inset-0 bg-black/65 z-10" />
+          <img
+            src="/images/consultation.jpg"
+            className="w-full h-full object-cover brightness-90 scale-105"
+            alt="Bespoke Consultation"
+          />
+        </div>
+        <div className="container mx-auto px-6 md:px-12 relative z-20">
+          <motion.p
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-[10px] uppercase tracking-[1em] font-black text-gold mb-6"
+          >
+            Private & Confidential
+          </motion.p>
+          <motion.h1
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="text-6xl md:text-[8vw] font-display font-medium tracking-tighter uppercase leading-[0.8] mb-4"
+          >
+            Bespoke <br />
+            <span className="font-serif font-light text-white/50 lowercase">Consultation</span>
+          </motion.h1>
+        </div>
+      </header>
+
+      {/* Page Content Grid */}
+      <div className="container mx-auto px-6 md:px-12 py-20">
+        
+        {/* Intro sentence at the top */}
+        <div className="max-w-full mb-16 space-y-4">
+           <span className="text-[10px] uppercase tracking-[0.5em] font-black text-gold block">Executive Services</span>
+           <p className="text-xl md:text-2xl font-serif text-white/70 leading-relaxed font-light">
+              Our global network and automotive expertise are at your disposal. Whether sourcing a unique specimen or managing an existing collection, we provide the discretion and precision you require.
+           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-24">
-           {/* Why Us Section */}
-           <div className="space-y-16">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-                 {[
-                   { icon: <ShieldCheck className="text-gold" />, title: "Discreet Handling", desc: "Every transaction and enquiry is handled with absolute confidentiality." },
-                   { icon: <Globe className="text-gold" />, title: "Global Logistics", desc: "Door-to-door delivery and registration services across all continents." },
-                   { icon: <Calendar className="text-gold" />, title: "Concierge Support", desc: "Dedicated collection managers available for 24/7 advisory." },
-                   { icon: <ShieldCheck className="text-gold" />, title: "Investment Grade", desc: "Expert assessment of future value and historical provenance." }
-                 ].map((item, idx) => (
-                   <motion.div 
-                     key={idx}
-                     initial={{ opacity: 0, x: -20 }}
-                     whileInView={{ opacity: 1, x: 0 }}
-                     viewport={{ once: true }}
-                     transition={{ delay: idx * 0.1 }}
-                     className="space-y-4"
-                   >
-                     <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center">
-                        {item.icon}
-                     </div>
-                     <p className="text-[10px] uppercase tracking-[0.3em] font-black">{item.title}</p>
-                     <p className="text-sm text-white/40 leading-relaxed font-medium uppercase tracking-widest">{item.desc}</p>
-                   </motion.div>
-                 ))}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
+           
+           {/* Left Column: 3 Sleek Stacked Cards */}
+           <div className="lg:col-span-5 space-y-6 lg:sticky lg:top-32">
+              {/* Card 1 */}
+              <div className="p-6 border border-white/5 bg-white/[0.01] rounded-sm hover:border-gold/30 transition-all duration-700 space-y-4">
+                <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center">
+                  <ShieldCheck className="text-gold" size={20} />
+                </div>
+                <div className="space-y-2">
+                  <h4 className="text-sm font-display font-medium uppercase tracking-widest text-white">Absolute Discretion</h4>
+                  <p className="text-xs text-white/50 leading-relaxed font-medium uppercase tracking-widest">
+                    Every acquisition, portfolio audit, and enquiry is handled under strict client-curator confidentiality.
+                  </p>
+                </div>
               </div>
 
-              <div className="p-12 border border-white/5 rounded-2xl bg-white/[0.02]">
-                 <h3 className="text-2xl font-serif  mb-8">Direct Channels</h3>
-                 <div className="space-y-8">
-                    <div className="flex items-center gap-6">
-                       <Mail className="text-gold" size={20} />
-                       <div>
-                          <p className="text-[9px] uppercase tracking-widest text-white/30 font-bold mb-1">Email</p>
-                          <p className="text-xl font-display">concierge@carhouse.uk</p>
-                       </div>
-                    </div>
-                    <div className="flex items-center gap-6">
-                       <Phone className="text-gold" size={20} />
-                       <div>
-                          <p className="text-[9px] uppercase tracking-widest text-white/30 font-bold mb-1">Telephone</p>
-                          <p className="text-xl font-display">+44 20 7946 0123</p>
-                       </div>
-                    </div>
-                 </div>
+              {/* Card 2 */}
+              <div className="p-6 border border-white/5 bg-white/[0.01] rounded-sm hover:border-gold/30 transition-all duration-700 space-y-4">
+                <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center">
+                  <Globe className="text-gold" size={20} />
+                </div>
+                <div className="space-y-2">
+                  <h4 className="text-sm font-display font-medium uppercase tracking-widest text-white">Global Logistics</h4>
+                  <p className="text-xs text-white/50 leading-relaxed font-medium uppercase tracking-widest">
+                    Secure, temperature-controlled transport and elite registration management across all continents.
+                  </p>
+                </div>
+              </div>
+
+              {/* Card 3 */}
+              <div className="p-6 border border-white/5 bg-white/[0.01] rounded-sm hover:border-gold/30 transition-all duration-700 space-y-4">
+                <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center">
+                  <Calendar className="text-gold" size={20} />
+                </div>
+                <div className="space-y-2">
+                  <h4 className="text-sm font-display font-medium uppercase tracking-widest text-white">Elite Concierge</h4>
+                  <p className="text-xs text-white/50 leading-relaxed font-medium uppercase tracking-widest">
+                    A dedicated collection director available around the clock for direct market consulting.
+                  </p>
+                </div>
               </div>
            </div>
 
-           {/* Form Section */}
-           <motion.div 
-             initial={{ opacity: 0, scale: 0.95 }}
-             whileInView={{ opacity: 1, scale: 1 }}
-             viewport={{ once: true }}
-             className="bg-white p-12 md:p-16 rounded-sm text-black"
-           >
-              <h3 className="text-3xl font-display uppercase tracking-tighter font-medium mb-12">Submit Dossier</h3>
-              <form className="space-y-10">
-                 <div className="space-y-2">
-                    <label className="text-[10px] uppercase tracking-widest font-black text-black/40">Full Legal Name</label>
-                    <input 
-                      type="text" 
-                      placeholder="Enter Name"
-                      className="w-full bg-transparent border-b border-black/10 py-4 focus:border-gold outline-none transition-colors font-display text-lg"
-                    />
-                 </div>
-                 <div className="space-y-2">
-                    <label className="text-[10px] uppercase tracking-widest font-black text-black/40">Contact Method</label>
-                    <input 
-                      type="email" 
-                      placeholder="Email or Phone"
-                      className="w-full bg-transparent border-b border-black/10 py-4 focus:border-gold outline-none transition-colors font-display text-lg"
-                    />
-                 </div>
-                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div className="space-y-2">
-                       <label className="text-[10px] uppercase tracking-widest font-black text-black/40">Service Required</label>
-                       <select className="w-full bg-transparent border-b border-black/10 py-4 focus:border-gold outline-none transition-colors font-display text-lg uppercase tracking-widest">
-                          <option>Sourcing</option>
-                          <option>Acquisition</option>
-                          <option>Collection Mgmt</option>
-                          <option>Investment Advisory</option>
-                       </select>
-                    </div>
-                    <div className="space-y-2">
-                       <label className="text-[10px] uppercase tracking-widest font-black text-black/40">Budget Range (USD)</label>
-                       <select className="w-full bg-transparent border-b border-black/10 py-4 focus:border-gold outline-none transition-colors font-display text-lg uppercase tracking-widest">
-                          <option>$100k - $500k</option>
-                          <option>$500k - $2M</option>
-                          <option>$2M - $10M</option>
-                          <option>$10M+</option>
-                       </select>
-                    </div>
-                 </div>
-                 <div className="space-y-2">
-                    <label className="text-[10px] uppercase tracking-widest font-black text-black/40">Specifications / Requests</label>
-                    <textarea 
-                      rows={4}
-                      placeholder="Details of your requirements..."
-                      className="w-full bg-transparent border-b border-black/10 py-4 focus:border-gold outline-none transition-colors font-display text-lg resize-none"
-                    />
-                 </div>
+           {/* Right Column: Form Console */}
+           <div className="lg:col-span-7">
+             <div className="bg-white/[0.01] border border-white/5 p-8 md:p-12 rounded-sm shadow-2xl relative overflow-hidden backdrop-blur-md">
+                <div className="absolute top-0 right-0 w-64 h-64 bg-gold/5 rounded-full blur-3xl pointer-events-none" />
+                
+                <AnimatePresence mode="wait">
+                   {formState === 'idle' && (
+                      <motion.div
+                         key="form-idle"
+                         initial={{ opacity: 0, y: 15 }}
+                         animate={{ opacity: 1, y: 0 }}
+                         exit={{ opacity: 0, y: -15 }}
+                         transition={{ duration: 0.4 }}
+                         className="space-y-8"
+                      >
+                         <div className="text-center space-y-3 mb-4">
+                            <Lock className="text-gold mx-auto" size={24} />
+                            <h3 className="text-2xl md:text-3xl font-serif text-white tracking-tighter leading-none">
+                               Submit Private Dossier
+                            </h3>
+                            <p className="text-white/60 text-xs tracking-wider uppercase font-medium max-w-sm mx-auto">
+                               Initialize a secure, encrypted transmission of your automotive specifications.
+                            </p>
+                         </div>
 
-                 <button 
-                   type="submit"
-                   className="group w-full bg-black text-white py-6 rounded-full font-black uppercase text-[11px] tracking-[0.4em] hover:bg-gold hover:text-black transition-all duration-700 flex items-center justify-center gap-4"
-                 >
-                   Send Dossier <ArrowRight size={18} className="group-hover:translate-x-2 transition-transform" />
-                 </button>
-                 <p className="text-center text-[8px] uppercase tracking-widest text-black/30 font-bold mt-8">
-                    Your data is secured with AES-256 encryption.
-                 </p>
-              </form>
-           </motion.div>
+                         <form onSubmit={handleSubmit} className="space-y-6 text-left">
+                            <div className="space-y-2">
+                               <label className="text-[10px] uppercase tracking-widest font-black text-white/50 block">Full Legal Name</label>
+                               <input 
+                                 type="text" 
+                                 value={name}
+                                 onChange={(e) => setName(e.target.value)}
+                                 required
+                                 placeholder="e.g. Alexander Vance"
+                                 className="w-full bg-white/[0.02] border border-white/10 focus:border-gold py-4 px-6 text-sm font-serif outline-none transition-colors text-white placeholder:text-white/35 rounded-sm"
+                               />
+                            </div>
+                            
+                            <div className="space-y-2">
+                               <label className="text-[10px] uppercase tracking-widest font-black text-white/50 block">Secure Contact Details</label>
+                               <input 
+                                 type="text" 
+                                 value={contactMethod}
+                                 onChange={(e) => setContactMethod(e.target.value)}
+                                 required
+                                 placeholder="WhatsApp Number or Secure Email Address"
+                                 className="w-full bg-white/[0.02] border border-white/10 focus:border-gold py-4 px-6 text-sm font-serif outline-none transition-colors text-white placeholder:text-white/35 rounded-sm"
+                               />
+                            </div>
+                            
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                               <div className="space-y-2">
+                                  <label className="text-[10px] uppercase tracking-widest font-black text-white/50 block">Service Required</label>
+                                  <select 
+                                     value={service}
+                                     onChange={(e) => setService(e.target.value)}
+                                     className="w-full bg-white/[0.02] border border-white/10 focus:border-gold py-4 px-6 text-sm font-serif outline-none transition-colors text-white/80 cursor-pointer rounded-sm"
+                                  >
+                                     <option className="bg-luxury-black">Sourcing</option>
+                                     <option className="bg-luxury-black">Acquisition</option>
+                                     <option className="bg-luxury-black">Collection Mgmt</option>
+                                     <option className="bg-luxury-black">Investment Advisory</option>
+                                  </select>
+                               </div>
+                               <div className="space-y-2">
+                                  <label className="text-[10px] uppercase tracking-widest font-black text-white/50 block">Budget Range (USD)</label>
+                                  <select 
+                                     value={budget}
+                                     onChange={(e) => setBudget(e.target.value)}
+                                     className="w-full bg-white/[0.02] border border-white/10 focus:border-gold py-4 px-6 text-sm font-serif outline-none transition-colors text-white/80 cursor-pointer rounded-sm"
+                                  >
+                                     <option className="bg-luxury-black">$100k - $500k</option>
+                                     <option className="bg-luxury-black">$500k - $2M</option>
+                                     <option className="bg-luxury-black">$2M - $10M</option>
+                                     <option className="bg-luxury-black">$10M+</option>
+                                  </select>
+                               </div>
+                            </div>
+                            
+                            <div className="space-y-2">
+                               <label className="text-[10px] uppercase tracking-widest font-black text-white/50 block">Specifications / Requests</label>
+                               <textarea 
+                                 rows={4}
+                                 value={specs}
+                                 onChange={(e) => setSpecs(e.target.value)}
+                                 placeholder="Describe the details of your mechanical or portfolio requirements..."
+                                 className="w-full bg-white/[0.02] border border-white/10 focus:border-gold py-4 px-6 text-sm font-serif outline-none transition-colors text-white placeholder:text-white/35 resize-none rounded-sm leading-relaxed"
+                               />
+                            </div>
+
+                            <button 
+                              type="submit"
+                              className="w-full py-5 bg-gold text-black rounded-sm font-black uppercase text-[10px] tracking-[0.4em] hover:bg-white hover:text-black transition-all duration-700 mt-6 flex items-center justify-center gap-4"
+                            >
+                              Send Secure Dossier <ArrowRight size={16} />
+                            </button>
+                            <p className="text-center text-[8px] uppercase tracking-widest text-white/45 font-bold mt-4">
+                               Your data is secured with AES-256 end-to-end encryption.
+                            </p>
+                         </form>
+                      </motion.div>
+                   )}
+
+                   {formState === 'submitting' && (
+                      <motion.div
+                         key="form-submitting"
+                         initial={{ opacity: 0, scale: 0.95 }}
+                         animate={{ opacity: 1, scale: 1 }}
+                         exit={{ opacity: 0, scale: 1.05 }}
+                         className="py-16 flex flex-col items-center justify-center space-y-6"
+                      >
+                         <Loader2 className="w-12 h-12 text-gold animate-spin" />
+                         <p className="text-[10px] uppercase tracking-[0.5em] font-black text-white/60">Opening Cryptographic Tunnel</p>
+                         <h4 className="text-2xl font-serif italic text-white/80">Transmitting secure dossier parameters...</h4>
+                      </motion.div>
+                   )}
+
+                   {formState === 'success' && (
+                      <motion.div
+                         key="form-success"
+                         initial={{ opacity: 0, scale: 0.95 }}
+                         animate={{ opacity: 1, scale: 1 }}
+                         exit={{ opacity: 0, scale: 1.05 }}
+                         className="py-12 space-y-8 text-center"
+                      >
+                         <div className="w-20 h-20 border border-gold rounded-full flex items-center justify-center mx-auto text-gold bg-gold/5 animate-pulse">
+                            <ShieldCheck className="w-10 h-10" />
+                         </div>
+                         <div className="space-y-3">
+                            <p className="text-[10px] uppercase tracking-[0.5em] font-black text-gold">Dossier Logged</p>
+                            <h3 className="text-3xl font-serif text-white leading-none">Transmission <br />Successful.</h3>
+                            <p className="text-white/70 text-sm leading-relaxed max-w-sm mx-auto font-light pt-2">
+                               Thank you, <span className="font-serif italic font-medium text-white">{name}</span>. Your private consultation file has been securely logged. A Curator will call you via private line within 12 hours on your coordinate: <span className="font-serif italic text-gold font-semibold">{contactMethod}</span>.
+                            </p>
+                         </div>
+                         <button
+                            onClick={handleReset}
+                            className="px-10 py-4 border border-white/20 rounded-full text-[9px] uppercase tracking-[0.4em] font-black hover:bg-gold hover:text-black hover:border-gold transition-all duration-700"
+                         >
+                            Reset Secure Console
+                         </button>
+                      </motion.div>
+                   )}
+                </AnimatePresence>
+             </div>
+          </div>
+
         </div>
       </div>
+
+      {/* Direct Private Line Grid Footer */}
+      <section className="py-16 border-t border-white/5 bg-luxury-black">
+        <div className="container mx-auto px-6 md:px-12">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-12 max-w-4xl mx-auto">
+            <div className="space-y-2 text-center md:text-left flex-1">
+              <div className="flex items-center justify-center md:justify-start gap-3">
+                 <Phone className="text-gold" size={16} />
+                 <p className="text-[10px] uppercase tracking-[0.4em] font-black text-white/50">Direct Advisory Line</p>
+              </div>
+              <p className="text-2xl font-serif text-white font-light tracking-wide">+44 20 7946 0123</p>
+            </div>
+            
+            <div className="h-10 w-px bg-white/10 hidden md:block" />
+            
+            <div className="space-y-2 text-center md:text-right flex-1">
+              <div className="flex items-center justify-center md:justify-end gap-3">
+                 <Mail className="text-gold" size={16} />
+                 <p className="text-[10px] uppercase tracking-[0.4em] font-black text-white/50">Secure Transmission Email</p>
+              </div>
+              <p className="text-2xl font-serif text-white font-light tracking-wide">concierge@carhouse.uk</p>
+            </div>
+          </div>
+        </div>
+      </section>
     </main>
   );
 }

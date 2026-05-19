@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "motion/react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { X, Instagram, Twitter, Linkedin, ChevronRight } from "lucide-react";
 import { useEffect } from "react";
 
@@ -13,7 +13,7 @@ export function FullMenu({ isOpen, onClose }: FullMenuProps) {
     { name: "The Collection", path: "/inventory" },
     { name: "The Philosophy", path: "/philosophy" },
     { name: "Global Sourcing", path: "/sourcing" },
-    { name: "Private Consultation", path: "/consultation", featured: true },
+    { name: "Private Consultation", path: "/consultation" },
     { name: "Investment Advisory", path: "/advisory" },
     { name: "Racing Heritage", path: "/heritage" },
     { name: "Brand History", path: "/" },
@@ -71,23 +71,37 @@ export function FullMenu({ isOpen, onClose }: FullMenuProps) {
 
             {/* Links - Scrollable Area */}
             <div data-lenis-prevent className="flex-1 overflow-y-auto custom-scrollbar px-10 py-12 space-y-10">
-              {menuLinks.map((link, idx) => (
-                <motion.div
-                  key={link.name}
-                  initial={{ x: -20, opacity: 0 }}
-                  animate={{ x: 0, opacity: 1 }}
-                  transition={{ delay: 0.3 + idx * 0.05 }}
-                >
-                  <Link
-                    to={link.path}
-                    onClick={onClose}
-                    className={`group flex items-center justify-between text-3xl font-serif  tracking-tighter ${link.featured ? 'text-gold' : 'text-white/70 hover:text-white'} transition-all duration-500`}
+              {menuLinks.map((link, idx) => {
+                const isActive = location.pathname === link.path && link.path !== "/";
+                return (
+                  <motion.div
+                    key={link.name}
+                    initial={{ x: -20, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ delay: 0.3 + idx * 0.05 }}
                   >
-                    <span>{link.name}</span>
-                    <ChevronRight className="opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-500 text-gold" size={24} />
-                  </Link>
-                </motion.div>
-              ))}
+                    <Link
+                      to={link.path}
+                      onClick={onClose}
+                      className={`group flex items-center justify-between text-3xl font-serif tracking-tighter ${
+                        isActive
+                          ? 'text-gold'
+                          : 'text-white/70 hover:text-white'
+                      } transition-all duration-500`}
+                    >
+                      <span>{link.name}</span>
+                      <ChevronRight 
+                        className={`transition-all duration-500 text-gold ${
+                          isActive 
+                            ? "opacity-100 translate-x-0" 
+                            : "opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0"
+                        }`} 
+                        size={24} 
+                      />
+                    </Link>
+                  </motion.div>
+                );
+              })}
             </div>
 
             {/* Footer */}
