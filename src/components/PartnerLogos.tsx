@@ -1,8 +1,27 @@
-import { motion } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import { usePartners } from "@/hooks/useSupabase";
+import { useEffect, useState } from "react";
 
 export function PartnerLogos() {
   const { partners, loading } = usePartners();
+  const [showLabel, setShowLabel] = useState(false);
+
+  // Cyclic timer: show the beautiful "OUR PARTNERS" card overlay every 12 seconds for 3 seconds
+  useEffect(() => {
+    // Start cyclic loop
+    const interval = setInterval(() => {
+      setShowLabel(true);
+      
+      // Hide card after 3 seconds
+      const timeout = setTimeout(() => {
+        setShowLabel(false);
+      }, 3000);
+
+      return () => clearTimeout(timeout);
+    }, 12000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   // Fallback to hardcoded if Supabase empty (safe during migration)
   const fallback = [
@@ -20,74 +39,67 @@ export function PartnerLogos() {
   const doubled = [...list, ...list]; // for infinite scroll
 
   return (
-    <section id="strategic-network" className="py-20 bg-luxury-black border-y border-white/5 overflow-hidden">
-      <div className="container mx-auto px-6 md:px-12">
-        
-        {/* Sleek, Tight Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="max-w-xl mx-auto text-center mb-12 space-y-4"
-        >
-          <span className="text-[9px] uppercase tracking-[0.5em] font-black text-gold block">Verified Strategic Network</span>
-          <h2 className="text-3xl md:text-4xl font-serif text-white tracking-tighter leading-tight">
-            Our global intelligence spans across the world's{" "}
-            <span className="text-white/40">preeminent specialists.</span>
-          </h2>
-        </motion.div>
+    <section id="strategic-network" className="py-12 bg-luxury-black/30 border-y border-white/5 overflow-hidden relative min-h-[140px] flex items-center">
+      {/* Subtle background luxury accent */}
+      <div className="absolute inset-0 bg-gradient-to-r from-luxury-black via-transparent to-luxury-black opacity-90 pointer-events-none z-10" />
+      
+      <div className="w-full relative">
+        {/* Soft edge fade overlays */}
+        <div className="absolute inset-y-0 left-0 w-24 md:w-48 bg-gradient-to-r from-luxury-black to-transparent z-20 pointer-events-none" />
+        <div className="absolute inset-y-0 right-0 w-24 md:w-48 bg-gradient-to-l from-luxury-black to-transparent z-20 pointer-events-none" />
 
-        {/* Carousel Container */}
-        <div className="relative mt-12">
-          {/* Edge Fades */}
-          <div className="absolute inset-y-0 left-0 w-20 md:w-32 bg-gradient-to-r from-luxury-black to-transparent z-10 pointer-events-none" />
-          <div className="absolute inset-y-0 right-0 w-20 md:w-32 bg-gradient-to-l from-luxury-black to-transparent z-10 pointer-events-none" />
-
-          <div className="flex overflow-hidden group">
+        {/* Theatrical Card Overlay: Fades in on top of the blurred scroller */}
+        <AnimatePresence>
+          {showLabel && (
             <motion.div
-              animate={{ x: ["0%", "-50%"] }}
-              transition={{ duration: 30, ease: "linear", repeat: Infinity }}
-              className="flex gap-4 md:gap-6 whitespace-nowrap py-6"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              className="absolute inset-0 flex items-center justify-center z-30 pointer-events-none"
             >
-              {doubled.map((partner, idx) => (
-                <div
-                  key={`${partner.name}-${idx}`}
-                  className="relative w-[150px] md:w-[260px] p-5 md:p-6 border border-white/5 bg-white/[0.01] hover:bg-white/[0.03] hover:border-gold/30 transition-all duration-500 rounded-sm flex flex-col items-center justify-center text-center overflow-hidden shrink-0 group/card"
-                >
-                  {/* Subtle Tech Corner Accent */}
-                  <div className="absolute top-0 right-0 w-4 h-4 border-t border-r border-white/5 group-hover/card:border-gold/30 transition-colors" />
-                  
-                  {/* High-End Refined Badge Name */}
-                  <div className="mb-4 opacity-70 group-hover/card:opacity-100 transition-all duration-500 group-hover/card:scale-105">
-                    <span className="text-xs md:text-sm text-white font-bold block drop-shadow-md font-display tracking-[0.2em] uppercase">
-                      {partner.name}
-                    </span>
-                  </div>
-                  
-                  <div className="space-y-3 w-full">
-                    <div className="h-[1px] w-6 bg-white/10 group-hover/card:bg-gold/30 mx-auto transition-colors" />
-                    <p className="text-[7px] md:text-[8px] uppercase tracking-[0.3em] font-black text-white/30 group-hover/card:text-gold transition-colors">
-                      {partner.region}
-                    </p>
-                  </div>
-                  <div className="absolute inset-0 bg-gold/0 group-hover/card:bg-gold/[0.01] transition-colors pointer-events-none" />
-                </div>
-              ))}
+              <div className="px-8 py-4 bg-luxury-gray/95 border border-gold/30 rounded-sm backdrop-blur-md shadow-2xl flex flex-col items-center justify-center text-center">
+                <span className="text-[8px] uppercase tracking-[0.5em] font-black text-gold mb-1">Global Alliance</span>
+                <h3 className="text-xs md:text-sm font-display font-bold uppercase tracking-[0.3em] text-white">
+                  Our Strategic Partners
+                </h3>
+              </div>
             </motion.div>
-          </div>
-        </div>
+          )}
+        </AnimatePresence>
 
-        {/* Footer Subtext */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.4 }}
-          className="mt-12 text-center"
+        {/* Infinite Scrolling Logo Wrapper - Fades and blurs softly when the overlay card appears */}
+        <motion.div 
+          animate={{ 
+            opacity: showLabel ? 0.08 : 1,
+            filter: showLabel ? "blur(4px)" : "blur(0px)"
+          }}
+          transition={{ duration: 0.8, ease: "easeInOut" }}
+          className="flex overflow-hidden group"
         >
-          <p className="text-[9px] uppercase tracking-[0.3em] font-black text-white/20 max-w-xl mx-auto leading-relaxed">
-            This proprietary network enables bespoke sourcing of off-market chassis with fully documented provenance.
-          </p>
+          <motion.div
+            animate={{ x: ["0%", "-50%"] }}
+            transition={{ duration: 35, ease: "linear", repeat: Infinity }}
+            className="flex gap-4 md:gap-6 whitespace-nowrap"
+          >
+            {doubled.map((partner, idx) => (
+              <div
+                key={`${partner.name}-${idx}`}
+                className="relative w-[180px] md:w-[280px] p-4 md:p-6 border border-white/5 bg-white/[0.01] hover:bg-white/[0.03] hover:border-gold/30 transition-all duration-500 rounded-sm flex flex-col items-center justify-center text-center overflow-hidden shrink-0 group/card"
+              >
+                <div className="mb-2 md:mb-3 opacity-40 group-hover/card:opacity-100 transition-all duration-500">
+                  <span className="text-sm md:text-xl text-white font-display font-medium tracking-[0.2em] block">
+                    {partner.name}
+                  </span>
+                </div>
+                <div className="h-[1px] w-4 bg-white/10 group-hover/card:bg-gold/40 transition-colors my-1 md:my-2" />
+                <p className="text-[6px] md:text-[8px] uppercase tracking-[0.3em] font-black text-white/20 group-hover/card:text-gold transition-colors">
+                  {partner.region}
+                </p>
+                <div className="absolute inset-0 bg-gold/0 group-hover/card:bg-gold/[0.01] transition-colors pointer-events-none" />
+              </div>
+            ))}
+          </motion.div>
         </motion.div>
       </div>
     </section>
