@@ -81,7 +81,7 @@ export function FullMenu({ isOpen, onClose }: FullMenuProps) {
                   <Link
                     to={link.path}
                     onClick={onClose}
-                    className={`group flex items-center justify-between text-3xl font-serif italic tracking-tighter ${link.featured ? 'text-gold' : 'text-white/70 hover:text-white'} transition-all duration-500`}
+                    className={`group flex items-center justify-between text-3xl font-serif  tracking-tighter ${link.featured ? 'text-gold' : 'text-white/70 hover:text-white'} transition-all duration-500`}
                   >
                     <span>{link.name}</span>
                     <ChevronRight className="opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-500 text-gold" size={24} />
@@ -94,7 +94,7 @@ export function FullMenu({ isOpen, onClose }: FullMenuProps) {
             <div className="p-10 border-t border-white/5 space-y-8 bg-black/20 shrink-0">
               <div className="space-y-4">
                 <p className="text-[9px] uppercase tracking-[0.5em] font-black text-white/20">Enquiries</p>
-                <p className="text-sm font-serif italic text-white/60">concierge@carhouse.uk</p>
+                <p className="text-sm font-serif  text-white/60">concierge@carhouse.uk</p>
               </div>
               <div className="flex gap-6">
                 <Instagram size={18} className="text-white/20 hover:text-gold transition-colors cursor-pointer" />

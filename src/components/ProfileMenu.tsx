@@ -59,7 +59,7 @@ export function ProfileMenu({ isOpen, onClose }: ProfileMenuProps) {
                 </div>
                 <div>
                   <h4 className="text-[10px] uppercase tracking-[0.3em] font-black text-gold">Exclusive Member</h4>
-                  <p className="text-white font-serif italic text-lg">Guest Collector</p>
+                  <p className="text-white font-serif  text-lg">Guest Collector</p>
                 </div>
               </div>
               <button

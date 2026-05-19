@@ -23,7 +23,7 @@ export default function PhilosophyPage() {
               className="text-6xl md:text-[8vw] font-display font-medium uppercase tracking-tighter leading-[0.85] mb-24"
             >
               Defining <br />
-              <span className="italic font-serif font-light text-white/20 lowercase">Autmotive</span> <br />
+              <span className=" font-serif font-light text-white/20 lowercase">Autmotive</span> <br />
               Curatorship
             </motion.h1>
          </div>
@@ -40,7 +40,7 @@ export default function PhilosophyPage() {
             
             <div className="space-y-16 py-12">
                <div className="space-y-8">
-                  <h3 className="text-4xl font-serif italic tracking-tight">"We do not sell cars. We curate legacies."</h3>
+                  <h3 className="text-4xl font-serif  tracking-tight">"We do not sell cars. We curate legacies."</h3>
                   <p className="text-xl text-white/50 leading-relaxed font-light">
                      At Car House Imports, we believe that a truly exceptional automobile is a confluence of art, engineering, and history. Our role is to act as the bridge between these masterworks and the collectors who understand their gravity.
                   </p>
@@ -68,8 +68,8 @@ export default function PhilosophyPage() {
       <section className="py-48 bg-white text-black text-center relative overflow-hidden">
          <div className="container mx-auto px-6 md:px-12 relative z-10">
             <p className="text-[10px] uppercase tracking-[0.8em] font-black mb-12 opacity-30">A Statement of Intent</p>
-            <h2 className="text-5xl md:text-8xl font-serif italic tracking-tighter leading-none max-w-5xl mx-auto">
-               Exclusivity is not about price. It is about the <span className="not-italic font-display font-medium uppercase tracking-tighter">Impossible to Replace.</span>
+            <h2 className="text-5xl md:text-8xl font-serif  tracking-tighter leading-none max-w-5xl mx-auto">
+               Exclusivity is not about price. It is about the <span className=" font-display font-medium uppercase tracking-tighter">Impossible to Replace.</span>
             </h2>
          </div>
          <div className="absolute inset-0 flex items-center justify-center opacity-[0.02] pointer-events-none">

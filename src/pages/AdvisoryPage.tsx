@@ -47,13 +47,13 @@ export default function AdvisoryPage() {
                className="text-5xl md:text-[8vw] font-display font-medium tracking-tighter uppercase leading-[0.9] mb-12"
             >
                Investment <br />
-               <span className="italic font-serif font-light text-white/30 lowercase">Advisory</span>
+               <span className=" font-serif font-light text-white/30 lowercase">Advisory</span>
             </motion.h1>
             <motion.p 
                initial={{ opacity: 0, y: 20 }}
                animate={{ opacity: 1, y: 0 }}
                transition={{ delay: 0.2 }}
-               className="text-xl md:text-3xl font-serif italic text-white/50 leading-relaxed"
+               className="text-xl md:text-3xl font-serif  text-white/50 leading-relaxed"
             >
                In the world of high-value automobiles, a car is more than a machine—it is a sophisticated financial instrument. We help you navigate the complexities of automotive investment.
             </motion.p>
@@ -89,7 +89,7 @@ export default function AdvisoryPage() {
          <div className="container mx-auto px-6 md:px-12">
             <div className="flex flex-col lg:flex-row gap-24 items-center">
                <div className="flex-1 space-y-12">
-                  <h2 className="text-4xl md:text-6xl font-serif italic tracking-tighter leading-tight">
+                  <h2 className="text-4xl md:text-6xl font-serif  tracking-tighter leading-tight">
                     Preserving the <span className="text-gold">Historical Integrity</span> of your Portfolio.
                   </h2>
                   <div className="space-y-8">

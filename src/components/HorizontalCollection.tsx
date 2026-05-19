@@ -38,14 +38,14 @@ export function HorizontalCollection() {
                     ) : (
                       <div className="w-full h-full bg-white/[0.03] flex flex-col items-center justify-center">
                         <p className="text-white/10 text-6xl font-display font-black tracking-tighter">{car.make}</p>
-                        <p className="text-white/5 text-3xl font-serif italic mt-2">{car.model}</p>
+                        <p className="text-white/5 text-3xl font-serif  mt-2">{car.model}</p>
                       </div>
                     )}
                     <div className="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-colors duration-1000" />
 
                     <div className="absolute top-12 left-12 text-white">
                       <p className="text-[10px] uppercase tracking-[0.5em] font-black text-gold mb-3">{car.make}</p>
-                      <h3 className="text-4xl md:text-5xl font-serif italic">{car.model}</h3>
+                      <h3 className="text-4xl md:text-5xl font-serif ">{car.model}</h3>
                     </div>
 
                     <div className="absolute bottom-12 right-12 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-700">
@@ -67,7 +67,7 @@ export function HorizontalCollection() {
             <div className="w-[40vw] flex-shrink-0 flex items-center justify-center border-l border-white/10 ml-12">
               <div className="text-center space-y-8">
                 <h3 className="text-4xl md:text-6xl font-display font-light uppercase tracking-tighter">
-                  Seek <br /><span className="italic font-serif text-gold">Something Else?</span>
+                  Seek <br /><span className=" font-serif text-gold">Something Else?</span>
                 </h3>
                 <Link to="/sourcing">
                   <button className="px-12 py-5 bg-white text-black rounded-full font-bold uppercase text-[12px] tracking-widest hover:bg-gold transition-colors">

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Play } from "lucide-react";
 import { useRef } from "react";
 import { useSiteSettings } from "@/hooks/useSupabase";
-
+// hello 
 export function Hero() {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -47,16 +47,16 @@ export function Hero() {
           <span className="text-[10px] uppercase tracking-[0.6em] font-black text-gold mb-8 opacity-80">
             {tagline}
           </span>
-          <h1 className="text-[12vw] md:text-[8vw] font-serif italic font-light leading-[0.85] tracking-tight text-white mb-8 md:mb-12">
+          <h1 className="text-[12vw] md:text-[8vw] font-serif  font-light leading-[0.85] tracking-tight text-white mb-8 md:mb-12">
             {headline.includes(" of ") ? (
               <>
                 {headline.split(" of ")[0]} of <br />
-                <span className="not-italic font-display font-medium text-gold uppercase tracking-tighter">
+                <span className=" font-display font-medium text-gold uppercase tracking-tighter">
                   {headline.split(" of ")[1]}
                 </span>
               </>
             ) : (
-              <span className="not-italic font-display font-medium text-gold uppercase tracking-tighter">
+              <span className=" font-display font-medium text-gold uppercase tracking-tighter">
                 {headline}
               </span>
             )}

@@ -76,7 +76,7 @@ function VaultSlide({
           {item.make} · {item.year}
         </p>
 
-        <h2 className="text-6xl md:text-9xl font-serif italic text-white leading-[0.85] tracking-tighter mb-8">
+        <h2 className="text-6xl md:text-9xl font-serif  text-white leading-[0.85] tracking-tighter mb-8">
           {item.model}
         </h2>
 

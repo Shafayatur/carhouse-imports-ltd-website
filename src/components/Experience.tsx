@@ -15,7 +15,7 @@ export function Experience() {
              />
              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
              <div className="absolute bottom-12 left-12">
-                <p className="text-gold font-serif italic text-3xl mb-4">Precision Sourcing</p>
+                <p className="text-gold font-serif  text-3xl mb-4">Precision Sourcing</p>
                 <p className="text-white/60 max-w-xs text-sm leading-relaxed">
                   Every vehicle undergoes a 200-point inspection before it even touches the asphalt of our showroom.
                 </p>
@@ -37,31 +37,31 @@ export function Experience() {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                className="text-5xl md:text-7xl font-serif italic mb-4 leading-[1.1]"
+                className="text-5xl md:text-7xl font-serif  mb-4 leading-[1.1]"
               >
                 Seamless <br />
-                <span className="not-italic font-display font-medium text-white uppercase tracking-tighter">Global Access</span>
+                <span className=" font-display font-medium text-white uppercase tracking-tighter">Global Access</span>
               </motion.h2>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                <div className="space-y-4 p-10 border border-white/5 rounded-sm hover:border-gold/20 transition-all duration-700 bg-white/[0.02]">
-                  <p className="text-gold font-serif italic text-4xl">01</p>
+                  <p className="text-gold font-serif  text-4xl">01</p>
                   <h4 className="text-sm font-display uppercase tracking-[0.4em] font-bold text-white/90">Curated Hunt</h4>
                   <p className="text-white/30 text-xs leading-relaxed uppercase tracking-widest">Global vehicle scouting across private networks and elite auctions.</p>
                </div>
                <div className="space-y-4 p-10 border border-white/5 rounded-sm hover:border-gold/20 transition-all duration-700 bg-white/[0.02]">
-                  <p className="text-gold font-serif italic text-4xl">02</p>
+                  <p className="text-gold font-serif  text-4xl">02</p>
                   <h4 className="text-sm font-display uppercase tracking-[0.4em] font-bold text-white/90">Verification</h4>
                   <p className="text-white/30 text-xs leading-relaxed uppercase tracking-widest">Multi-stage technical validation and historical provenance audits.</p>
                </div>
                <div className="space-y-4 p-10 border border-white/5 rounded-sm hover:border-gold/20 transition-all duration-700 bg-white/[0.02]">
-                  <p className="text-gold font-serif italic text-4xl">03</p>
+                  <p className="text-gold font-serif  text-4xl">03</p>
                   <h4 className="text-sm font-display uppercase tracking-[0.4em] font-bold text-white/90">Acquisition</h4>
                   <p className="text-white/30 text-xs leading-relaxed uppercase tracking-widest">Secure transactional escrow and legislative compliance management.</p>
                </div>
                <div className="space-y-4 p-10 border border-white/5 rounded-sm hover:border-gold/20 transition-all duration-700 bg-white/[0.02]">
-                  <p className="text-gold font-serif italic text-4xl">04</p>
+                  <p className="text-gold font-serif  text-4xl">04</p>
                   <h4 className="text-sm font-display uppercase tracking-[0.4em] font-bold text-white/90">Delivery</h4>
                   <p className="text-white/30 text-xs leading-relaxed uppercase tracking-widest">GPS-tracked white-glove transit directly to your secure facility.</p>
                </div>

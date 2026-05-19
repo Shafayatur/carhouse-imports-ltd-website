@@ -33,12 +33,12 @@ export function FeaturedVehicles() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
-              className="text-4xl md:text-8xl font-serif italic font-light text-black leading-[0.85] tracking-tight"
+              className="text-4xl md:text-8xl font-serif  font-light text-black leading-[0.85] tracking-tight"
             >
               {heading.includes(" ") ? (
                 <>
                   {heading.split(" ").slice(0, -1).join(" ")} <br />
-                  <span className="not-italic font-display font-medium text-luxury-black/90 uppercase tracking-tighter">
+                  <span className=" font-display font-medium text-luxury-black/90 uppercase tracking-tighter">
                     {heading.split(" ").slice(-1)[0]}
                   </span>
                 </>

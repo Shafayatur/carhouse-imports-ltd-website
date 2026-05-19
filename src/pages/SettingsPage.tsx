@@ -29,7 +29,7 @@ export default function SettingsPage() {
       <div className="container mx-auto px-6 md:px-12 py-16">
         <div className="space-y-6 mb-24">
           <p className="text-gold text-[10px] uppercase tracking-[1em] font-black">Configuration</p>
-          <h1 className="text-6xl md:text-8xl font-serif italic tracking-tighter">Bespoke <span className="not-italic font-display font-medium uppercase text-white/90">Settings</span></h1>
+          <h1 className="text-6xl md:text-8xl font-serif  tracking-tighter">Bespoke <span className=" font-display font-medium uppercase text-white/90">Settings</span></h1>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-24 items-start">
@@ -47,13 +47,13 @@ export default function SettingsPage() {
                          {section.icon}
                       </div>
                       <div className="flex-1 space-y-6">
-                         <h3 className="text-2xl font-serif italic text-white">{section.title}</h3>
+                         <h3 className="text-2xl font-serif  text-white">{section.title}</h3>
                          <p className="text-white/30 text-sm uppercase tracking-widest leading-relaxed max-w-xl font-medium">{section.desc}</p>
                          
                          <div className="flex items-center gap-8 pt-4">
                             <button className="text-[10px] uppercase tracking-[0.3em] font-black text-gold hover:text-white transition-colors">Configure</button>
                             <div className="h-[1px] w-8 bg-white/5" />
-                            <span className="text-[9px] uppercase tracking-widest text-white/10 italic">Last modified April 2026</span>
+                            <span className="text-[9px] uppercase tracking-widest text-white/10 ">Last modified April 2026</span>
                          </div>
                       </div>
                    </div>

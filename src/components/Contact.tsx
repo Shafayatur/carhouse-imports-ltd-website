@@ -19,15 +19,15 @@ export function Contact() {
           <div className="grid grid-cols-2 md:grid-cols-3 gap-16">
             <div className="space-y-4">
               <p className="text-[10px] uppercase tracking-widest font-black text-white/20">Enquiries</p>
-              <p className="text-sm font-serif italic text-white/60">concierge@carhouse.uk</p>
+              <p className="text-sm font-serif  text-white/60">concierge@carhouse.uk</p>
             </div>
             <div className="space-y-4">
               <p className="text-[10px] uppercase tracking-widest font-black text-white/20">Locations</p>
-              <p className="text-sm font-serif italic text-white/60">London • Dubai • Tokyo</p>
+              <p className="text-sm font-serif  text-white/60">London • Dubai • Tokyo</p>
             </div>
             <div className="space-y-4 hidden md:block">
               <p className="text-[10px] uppercase tracking-widest font-black text-white/20">Social</p>
-              <p className="text-sm font-serif italic text-white/60 hover:text-gold cursor-pointer transition-colors">@carhouseimports</p>
+              <p className="text-sm font-serif  text-white/60 hover:text-gold cursor-pointer transition-colors">@carhouseimports</p>
             </div>
           </div>
         </div>

@@ -98,7 +98,7 @@ function HomePage() {
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1.5 }}
-                className="text-4xl md:text-7xl font-serif italic mb-8 max-w-5xl mx-auto leading-tight"
+                className="text-4xl md:text-7xl font-serif  mb-8 max-w-5xl mx-auto leading-tight"
               >
                 "Excellence is not an act, it is a habit."
               </motion.h3>

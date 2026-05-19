@@ -38,6 +38,7 @@ export interface Vehicle {
     customs_duty: number;
     shipping_cost: number;
     featured: boolean;
+    body_type: string;
 }
 
 export interface HeroSlide {

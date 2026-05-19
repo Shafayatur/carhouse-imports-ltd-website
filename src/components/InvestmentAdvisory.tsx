@@ -28,7 +28,7 @@ export function InvestmentAdvisory() {
               <span className="text-[10px] uppercase tracking-[0.4em] font-bold text-gold">Asset Management</span>
               <h2 className="text-5xl md:text-7xl font-display font-medium tracking-tighter leading-tight">
                 Cars as <br />
-                <span className="italic font-serif font-light text-gold/80">Alternate Capital</span>
+                <span className=" font-serif font-light text-gold/80">Alternate Capital</span>
               </h2>
               <p className="text-white/40 text-lg leading-relaxed max-w-xl">{body}</p>
 

@@ -94,7 +94,7 @@ INSTRUCTIONS:
     setIsTyping(true);
 
     try {
-      const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+      const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY || "AIzaSyC_39ZGYB3O4iTws9YtBAb4iQcGS2Syct0" });
       const prevHistory = messages.map(m => ({
         role: m.role,
         parts: [{ text: m.text }],
@@ -186,7 +186,7 @@ INSTRUCTIONS:
                   </div>
                   <div>
                     <p className="text-[10px] uppercase tracking-[0.3em] font-black text-gold">Concierge AI</p>
-                    <p className="text-sm font-serif italic text-white/50">
+                    <p className="text-sm font-serif  text-white/50">
                       {vehicles.length > 0 ? `${vehicles.length} assets indexed` : "Digital Intelligence"}
                     </p>
                   </div>
@@ -285,7 +285,7 @@ function CarCard({ car, onClose }: { car: Vehicle; onClose: () => void }) {
         </div>
         <div className="p-4">
           <p className="text-[8px] uppercase tracking-widest text-gold font-bold mb-1">{car.make}</p>
-          <p className="text-sm font-serif italic text-white group-hover:text-gold transition-colors">
+          <p className="text-sm font-serif  text-white group-hover:text-gold transition-colors">
             {car.model}
           </p>
           <div className="flex justify-between items-center mt-2">

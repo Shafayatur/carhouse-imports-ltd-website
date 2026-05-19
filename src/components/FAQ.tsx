@@ -35,7 +35,7 @@ export function FAQ() {
             className="text-center mb-24"
           >
             <p className="text-[10px] uppercase tracking-[0.8em] font-black text-gold mb-6">Common Enquiries</p>
-            <h2 className="text-4xl md:text-6xl font-serif italic text-white tracking-tighter">Strategic Intelligence</h2>
+            <h2 className="text-4xl md:text-6xl font-serif  text-white tracking-tighter">Strategic Intelligence</h2>
           </motion.div>
 
           <div className="space-y-4">
@@ -52,7 +52,7 @@ export function FAQ() {
                   onClick={() => setOpenIndex(openIndex === idx ? null : idx)}
                   className="w-full flex items-center justify-between p-8 text-left gap-8"
                 >
-                  <h3 className="text-lg md:text-xl font-serif italic text-white">{item.question}</h3>
+                  <h3 className="text-lg md:text-xl font-serif  text-white">{item.question}</h3>
                   <div className={`w-10 h-10 rounded-full border flex items-center justify-center shrink-0 transition-colors ${openIndex === idx ? "border-gold text-gold" : "border-white/10 text-white/30"}`}>
                     {openIndex === idx ? <Minus size={16} /> : <Plus size={16} />}
                   </div>

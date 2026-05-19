@@ -31,7 +31,7 @@ export function PartnerLogos() {
           <div className="inline-block px-4 py-2 bg-gold/10 rounded-full mb-6">
             <p className="text-[10px] uppercase tracking-[0.4em] font-black text-gold">Verified Strategic Network</p>
           </div>
-          <h2 className="text-4xl md:text-5xl font-serif italic text-white tracking-tighter leading-none">
+          <h2 className="text-4xl md:text-5xl font-serif  text-white tracking-tighter leading-none">
             Our global intelligence spans across the world's{" "}
             <span className="text-white/40">preeminent specialists.</span>
           </h2>

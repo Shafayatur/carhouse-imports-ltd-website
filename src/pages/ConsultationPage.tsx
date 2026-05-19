@@ -23,14 +23,14 @@ export default function ConsultationPage() {
              className="text-5xl md:text-8xl font-display font-medium tracking-tighter uppercase leading-[0.9] mb-12"
            >
              Bespoke <br />
-             <span className="italic font-serif font-light text-white/40 lowercase">Consultation</span>
+             <span className=" font-serif font-light text-white/40 lowercase">Consultation</span>
            </motion.h1>
            <motion.p 
              initial={{ opacity: 0, y: 30 }}
              whileInView={{ opacity: 1, y: 0 }}
              viewport={{ once: true }}
              transition={{ delay: 0.4 }}
-             className="text-xl md:text-2xl font-serif italic text-white/60 leading-relaxed"
+             className="text-xl md:text-2xl font-serif  text-white/60 leading-relaxed"
            >
              Our global network and automotive expertise are at your disposal. Whether sourcing a unique specimen or managing an existing collection, we provide the discretion and precision you require.
            </motion.p>
@@ -64,7 +64,7 @@ export default function ConsultationPage() {
               </div>
 
               <div className="p-12 border border-white/5 rounded-2xl bg-white/[0.02]">
-                 <h3 className="text-2xl font-serif italic mb-8">Direct Channels</h3>
+                 <h3 className="text-2xl font-serif  mb-8">Direct Channels</h3>
                  <div className="space-y-8">
                     <div className="flex items-center gap-6">
                        <Mail className="text-gold" size={20} />

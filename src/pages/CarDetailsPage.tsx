@@ -30,7 +30,7 @@ export default function CarDetailsPage() {
   if (!car) {
     return (
       <div className="bg-luxury-black min-h-screen text-white flex flex-col items-center justify-center gap-8">
-        <h1 className="text-4xl font-serif italic">Vehicle not found</h1>
+        <h1 className="text-4xl font-serif ">Vehicle not found</h1>
         <Link to="/inventory" className="text-gold uppercase tracking-widest border-b border-gold pb-2">
           Return to Inventory
         </Link>
@@ -90,7 +90,7 @@ export default function CarDetailsPage() {
               <p className="text-white/10 text-6xl font-display font-black tracking-tighter">
                 {car.make}
               </p>
-              <p className="text-white/5 text-3xl font-serif italic mt-2">
+              <p className="text-white/5 text-3xl font-serif  mt-2">
                 {car.model}
               </p>
             </div>
@@ -168,7 +168,7 @@ export default function CarDetailsPage() {
               <p className="text-[10px] uppercase tracking-[0.6em] font-black text-gold mb-4">
                 {car.make} • {car.year} • {car.origin}
               </p>
-              <h1 className="text-5xl md:text-7xl font-serif italic leading-tight mb-6">{car.model}</h1>
+              <h1 className="text-5xl md:text-7xl font-serif  leading-tight mb-6">{car.model}</h1>
               <p className="text-3xl font-display font-bold text-gold">{fmtPrice(car.selling_price)}</p>
             </div>
 

@@ -32,8 +32,8 @@ export default function UpdatesPage() {
         <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-12">
           <div className="space-y-6">
             <p className="text-gold text-[10px] uppercase tracking-[1em] font-black">Intelligence</p>
-            <h1 className="text-6xl md:text-8xl font-serif italic tracking-tighter">
-              Market <span className="not-italic font-display font-medium uppercase text-white/90">Updates</span>
+            <h1 className="text-6xl md:text-8xl font-serif  tracking-tighter">
+              Market <span className=" font-display font-medium uppercase text-white/90">Updates</span>
             </h1>
           </div>
         </div>
@@ -73,7 +73,7 @@ export default function UpdatesPage() {
                     <p className={`text-[9px] uppercase tracking-[0.4em] font-black ${notif.urgent ? "text-gold" : "text-white/20"}`}>{notif.type}</p>
                     <p className="text-[9px] uppercase tracking-[0.4em] font-black text-white/10">{timeAgo(notif.created_at)}</p>
                   </div>
-                  <h3 className="text-2xl md:text-3xl font-serif italic text-white group-hover:text-gold transition-colors">{notif.title}</h3>
+                  <h3 className="text-2xl md:text-3xl font-serif  text-white group-hover:text-gold transition-colors">{notif.title}</h3>
                   <p className="text-white/40 leading-relaxed max-w-2xl font-light text-lg">{notif.description}</p>
                   <button className="flex items-center gap-4 text-[10px] uppercase tracking-[0.3em] font-black text-white/60 hover:text-white transition-colors pt-4 group/btn">
                     Access Detailed Briefing <ArrowRight size={14} className="group-hover/btn:translate-x-2 transition-transform" />
@@ -88,7 +88,7 @@ export default function UpdatesPage() {
           <div className="absolute top-0 right-0 w-64 h-64 bg-gold/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
           <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-12">
             <div className="space-y-4">
-              <h4 className="text-2xl font-serif italic">Curated Subscription</h4>
+              <h4 className="text-2xl font-serif ">Curated Subscription</h4>
               <p className="text-white/40 text-xs uppercase tracking-widest leading-relaxed max-w-xl">
                 Join our inner circle for exclusive first-access to off-market inventory and global automotive intelligence briefings.
               </p>

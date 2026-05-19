@@ -93,14 +93,14 @@ export function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
                       </div>
                       <div className="flex-1 min-w-0">
                         <p className="text-[9px] uppercase tracking-[0.3em] font-black text-gold mb-1">{car.make}</p>
-                        <p className="text-2xl font-serif italic text-white/70 group-hover:text-white transition-colors truncate">{car.model}</p>
+                        <p className="text-2xl font-serif  text-white/70 group-hover:text-white transition-colors truncate">{car.model}</p>
                         <p className="text-[9px] text-white/20 uppercase tracking-wider font-black">{car.year} · {car.origin}</p>
                       </div>
                       <ArrowRight className="opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-500 text-gold shrink-0" size={20} />
                     </Link>
                   ))}
                   {vehicles.length === 0 && (
-                    <p className="text-white/20 text-sm font-serif italic">No vehicles in inventory yet.</p>
+                    <p className="text-white/20 text-sm font-serif ">No vehicles in inventory yet.</p>
                   )}
                 </div>
               </div>
@@ -121,7 +121,7 @@ export function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
                   ))}
                 </div>
                 <div className="p-12 border border-gold/10 bg-gold/[0.02] rounded-sm">
-                  <p className="text-xs font-serif italic text-white/60 leading-relaxed">
+                  <p className="text-xs font-serif  text-white/60 leading-relaxed">
                     "The Intelligence search index covers 2,400+ off-market chassis across our global partner network."
                   </p>
                 </div>

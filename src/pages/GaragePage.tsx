@@ -20,8 +20,8 @@ export default function GaragePage() {
         <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-12">
           <div className="space-y-6">
             <p className="text-gold text-[10px] uppercase tracking-[1em] font-black">Private Collection</p>
-            <h1 className="text-6xl md:text-8xl font-serif italic tracking-tighter">
-              Digital <span className="not-italic font-display font-medium uppercase text-white/90">Garage</span>
+            <h1 className="text-6xl md:text-8xl font-serif  tracking-tighter">
+              Digital <span className=" font-display font-medium uppercase text-white/90">Garage</span>
             </h1>
           </div>
           <div className="flex gap-4">
@@ -70,7 +70,7 @@ export default function GaragePage() {
                       <p className="text-gold text-[9px] uppercase tracking-widest font-black mb-2">
                         {car.condition} · {car.origin}
                       </p>
-                      <h3 className="text-3xl md:text-4xl font-serif italic text-white">
+                      <h3 className="text-3xl md:text-4xl font-serif  text-white">
                         {car.year} {car.make} {car.model}
                       </h3>
                     </div>
@@ -105,7 +105,7 @@ export default function GaragePage() {
         ) : (
           <div className="py-32 text-center space-y-8 bg-white/[0.01] border border-white/5 border-dashed">
             <Car size={64} className="text-white/5 mx-auto" />
-            <h3 className="text-2xl font-serif italic text-white/40">Your digital garage is currently empty.</h3>
+            <h3 className="text-2xl font-serif  text-white/40">Your digital garage is currently empty.</h3>
             <Link
               to="/inventory"
               className="inline-block py-6 px-12 bg-white text-black font-black uppercase text-[10px] tracking-[0.4em] hover:bg-gold transition-colors"
@@ -117,7 +117,7 @@ export default function GaragePage() {
 
         <div className="mt-32 p-12 bg-gold/[0.02] border border-gold/20 rounded-sm">
           <div className="max-w-3xl">
-            <h4 className="text-xl font-serif italic text-gold mb-6">Concierge Asset Management</h4>
+            <h4 className="text-xl font-serif  text-gold mb-6">Concierge Asset Management</h4>
             <p className="text-white/40 leading-relaxed uppercase tracking-widest text-[10px] font-medium">
               The Digital Garage allows you to track vehicles you own or are in the process of acquiring. For full mechanical logs, climate-controlled storage telemetry, and provenance documentation, please contact your private advisor.
             </p>

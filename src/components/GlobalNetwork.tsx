@@ -2,6 +2,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { Globe, ShieldCheck, Zap, Award, ChevronRight } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useSiteSettings } from "@/hooks/useSupabase";
+import { Link } from "react-router-dom";
 
 export function GlobalNetwork() {
    const [activeCard, setActiveCard] = useState(0);
@@ -37,13 +38,21 @@ export function GlobalNetwork() {
                <div className="flex flex-col lg:flex-row gap-24 items-center">
                   <div className="lg:w-1/2">
                      <p className="text-[10px] uppercase tracking-[10px] font-black text-gold mb-8 opacity-70">Infrastructure</p>
-                     <h2 className="text-6xl md:text-9xl font-serif italic leading-[0.8] tracking-tighter mb-12">
+                     <h2 className="text-6xl md:text-9xl font-serif  leading-[0.8] tracking-tighter mb-12">
                         Seamless <br />
-                        <span className="not-italic font-display font-medium text-white/90 uppercase">Acquisition</span>
+                        <span className=" font-display font-medium text-white/90 uppercase">Acquisition</span>
                      </h2>
-                     <p className="text-xl text-white/40 leading-relaxed font-light max-w-lg mb-16 border-l border-gold/30 pl-8">
+                     <p className="text-xl text-white/40 leading-relaxed font-light max-w-lg mb-12 border-l border-gold/30 pl-8">
                         Our global logistics network operates behind the scenes to ensure your vehicle arrives in pristine condition.
                      </p>
+
+                     <Link 
+                        to="/sourcing" 
+                        className="inline-flex items-center gap-4 group text-[10px] uppercase tracking-[0.4em] font-black text-white hover:text-gold transition-all duration-300 mb-16"
+                     >
+                        <span>Discover Sourcing Pipeline</span>
+                        <ChevronRight size={14} className="group-hover:translate-x-2 transition-transform duration-300 text-gold" />
+                     </Link>
                      <div className="hidden md:flex gap-16">
                         <div className="group">
                            <p className="text-6xl font-display font-black text-gold tracking-tighter group-hover:scale-110 transition-transform cursor-default">
@@ -68,7 +77,7 @@ export function GlobalNetwork() {
                               className="bg-white/5 backdrop-blur-sm p-10 border border-white/10 hover:border-gold/50 transition-all duration-500 group"
                            >
                               <div className="w-12 h-12 mb-8 text-gold group-hover:scale-110 transition-transform">{stat.icon}</div>
-                              <h4 className="text-xl font-serif italic mb-4 text-white group-hover:text-gold transition-colors">{stat.title}</h4>
+                              <h4 className="text-xl font-serif  mb-4 text-white group-hover:text-gold transition-colors">{stat.title}</h4>
                               <p className="text-white/30 leading-relaxed text-[10px] uppercase tracking-[0.1em] font-medium">{stat.desc}</p>
                            </motion.div>
                         ))}
@@ -92,7 +101,7 @@ export function GlobalNetwork() {
                                  >
                                     <div className="w-12 h-12 text-gold mb-6 border-b border-white/10 pb-4">{stat.icon}</div>
                                     <div>
-                                       <h4 className="text-2xl font-serif italic mb-3 text-white">{stat.title}</h4>
+                                       <h4 className="text-2xl font-serif  mb-3 text-white">{stat.title}</h4>
                                        <p className="text-white/40 text-[10px] leading-relaxed uppercase tracking-widest">{stat.desc}</p>
                                     </div>
                                     <div className="flex justify-between items-center mt-6">
@@ -128,7 +137,7 @@ export function GlobalNetwork() {
                <div className="text-center max-w-4xl">
                   <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 1 }}>
                      <p className="text-gold text-[10px] uppercase tracking-[1em] font-black mb-12">The Philosophy</p>
-                     <h3 className="text-5xl md:text-8xl font-serif italic text-white leading-tight">
+                     <h3 className="text-5xl md:text-8xl font-serif  text-white leading-tight">
                         "{quote}"
                      </h3>
                   </motion.div>

@@ -49,13 +49,13 @@ export function VideoSection({ videoUrl, title, subtitle, quote, reverse }: Vide
         >
           <div>
             <p className="text-[10px] uppercase tracking-[0.8em] font-black text-gold mb-6">{subtitle}</p>
-            <h3 className="text-6xl md:text-8xl font-serif italic leading-[0.85] tracking-tight">{title}</h3>
+            <h3 className="text-6xl md:text-8xl font-serif  leading-[0.85] tracking-tight">{title}</h3>
           </div>
           
           <div className="h-[2px] w-24 bg-gold" />
           
           {quote && (
-            <p className="text-white text-xl md:text-2xl font-light italic leading-relaxed opacity-80">
+            <p className="text-white text-xl md:text-2xl font-light  leading-relaxed opacity-80">
               "{quote}"
             </p>
           )}
