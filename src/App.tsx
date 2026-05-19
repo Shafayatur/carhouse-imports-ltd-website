@@ -55,6 +55,8 @@ function HomePage() {
             title={get("video1_title", "The Pursuit of Rarity")}
             subtitle={get("video1_subtitle", "Curated Discovery")}
             quote={get("video1_quote", "We find the vehicles that others don't even know exist.")}
+            buttonLink="/inventory"
+            buttonLabel="Explore Collection"
           />
 
           <GlobalNetwork />
@@ -71,6 +73,8 @@ function HomePage() {
             subtitle={get("video2_subtitle", "Logistics & Delivery")}
             quote={get("video2_quote", "From the port of Nagoya to the hills of Monaco, we bridge the gap between passion and possession.")}
             reverse
+            buttonLink="/sourcing"
+            buttonLabel="Discover Sourcing Process"
           />
 
           <Experience />

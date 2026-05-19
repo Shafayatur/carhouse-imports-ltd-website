@@ -1,6 +1,7 @@
 import { motion, useScroll, useTransform } from "motion/react";
 import { useRef } from "react";
 import { cn } from "@/lib/utils";
+import { Link } from "react-router-dom";
 
 interface VideoSectionProps {
   videoUrl: URL | string;
@@ -8,9 +9,11 @@ interface VideoSectionProps {
   subtitle: string;
   quote?: string;
   reverse?: boolean;
+  buttonLink?: string;
+  buttonLabel?: string;
 }
 
-export function VideoSection({ videoUrl, title, subtitle, quote, reverse }: VideoSectionProps) {
+export function VideoSection({ videoUrl, title, subtitle, quote, reverse, buttonLink, buttonLabel }: VideoSectionProps) {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -60,9 +63,18 @@ export function VideoSection({ videoUrl, title, subtitle, quote, reverse }: Vide
             </p>
           )}
 
-          <button className="px-12 py-5 border border-white/20 rounded-full text-[10px] uppercase tracking-[0.4em] font-black hover:bg-gold hover:text-black hover:border-gold transition-all duration-700">
-            Discover Process
-          </button>
+          {buttonLink ? (
+            <Link 
+              to={buttonLink}
+              className="inline-block px-12 py-5 border border-white/20 rounded-full text-[10px] uppercase tracking-[0.4em] font-black hover:bg-gold hover:text-black hover:border-gold transition-all duration-700"
+            >
+              {buttonLabel || "Discover Process"}
+            </Link>
+          ) : (
+            <button className="px-12 py-5 border border-white/20 rounded-full text-[10px] uppercase tracking-[0.4em] font-black hover:bg-gold hover:text-black hover:border-gold transition-all duration-700">
+              {buttonLabel || "Discover Process"}
+            </button>
+          )}
         </motion.div>
       </div>
     </section>
