@@ -20,7 +20,7 @@ export function PartnerLogos() {
   const doubled = [...list, ...list]; // for infinite scroll
 
   return (
-    <section className="py-32 bg-white/[0.02] border-y border-white/5 overflow-hidden">
+    <section id="strategic-network" className="py-32 bg-white/[0.02] border-y border-white/5 overflow-hidden">
       <div className="container mx-auto px-6 md:px-12">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

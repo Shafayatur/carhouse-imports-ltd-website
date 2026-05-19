@@ -16,7 +16,7 @@ export function FullMenu({ isOpen, onClose }: FullMenuProps) {
     { name: "Private Consultation", path: "/consultation" },
     { name: "Investment Advisory", path: "/advisory" },
     { name: "Racing Heritage", path: "/heritage" },
-    { name: "Brand History", path: "/" },
+    { name: "Brand History", path: "/#strategic-network" },
     { name: "Our Showrooms", path: "/" },
     { name: "Member Login", path: "/" },
     { name: "Legal & Terms", path: "/" },
