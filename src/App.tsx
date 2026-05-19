@@ -33,6 +33,7 @@ import ConsultationPage from "@/pages/ConsultationPage";
 import AdvisoryPage from "@/pages/AdvisoryPage";
 import HeritagePage from "@/pages/HeritagePage";
 import PhilosophyPage from "@/pages/PhilosophyPage";
+import ShowroomPage from "@/pages/ShowroomPage";
 import GaragePage from "@/pages/GaragePage";
 import WishlistPage from "@/pages/WishlistPage";
 import UpdatesPage from "@/pages/UpdatesPage";
@@ -172,6 +173,7 @@ export default function App() {
             <Route path="/advisory" element={<AdvisoryPage />} />
             <Route path="/heritage" element={<HeritagePage />} />
             <Route path="/philosophy" element={<PhilosophyPage />} />
+            <Route path="/showroom" element={<ShowroomPage />} />
             <Route path="/garage" element={<GaragePage />} />
             <Route path="/wishlist" element={<WishlistPage />} />
             <Route path="/updates" element={<UpdatesPage />} />
