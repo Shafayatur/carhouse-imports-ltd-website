@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 export function RacerSection() {
    return (
-      <section className="py-32 bg-luxury-black relative overflow-hidden">
+      <section className="pt-32 pb-12 bg-luxury-black relative overflow-hidden">
          {/* Decorative vertical line */}
          <div className="absolute left-1/2 top-0 w-[1px] h-32 bg-gold/30 -translate-x-1/2" />
 

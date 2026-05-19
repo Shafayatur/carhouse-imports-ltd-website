@@ -16,7 +16,7 @@ export function InvestmentAdvisory() {
   const image = "/images/advisory.jpg";
 
   return (
-    <section className="py-24 bg-luxury-gray text-white overflow-hidden border-t border-white/5">
+    <section className="pt-12 pb-24 bg-luxury-gray text-white overflow-hidden border-t border-white/5">
       <div className="container mx-auto px-6 md:px-12">
         <div className="flex flex-col lg:flex-row items-center gap-20">
           <div className="lg:w-1/2">
@@ -57,11 +57,11 @@ export function InvestmentAdvisory() {
               {/* Connected Sourcing/Advisory CTA Link */}
               <div className="pt-8">
                 <Link
-                   to="/advisory"
-                   className="inline-flex items-center gap-4 group text-[10px] uppercase tracking-[0.4em] font-black text-white hover:text-gold transition-all duration-300"
+                  to="/advisory"
+                  className="inline-flex items-center gap-4 group text-[10px] uppercase tracking-[0.4em] font-black text-white hover:text-gold transition-all duration-300"
                 >
-                   <span>Access Wealth Advisory Portal</span>
-                   <ChevronRight size={14} className="group-hover:translate-x-2 transition-transform duration-300 text-gold" />
+                  <span>Access Wealth Advisory Portal</span>
+                  <ChevronRight size={14} className="group-hover:translate-x-2 transition-transform duration-300 text-gold" />
                 </Link>
               </div>
             </motion.div>
