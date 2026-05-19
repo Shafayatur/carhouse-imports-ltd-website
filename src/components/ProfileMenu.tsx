@@ -12,7 +12,7 @@ export function ProfileMenu({ isOpen, onClose }: ProfileMenuProps) {
   const menuItems = [
     { icon: <Car size={18} />, label: "Digital Garage", desc: "View your saved configurations", path: "/garage" },
     { icon: <Heart size={18} />, label: "The Wishlist", desc: "Monitored vehicles & auctions", path: "/wishlist" },
-    { icon: <Shield size={18} />, label: "Member Status", desc: "Tier I Access Active", path: "/membership" },
+    { icon: <Shield size={18} />, label: "Member Status", desc: "Tier I Access Active", path: "/#membership" },
     { icon: <Bell size={18} />, label: "Notifications", desc: "3 new market updates", path: "/updates" },
     { icon: <Settings size={18} />, label: "Bespoke Settings", desc: "Interface & security", path: "/settings" },
   ];
