@@ -16,8 +16,8 @@ export function GlobalNetwork() {
    ];
 
    const importsCount = get("network_imports_count", "12k+");
-   const quote = get("network_philosophy_quote", "Finding the impossible, delivering the incredible.");
-   const bgImage = get("network_bg_image_url", "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&w=2670&auto=format&fit=crop");
+   const quote = get("network_philosophy_quote", "Finding the impossibleee, delivering the incredible.");
+   const bgImage = "/images/philosophy.jpg";
 
    useEffect(() => {
       const timer = setInterval(() => setActiveCard(p => (p + 1) % stats.length), 4000);
@@ -46,8 +46,8 @@ export function GlobalNetwork() {
                         Our global logistics network operates behind the scenes to ensure your vehicle arrives in pristine condition.
                      </p>
 
-                     <Link 
-                        to="/sourcing" 
+                     <Link
+                        to="/sourcing"
                         className="inline-flex items-center gap-4 group text-[10px] uppercase tracking-[0.4em] font-black text-white hover:text-gold transition-all duration-300 mb-16"
                      >
                         <span>Discover Sourcing Pipeline</span>
@@ -130,7 +130,7 @@ export function GlobalNetwork() {
                transition={{ duration: 2 }}
                className="absolute inset-0"
             >
-               <img src={bgImage} alt="" className="w-full h-full object-cover grayscale brightness-50" />
+               <img src={bgImage} alt="" className="w-full h-full object-cover brightness-50" />
             </motion.div>
             <div className="absolute inset-0 bg-gradient-to-b from-luxury-black via-transparent to-luxury-black" />
             <div className="absolute inset-0 flex items-center justify-center px-6">
