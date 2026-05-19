@@ -1,6 +1,5 @@
 import { motion, useScroll, useTransform } from "motion/react";
 import { Link } from "react-router-dom";
-import { Play } from "lucide-react";
 import { useRef } from "react";
 import { useSiteSettings } from "@/hooks/useSupabase";
 // hello 
@@ -74,25 +73,6 @@ export function Hero() {
                 {ctaText}
               </span>
             </Link>
-            {showreelUrl && (
-              <button
-                onClick={() => window.open(showreelUrl, "_blank")}
-                className="flex items-center gap-4 md:gap-6 text-white/60 hover:text-gold transition-all duration-500 group"
-              >
-                <div className="w-12 h-12 md:w-14 md:h-14 rounded-full border border-white/10 flex items-center justify-center group-hover:border-gold transition-colors">
-                  <Play size={16} className="fill-white group-hover:fill-gold transition-colors ml-1" />
-                </div>
-                <span className="text-[9px] md:text-[10px] uppercase tracking-[0.3em] font-bold">Watch Showreel</span>
-              </button>
-            )}
-            {!showreelUrl && (
-              <button className="flex items-center gap-4 md:gap-6 text-white/60 hover:text-gold transition-all duration-500 group">
-                <div className="w-12 h-12 md:w-14 md:h-14 rounded-full border border-white/10 flex items-center justify-center group-hover:border-gold transition-colors">
-                  <Play size={16} className="fill-white group-hover:fill-gold transition-colors ml-1" />
-                </div>
-                <span className="text-[9px] md:text-[10px] uppercase tracking-[0.3em] font-bold">Watch Showreel</span>
-              </button>
-            )}
           </motion.div>
         </motion.div>
       </div>
