@@ -22,6 +22,10 @@ export default function ScrollToTop() {
       }, 150);
       return () => clearTimeout(timer);
     } else {
+      const lenis = (window as any).__lenis;
+      if (lenis) {
+        lenis.scrollTo(0, { immediate: true });
+      }
       window.scrollTo(0, 0);
     }
   }, [pathname, hash]);
