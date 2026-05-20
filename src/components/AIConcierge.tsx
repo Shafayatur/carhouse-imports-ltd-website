@@ -94,7 +94,17 @@ INSTRUCTIONS:
     setIsTyping(true);
 
     try {
-      const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY || "AIzaSyC_39ZGYB3O4iTws9YtBAb4iQcGS2Syct0" });
+      const key = import.meta.env.VITE_GEMINI_API_KEY;
+      if (!key) {
+        setMessages(prev => [...prev, {
+          role: "model",
+          text: "AI Concierge is not configured. Missing API key. Please set VITE_GEMINI_API_KEY in your environment.",
+        }]);
+        setIsTyping(false);
+        return;
+      }
+
+      const ai = new GoogleGenAI({ apiKey: key });
       const prevHistory = messages.map(m => ({
         role: m.role,
         parts: [{ text: m.text }],
