@@ -1,10 +1,14 @@
 import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigationType } from "react-router-dom";
 
 export default function ScrollToTop() {
   const { pathname, hash } = useLocation();
+  const action = useNavigationType();
 
   useEffect(() => {
+    // Skip scroll to top if the user is navigating back
+    if (action === "POP") return;
+
     if (hash) {
       // Small timeout to allow the DOM to render (especially when navigating from a different page)
       const timer = setTimeout(() => {
@@ -28,7 +32,7 @@ export default function ScrollToTop() {
       }
       window.scrollTo(0, 0);
     }
-  }, [pathname, hash]);
+  }, [pathname, hash, action]);
 
   return null;
 }

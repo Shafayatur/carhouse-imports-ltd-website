@@ -156,9 +156,9 @@ export default function CarDetailsPage() {
               <h1 className="text-5xl md:text-7xl font-serif leading-tight">{car.model}</h1>
             </div>
             <div className="text-right">
-              <p className="text-[9px] uppercase tracking-widest text-white/30 mb-2">Asking Price</p>
-              <p className="text-4xl font-display font-bold text-gold">{fmtPrice(car.selling_price)}</p>
-              <p className="text-[10px] text-white/30 mt-2 uppercase tracking-widest">{car.status}</p>
+              <p className="text-[10px] uppercase tracking-widest text-white/30 mb-2">Asking Price</p>
+              <p className="text-5xl font-display font-bold text-gold">{fmtPrice(car.selling_price)}</p>
+              <p className="text-xs text-white/30 mt-2 uppercase tracking-widest">{car.status}</p>
             </div>
           </div>
 
@@ -173,8 +173,8 @@ export default function CarDetailsPage() {
                 className="bg-white/[0.03] border border-white/8 p-6 text-center"
               >
                 <div className="text-gold mx-auto mb-3 flex justify-center">{s.icon}</div>
-                <p className="text-white font-medium text-sm mb-1">{s.value}</p>
-                <p className="text-[9px] uppercase tracking-widest text-white/30 font-black">{s.label}</p>
+                <p className="text-white font-medium text-base mb-1">{s.value}</p>
+                <p className="text-[10px] uppercase tracking-widest text-white/30 font-black">{s.label}</p>
               </motion.div>
             ))}
           </div>
@@ -188,15 +188,15 @@ export default function CarDetailsPage() {
             {/* Description */}
             {car.description && (
               <div>
-                <p className="text-[10px] uppercase tracking-[0.6em] font-black text-white/30 mb-4">About This Vehicle</p>
-                <p className="text-white/70 leading-relaxed text-base">{car.description}</p>
+                <p className="text-xs uppercase tracking-[0.4em] font-black text-white/30 mb-4">About This Vehicle</p>
+                <p className="text-white/70 leading-relaxed text-lg">{car.description}</p>
               </div>
             )}
 
             {/* ══ GALLERY SECTION ══ */}
             {galleryImages.length > 0 && (
               <div>
-                <p className="text-[10px] uppercase tracking-[0.6em] font-black text-white/30 mb-6">
+                <p className="text-xs uppercase tracking-[0.4em] font-black text-white/30 mb-6">
                   Gallery <span className="text-white/20 normal-case tracking-normal font-normal">({galleryImages.length} images)</span>
                 </p>
 
@@ -273,7 +273,7 @@ export default function CarDetailsPage() {
             {/* ══ ENGINE SECTION ══ */}
             {(car.engine_image_url || car.description) && (
               <div>
-                <p className="text-[10px] uppercase tracking-[0.6em] font-black text-white/30 mb-6">Under The Hood</p>
+                <p className="text-xs uppercase tracking-[0.4em] font-black text-white/30 mb-6">Under The Hood</p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
                   {car.engine_image_url && (
                     <motion.div
@@ -302,8 +302,8 @@ export default function CarDetailsPage() {
                       ["Mileage", car.mileage ? `${car.mileage.toLocaleString()} km` : "—"],
                     ].map(([label, value]) => (
                       <div key={label} className="flex justify-between items-center border-b border-white/5 pb-3">
-                        <span className="text-[10px] uppercase tracking-wider text-white/30 font-black">{label}</span>
-                        <span className="text-sm text-white font-medium">{value || "—"}</span>
+                        <span className="text-xs uppercase tracking-wider text-white/30 font-black">{label}</span>
+                        <span className="text-base text-white font-medium">{value || "—"}</span>
                       </div>
                     ))}
                   </div>
@@ -331,7 +331,7 @@ export default function CarDetailsPage() {
             {/* ══ FEATURES SECTION ══ */}
             {activeFeatures.length > 0 && (
               <div>
-                <p className="text-[10px] uppercase tracking-[0.6em] font-black text-white/30 mb-6">Features & Comfort</p>
+                <p className="text-xs uppercase tracking-[0.4em] font-black text-white/30 mb-6">Features & Comfort</p>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                   {activeFeatures.map((feat, i) => (
                     <motion.div
@@ -344,7 +344,7 @@ export default function CarDetailsPage() {
                       <span className="text-gold flex-shrink-0">
                         {FEATURE_ICONS[feat] ?? <Check size={14} />}
                       </span>
-                      <span className="text-xs text-white/70">{feat}</span>
+                      <span className="text-sm text-white/70">{feat}</span>
                     </motion.div>
                   ))}
                 </div>
@@ -354,7 +354,7 @@ export default function CarDetailsPage() {
             {/* ══ DIMENSIONS SECTION ══ */}
             {hasDims && (
               <div>
-                <p className="text-[10px] uppercase tracking-[0.6em] font-black text-white/30 mb-6">Dimensions</p>
+                <p className="text-xs uppercase tracking-[0.4em] font-black text-white/30 mb-6">Dimensions</p>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   {[
                     { icon: <Maximize2 size={18} />, label: "Length", value: dims.length, unit: "mm" },
@@ -374,10 +374,10 @@ export default function CarDetailsPage() {
                       className="bg-white/[0.03] border border-white/8 p-5 text-center"
                     >
                       <div className="text-white/30 mx-auto mb-2 flex justify-center">{d.icon}</div>
-                      <p className="text-white font-medium text-sm">
-                        {d.value}{d.unit && <span className="text-white/40 text-xs ml-0.5">{d.unit}</span>}
+                      <p className="text-white font-medium text-base">
+                        {d.value}{d.unit && <span className="text-white/40 text-sm ml-0.5">{d.unit}</span>}
                       </p>
-                      <p className="text-[9px] uppercase tracking-widest text-white/30 font-black mt-1">{d.label}</p>
+                      <p className="text-[10px] uppercase tracking-widest text-white/30 font-black mt-1">{d.label}</p>
                     </motion.div>
                   ))}
                 </div>
@@ -386,12 +386,12 @@ export default function CarDetailsPage() {
 
             {/* Technical specs table */}
             <div>
-              <p className="text-[10px] uppercase tracking-[0.6em] font-black text-white/30 mb-6">Technical Specification</p>
+              <p className="text-xs uppercase tracking-[0.4em] font-black text-white/30 mb-6">Technical Specification</p>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-white/5">
                 {techDetails.map((d, i) => (
                   <div key={i} className="bg-luxury-black px-6 py-4 flex justify-between items-center">
-                    <span className="text-[10px] uppercase tracking-wider text-white/30 font-black">{d.label}</span>
-                    <span className="text-sm text-white font-medium">{d.value}</span>
+                    <span className="text-xs uppercase tracking-wider text-white/30 font-black">{d.label}</span>
+                    <span className="text-base text-white font-medium">{d.value}</span>
                   </div>
                 ))}
               </div>
@@ -399,7 +399,7 @@ export default function CarDetailsPage() {
 
             {/* Acquisition roadmap */}
             <div>
-              <p className="text-[10px] uppercase tracking-[0.6em] font-black text-white/30 mb-8">Acquisition Roadmap</p>
+              <p className="text-xs uppercase tracking-[0.4em] font-black text-white/30 mb-8">Acquisition Roadmap</p>
               <div className="space-y-px">
                 {roadmap.map((phase, i) => (
                   <motion.div
@@ -413,10 +413,10 @@ export default function CarDetailsPage() {
                       {phase.phase}
                     </span>
                     <div className="flex-1">
-                      <p className="font-display font-bold uppercase tracking-widest text-white mb-2">{phase.title}</p>
-                      <p className="text-white/30 text-sm leading-relaxed">{phase.desc}</p>
+                      <p className="font-display font-bold uppercase tracking-widest text-white mb-2 text-lg">{phase.title}</p>
+                      <p className="text-white/30 text-base leading-relaxed">{phase.desc}</p>
                     </div>
-                    <span className="text-[10px] uppercase tracking-wider text-gold/60 shrink-0 font-black">{phase.duration}</span>
+                    <span className="text-xs uppercase tracking-wider text-gold/60 shrink-0 font-black">{phase.duration}</span>
                   </motion.div>
                 ))}
               </div>
@@ -426,30 +426,30 @@ export default function CarDetailsPage() {
           {/* RIGHT col — sidebar */}
           <div className="space-y-6">
             <div className="bg-white/[0.03] border border-white/8 p-8 sticky top-32">
-              <p className="text-[10px] uppercase tracking-[0.4em] font-black text-gold mb-6">Initiate Acquisition</p>
-              <div className="space-y-3 mb-8">
+              <p className="text-xs uppercase tracking-[0.4em] font-black text-gold mb-6">Initiate Acquisition</p>
+              <div className="space-y-4 mb-8">
                 <div>
-                  <p className="text-[9px] uppercase tracking-wider text-white/30 mb-1">Vehicle</p>
-                  <p className="text-white font-medium">{car.year} {car.make} {car.model}</p>
+                  <p className="text-[10px] uppercase tracking-wider text-white/30 mb-1">Vehicle</p>
+                  <p className="text-white font-medium text-lg">{car.year} {car.make} {car.model}</p>
                 </div>
                 <div>
-                  <p className="text-[9px] uppercase tracking-wider text-white/30 mb-1">Asking Price</p>
-                  <p className="text-gold font-bold text-xl">{fmtPrice(car.selling_price)}</p>
+                  <p className="text-[10px] uppercase tracking-wider text-white/30 mb-1">Asking Price</p>
+                  <p className="text-gold font-bold text-2xl">{fmtPrice(car.selling_price)}</p>
                 </div>
                 <div>
-                  <p className="text-[9px] uppercase tracking-wider text-white/30 mb-1">Status</p>
-                  <p className="text-white">{car.status}</p>
+                  <p className="text-[10px] uppercase tracking-wider text-white/30 mb-1">Status</p>
+                  <p className="text-white text-lg">{car.status}</p>
                 </div>
               </div>
               <Link
                 to="/consultation"
-                className="block w-full py-4 bg-white text-black text-center text-[10px] uppercase tracking-[0.3em] font-black hover:bg-gold transition-colors duration-500"
+                className="block w-full py-4 bg-white text-black text-center text-xs uppercase tracking-[0.3em] font-black hover:bg-gold transition-colors duration-500"
               >
                 Request Consultation
               </Link>
               <Link
                 to="/sourcing"
-                className="block w-full py-4 border border-white/10 text-center text-[10px] uppercase tracking-[0.3em] font-black text-white/40 hover:text-white hover:border-white/30 transition-colors mt-3"
+                className="block w-full py-4 border border-white/10 text-center text-xs uppercase tracking-[0.3em] font-black text-white/40 hover:text-white hover:border-white/30 transition-colors mt-3"
               >
                 Custom Sourcing Enquiry
               </Link>
@@ -457,7 +457,7 @@ export default function CarDetailsPage() {
 
             {/* Key details */}
             <div className="bg-white/[0.03] border border-white/8 p-6 space-y-4">
-              <p className="text-[10px] uppercase tracking-[0.4em] font-black text-white/30">Key Details</p>
+              <p className="text-xs uppercase tracking-[0.4em] font-black text-white/30">Key Details</p>
               {[
                 ["Colour", car.color],
                 ["Mileage", car.mileage ? `${car.mileage.toLocaleString()} km` : "—"],
@@ -467,8 +467,8 @@ export default function CarDetailsPage() {
                 ...(dims.seats ? [["Seats", dims.seats]] : []),
               ].map(([label, value]) => (
                 <div key={label} className="flex justify-between items-center border-b border-white/5 pb-3">
-                  <span className="text-[10px] uppercase tracking-wider text-white/30 font-black">{label}</span>
-                  <span className="text-sm text-white">{value || "—"}</span>
+                  <span className="text-xs uppercase tracking-wider text-white/30 font-black">{label}</span>
+                  <span className="text-base text-white">{value || "—"}</span>
                 </div>
               ))}
             </div>
@@ -476,16 +476,16 @@ export default function CarDetailsPage() {
             {/* Features mini-list in sidebar */}
             {activeFeatures.length > 0 && (
               <div className="bg-white/[0.03] border border-white/8 p-6">
-                <p className="text-[10px] uppercase tracking-[0.4em] font-black text-white/30 mb-4">Highlights</p>
+                <p className="text-xs uppercase tracking-[0.4em] font-black text-white/30 mb-4">Highlights</p>
                 <div className="space-y-2">
                   {activeFeatures.slice(0, 6).map(feat => (
-                    <div key={feat} className="flex items-center gap-2">
-                      <Check size={11} className="text-gold flex-shrink-0" />
-                      <span className="text-xs text-white/60">{feat}</span>
+                    <div key={feat} className="flex items-center gap-3">
+                      <Check size={14} className="text-gold flex-shrink-0" />
+                      <span className="text-sm text-white/60">{feat}</span>
                     </div>
                   ))}
                   {activeFeatures.length > 6 && (
-                    <p className="text-[10px] text-white/30 uppercase tracking-wider mt-1">
+                    <p className="text-[10px] text-white/30 uppercase tracking-wider mt-2">
                       +{activeFeatures.length - 6} more features below ↓
                     </p>
                   )}
