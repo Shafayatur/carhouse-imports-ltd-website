@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
+import { GoBack } from "@/components/GoBack";
 import { Contact } from "@/components/Contact";
 import { motion } from "motion/react";
 import {
@@ -132,16 +133,7 @@ export default function CarDetailsPage() {
       </section>
 
       {/* Back nav */}
-      <div className="container mx-auto px-6 md:px-12 pt-4 pb-10">
-        <button
-          type="button"
-          onClick={() => navigate(-1)}
-          className="inline-flex items-center gap-3 text-white/30 hover:text-white transition-colors group"
-        >
-          <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
-          <span className="text-[10px] uppercase tracking-[0.4em] font-black">Go Back</span>
-        </button>
-      </div>
+      <GoBack className="pt-4 pb-10" />
 
       {/* ══ MAIN CONTENT ════════════════════════════════════════════ */}
       <section className="container mx-auto px-6 md:px-12 pb-32">

@@ -1,6 +1,7 @@
 import { motion } from "motion/react";
 import { ShieldCheck, FileText, Lock, Globe } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
+import { GoBack } from "@/components/GoBack";
 import { Contact } from "@/components/Contact";
 
 export default function LegalPage() {
@@ -60,6 +61,7 @@ export default function LegalPage() {
                </motion.h1>
             </div>
          </header>
+         <GoBack />
 
          {/* Page Content Layout */}
          <div className="container mx-auto px-6 md:px-12 py-20 max-w-4xl">

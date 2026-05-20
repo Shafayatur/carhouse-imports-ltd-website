@@ -1,4 +1,5 @@
 import { Navbar } from "@/components/Navbar";
+import { GoBack } from "@/components/GoBack";
 import { Contact } from "@/components/Contact";
 import { motion, AnimatePresence } from "motion/react";
 import { Globe, Shield, Truck, FileText, CheckCircle2, ShieldCheck, Loader2 } from "lucide-react";
@@ -81,6 +82,7 @@ export default function SourcingPage() {
                </motion.h1>
             </div>
          </header>
+         <GoBack />
 
          <section className="py-32 container mx-auto px-6 md:px-12">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-start">

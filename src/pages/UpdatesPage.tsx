@@ -1,4 +1,5 @@
 import { Navbar } from "@/components/Navbar";
+import { GoBack } from "@/components/GoBack";
 import { Contact } from "@/components/Contact";
 import { motion } from "motion/react";
 import { ArrowRight, Zap, Globe, Package, Trophy } from "lucide-react";
@@ -27,6 +28,7 @@ export default function UpdatesPage() {
   return (
     <main className="bg-luxury-black min-h-screen pt-32 selection:bg-gold selection:text-black text-white">
       <Navbar />
+      <GoBack />
 
       <div className="container mx-auto px-6 md:px-12 py-16">
         <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-12">

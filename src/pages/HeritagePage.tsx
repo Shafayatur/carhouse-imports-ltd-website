@@ -1,4 +1,5 @@
 import { Navbar } from "@/components/Navbar";
+import { GoBack } from "@/components/GoBack";
 import { Contact } from "@/components/Contact";
 import { motion } from "motion/react";
 import { Trophy, History, Zap, Flag, Timer, Award, MessageSquare } from "lucide-react";
@@ -85,6 +86,7 @@ export default function HeritagePage() {
             </motion.h1>
          </div>
       </section>
+      <GoBack />
 
       {/* Avik Anwar: The Pioneer Bio Section */}
       <section className="py-32 container mx-auto px-6 md:px-12 border-b border-white/5">

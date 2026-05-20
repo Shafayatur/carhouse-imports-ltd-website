@@ -2,6 +2,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { ArrowRight, Calendar, Globe, ShieldCheck, Mail, Phone, Loader2, Lock } from "lucide-react";
 import { useState } from "react";
 import { Navbar } from "@/components/Navbar";
+import { GoBack } from "@/components/GoBack";
 import { submitEnquiry } from "@/lib/supabase";
 
 export default function ConsultationPage() {
@@ -75,6 +76,7 @@ export default function ConsultationPage() {
           </motion.h1>
         </div>
       </header>
+      <GoBack />
 
       {/* Page Content Grid */}
       <div className="container mx-auto px-6 md:px-12 py-20">

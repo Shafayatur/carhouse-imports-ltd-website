@@ -1,4 +1,5 @@
 import { Navbar } from "@/components/Navbar";
+import { GoBack } from "@/components/GoBack";
 import { Contact } from "@/components/Contact";
 import { motion } from "motion/react";
 import { Shield, Globe, Lock } from "lucide-react";
@@ -56,6 +57,7 @@ export default function PhilosophyPage() {
           </motion.h1>
         </div>
       </header>
+      <GoBack />
 
       {/* Main Narrative Section */}
       <section className="container mx-auto px-6 md:px-12 py-20">

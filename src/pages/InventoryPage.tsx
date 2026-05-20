@@ -1,5 +1,6 @@
 import { useState, useMemo } from "react";
 import { Navbar } from "@/components/Navbar";
+import { GoBack } from "@/components/GoBack";
 import { Contact } from "@/components/Contact";
 import { motion, AnimatePresence } from "motion/react";
 import { Link } from "react-router-dom";
@@ -94,6 +95,7 @@ export default function InventoryPage() {
   return (
     <main className="bg-luxury-black min-h-screen pt-32 selection:bg-gold selection:text-black text-white">
       <Navbar />
+      <GoBack />
 
       {/* Header */}
       <section className="container mx-auto px-6 md:px-12 pb-8 border-b border-white/5 relative z-20 bg-luxury-black">

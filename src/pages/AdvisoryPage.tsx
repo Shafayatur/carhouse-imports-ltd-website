@@ -1,4 +1,5 @@
 import { Navbar } from "@/components/Navbar";
+import { GoBack } from "@/components/GoBack";
 import { Contact } from "@/components/Contact";
 import { motion, AnimatePresence } from "motion/react";
 import { 
@@ -186,6 +187,7 @@ export default function AdvisoryPage() {
           </motion.h1>
         </div>
       </header>
+      <GoBack />
 
       {/* Philosophy & Pillars Grid Section (Compact layout, bold fonts) */}
       <section className="py-20 border-b border-white/5">
