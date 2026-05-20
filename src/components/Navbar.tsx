@@ -43,7 +43,6 @@ export function Navbar() {
           <nav className="hidden lg:flex items-center gap-8 text-[10px] uppercase tracking-[0.3em] font-bold text-white/50">
             <Link to="/inventory" className="hover:text-white transition-colors classic-underline">Inventory</Link>
             <Link to="/sourcing" className="hover:text-white transition-colors classic-underline">Sourcing</Link>
-            <Link to="/consultation" className="hover:text-white transition-colors classic-underline">Consultation</Link>
           </nav>
         </div>
 
