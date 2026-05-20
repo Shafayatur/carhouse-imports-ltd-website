@@ -3,21 +3,35 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
 import { Contact } from "@/components/Contact";
 import { motion } from "motion/react";
-import { ArrowLeft, Heart, ShieldCheck, Gauge, Zap, Wind, Activity } from "lucide-react";
+import {
+  ArrowLeft, Heart, ShieldCheck, Gauge, Zap, Wind, Activity,
+  Check, X, Maximize2, Weight, Users, DoorOpen,
+} from "lucide-react";
 import { useWishlist } from "@/context/WishlistContext";
 import { useVehicle } from "@/hooks/useSupabase";
-
 
 function fmtPrice(n: number) {
   return n ? "৳ " + Math.round(n).toLocaleString("en-BD") : "Price on Request";
 }
+
+// ─── Feature icon map (best-effort, falls back to Check) ─────────────────────
+const FEATURE_ICONS: Record<string, React.ReactNode> = {
+  "Sunroof / Moonroof": <span className="text-lg">⊙</span>,
+  "Leather Seats": <span className="text-lg">◈</span>,
+  "Apple CarPlay": <span className="text-lg">⌘</span>,
+  "Android Auto": <span className="text-lg">⟳</span>,
+  "360° Camera": <span className="text-lg">◎</span>,
+  "4WD / AWD": <span className="text-lg">✦</span>,
+};
 
 export default function CarDetailsPage() {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const { vehicle: car, loading } = useVehicle(id);
   const { toggleWishlist, isInWishlist } = useWishlist();
-  const [activeImage, setActiveImage] = useState(0);
+  const [galleryExpanded, setGalleryExpanded] = useState<number>(0);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [engineExpanded, setEngineExpanded] = useState(false);
 
   if (loading) {
     return (
@@ -30,7 +44,7 @@ export default function CarDetailsPage() {
   if (!car) {
     return (
       <div className="bg-luxury-black min-h-screen text-white flex flex-col items-center justify-center gap-8">
-        <h1 className="text-4xl font-serif ">Vehicle not found</h1>
+        <h1 className="text-4xl font-serif">Vehicle not found</h1>
         <Link to="/inventory" className="text-gold uppercase tracking-widest border-b border-gold pb-2">
           Return to Inventory
         </Link>
@@ -38,10 +52,14 @@ export default function CarDetailsPage() {
     );
   }
 
-  const allImages = [
-    ...(car.image_url ? [car.image_url] : []),
-    ...(car.gallery_urls ?? []),
-  ];
+  const galleryImages = car.gallery_urls ?? [];
+
+  const activeFeatures = car.features
+    ? Object.keys(car.features).filter(k => car.features[k])
+    : [];
+
+  const dims = car.dimensions ?? {};
+  const hasDims = Object.values(dims).some(v => v && v !== "");
 
   const mainSpecs = [
     { icon: <Gauge size={20} />, label: "Engine", value: `${car.engine_cc}cc` },
@@ -59,7 +77,7 @@ export default function CarDetailsPage() {
     { label: "Transmission", value: car.transmission || "—" },
     { label: "Fuel Type", value: car.fuel_type || "—" },
     { label: "Mileage", value: car.mileage ? `${car.mileage.toLocaleString()} km` : "—" },
-    { label: "Drivetrain", value: "—" },
+    { label: "Drivetrain", value: dims.seats ? `${dims.seats}-seater` : "—" },
     { label: "Origin", value: car.origin || "—" },
     { label: "Chassis No.", value: car.chassis_no || "—" },
     { label: "VIN", value: car.vin || "—" },
@@ -76,68 +94,41 @@ export default function CarDetailsPage() {
     <main className="bg-luxury-black min-h-screen selection:bg-gold selection:text-black text-white">
       <Navbar />
 
-      {/* Hero image */}
+      {/* ══ HERO IMAGE ══════════════════════════════════════════════ */}
       <section className="w-full mb-8 -mt-0">
         <div className="relative w-full h-screen overflow-hidden bg-luxury-gray">
-          {allImages.length > 0 ? (
+          {car.image_url ? (
             <img
-              src={allImages[activeImage]}
+              src={car.image_url}
               alt={`${car.make} ${car.model}`}
-              className="w-full h-full object-cover transition-all duration-700"
+              className="w-full h-full object-cover"
             />
           ) : (
             <div className="w-full h-full flex flex-col items-center justify-center bg-luxury-gray">
-              <p className="text-white/10 text-6xl font-display font-black tracking-tighter">
-                {car.make}
-              </p>
-              <p className="text-white/5 text-3xl font-serif  mt-2">
-                {car.model}
-              </p>
+              <p className="text-white/10 text-6xl font-display font-black tracking-tighter">{car.make}</p>
+              <p className="text-white/5 text-3xl font-serif mt-2">{car.model}</p>
             </div>
           )}
-
           <div className="absolute inset-0 bg-gradient-to-t from-luxury-black/90 via-luxury-black/20 to-luxury-black/40" />
 
           {/* Wishlist */}
           <button
             onClick={() => toggleWishlist(car.id)}
             className={`absolute top-28 right-6 md:right-12 w-12 h-12 rounded-full border backdrop-blur-md flex items-center justify-center transition-all duration-500 ${isInWishlist(car.id)
-              ? "bg-gold text-black border-gold"
-              : "bg-black/20 text-white/40 border-white/10 hover:text-white"
+                ? "bg-gold text-black border-gold"
+                : "bg-black/20 text-white/40 border-white/10 hover:text-white"
               }`}
           >
             <Heart size={18} fill={isInWishlist(car.id) ? "currentColor" : "none"} />
           </button>
 
-          {/* Status */}
+          {/* Status badge */}
           {car.status && car.status !== "Available" && (
             <div className="absolute bottom-8 left-6 md:left-12 px-4 py-2 bg-black/60 backdrop-blur-sm">
-              <p className="text-[10px] uppercase tracking-widest font-black text-gold">
-                {car.status}
-              </p>
+              <p className="text-[10px] uppercase tracking-widest font-black text-gold">{car.status}</p>
             </div>
           )}
         </div>
-
-        {/* Gallery thumbnails */}
-        {allImages.length > 1 && (
-          <div className="container mx-auto px-6 md:px-12">
-            <div className="flex gap-3 mt-4 overflow-x-auto pb-2">
-              {allImages.map((img, i) => (
-                <button
-                  key={i}
-                  onClick={() => setActiveImage(i)}
-                  className={`shrink-0 w-24 h-16 overflow-hidden rounded-sm border transition-all ${activeImage === i
-                    ? "border-gold"
-                    : "border-white/10 opacity-50 hover:opacity-100"
-                    }`}
-                >
-                  <img src={img} alt="" className="w-full h-full object-cover" />
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
       </section>
 
       {/* Back nav */}
@@ -147,47 +138,251 @@ export default function CarDetailsPage() {
           onClick={() => navigate(-1)}
           className="inline-flex items-center gap-3 text-white/30 hover:text-white transition-colors group"
         >
-          <ArrowLeft
-            size={16}
-            className="group-hover:-translate-x-1 transition-transform"
-          />
-          <span className="text-[10px] uppercase tracking-[0.4em] font-black">
-            Go Back
-          </span>
+          <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
+          <span className="text-[10px] uppercase tracking-[0.4em] font-black">Go Back</span>
         </button>
       </div>
 
-      {/* Content */}
+      {/* ══ MAIN CONTENT ════════════════════════════════════════════ */}
       <section className="container mx-auto px-6 md:px-12 pb-32">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-16">
 
-          {/* Left: main info */}
-          <div className="lg:col-span-2 space-y-16">
-            {/* Title + price */}
+        {/* Full-width title + quick specs */}
+        <div className="mb-16 space-y-10">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
             <div>
               <p className="text-[10px] uppercase tracking-[0.6em] font-black text-gold mb-4">
                 {car.make} • {car.year} • {car.origin}
               </p>
-              <h1 className="text-5xl md:text-7xl font-serif  leading-tight mb-6">{car.model}</h1>
-              <p className="text-3xl font-display font-bold text-gold">{fmtPrice(car.selling_price)}</p>
+              <h1 className="text-5xl md:text-7xl font-serif leading-tight">{car.model}</h1>
             </div>
+            <div className="text-right">
+              <p className="text-[9px] uppercase tracking-widest text-white/30 mb-2">Asking Price</p>
+              <p className="text-4xl font-display font-bold text-gold">{fmtPrice(car.selling_price)}</p>
+              <p className="text-[10px] text-white/30 mt-2 uppercase tracking-widest">{car.status}</p>
+            </div>
+          </div>
 
-            {/* Quick specs */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {mainSpecs.map((s, i) => (
+          {/* Quick specs — full width 4 cols */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {mainSpecs.map((s, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.1 }}
+                className="bg-white/[0.03] border border-white/8 p-6 text-center"
+              >
+                <div className="text-gold mx-auto mb-3 flex justify-center">{s.icon}</div>
+                <p className="text-white font-medium text-sm mb-1">{s.value}</p>
+                <p className="text-[9px] uppercase tracking-widest text-white/30 font-black">{s.label}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-16">
+
+          {/* LEFT col */}
+          <div className="lg:col-span-2 space-y-20">
+
+            {/* Description */}
+            {car.description && (
+              <div>
+                <p className="text-[10px] uppercase tracking-[0.6em] font-black text-white/30 mb-4">About This Vehicle</p>
+                <p className="text-white/70 leading-relaxed text-base">{car.description}</p>
+              </div>
+            )}
+
+            {/* ══ GALLERY SECTION ══ */}
+            {galleryImages.length > 0 && (
+              <div>
+                <p className="text-[10px] uppercase tracking-[0.6em] font-black text-white/30 mb-6">
+                  Gallery <span className="text-white/20 normal-case tracking-normal font-normal">({galleryImages.length} images)</span>
+                </p>
+
+                {/* Featured large image */}
                 <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.1 }}
-                  className="bg-white/[0.03] border border-white/8 p-6 text-center"
+                  key={galleryExpanded ?? 0}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.4 }}
+                  className="w-full aspect-video overflow-hidden border border-white/8 mb-2 cursor-zoom-in group relative"
+                  onClick={() => setLightboxOpen(true)}
                 >
-                  <div className="text-gold mx-auto mb-3 flex justify-center">{s.icon}</div>
-                  <p className="text-white font-medium text-sm mb-1">{s.value}</p>
-                  <p className="text-[9px] uppercase tracking-widest text-white/30 font-black">{s.label}</p>
+                  <img
+                    src={galleryImages[galleryExpanded ?? 0]}
+                    alt={`${car.make} ${car.model}`}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  />
+                  <div className="absolute bottom-3 right-3 bg-black/60 px-2 py-1">
+                    <p className="text-[9px] uppercase tracking-widest text-white/50">{(galleryExpanded ?? 0) + 1} / {galleryImages.length}</p>
+                  </div>
                 </motion.div>
-              ))}
-            </div>
+
+                {/* Thumbnail strip */}
+                <div className="flex gap-2 overflow-x-auto pb-1">
+                  {galleryImages.map((img, i) => (
+                    <button
+                      key={i}
+                      onClick={() => setGalleryExpanded(i)}
+                      className={`shrink-0 w-20 h-14 overflow-hidden border transition-all ${(galleryExpanded ?? 0) === i ? "border-gold opacity-100" : "border-white/8 opacity-50 hover:opacity-80"
+                        }`}
+                    >
+                      <img src={img} alt="" className="w-full h-full object-cover" />
+                    </button>
+                  ))}
+                </div>
+                <p className="text-[10px] text-white/20 mt-3 uppercase tracking-widest">
+                  Click thumbnail to swap · Click main image to enlarge
+                </p>
+
+                {/* Lightbox */}
+                {lightboxOpen && (
+                  <div
+                    className="fixed inset-0 z-50 bg-black/95 flex flex-col items-center justify-center p-6"
+                    onClick={() => setLightboxOpen(false)}
+                  >
+                    <button
+                      className="absolute top-6 right-6 text-white/40 hover:text-white transition-colors"
+                      onClick={() => setLightboxOpen(false)}
+                    >
+                      <X size={28} />
+                    </button>
+                    <img
+                      src={galleryImages[galleryExpanded]}
+                      alt=""
+                      className="max-w-full max-h-[80vh] object-contain"
+                      onClick={e => e.stopPropagation()}
+                    />
+                    <div className="flex gap-6 mt-6">
+                      <button
+                        onClick={e => { e.stopPropagation(); setGalleryExpanded(i => i > 0 ? i - 1 : galleryImages.length - 1); }}
+                        className="text-white/40 hover:text-white text-[10px] uppercase tracking-widest px-4 py-2 border border-white/10 hover:border-white/30 transition-all"
+                      >← Prev</button>
+                      <span className="text-white/20 text-xs self-center">{galleryExpanded + 1} / {galleryImages.length}</span>
+                      <button
+                        onClick={e => { e.stopPropagation(); setGalleryExpanded(i => i < galleryImages.length - 1 ? i + 1 : 0); }}
+                        className="text-white/40 hover:text-white text-[10px] uppercase tracking-widest px-4 py-2 border border-white/10 hover:border-white/30 transition-all"
+                      >Next →</button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* ══ ENGINE SECTION ══ */}
+            {(car.engine_image_url || car.description) && (
+              <div>
+                <p className="text-[10px] uppercase tracking-[0.6em] font-black text-white/30 mb-6">Under The Hood</p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+                  {car.engine_image_url && (
+                    <motion.div
+                      initial={{ opacity: 0, x: -20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      className="relative group cursor-pointer"
+                      onClick={() => setEngineExpanded(true)}
+                    >
+                      <img
+                        src={car.engine_image_url}
+                        alt="Engine bay"
+                        className="w-full aspect-[4/3] object-cover border border-white/10 group-hover:border-gold/40 transition-all duration-500"
+                      />
+                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-500 flex items-center justify-center">
+                        <Maximize2 size={24} className="text-white opacity-0 group-hover:opacity-60 transition-opacity" />
+                      </div>
+                      <p className="text-[9px] uppercase tracking-widest text-white/20 mt-2">Engine bay — tap to enlarge</p>
+                    </motion.div>
+                  )}
+                  <div className="space-y-4">
+                    {[
+                      ["Engine", `${car.engine_cc}cc`],
+                      ["Fuel Type", car.fuel_type],
+                      ["Transmission", car.transmission],
+                      ["Condition", car.condition],
+                      ["Mileage", car.mileage ? `${car.mileage.toLocaleString()} km` : "—"],
+                    ].map(([label, value]) => (
+                      <div key={label} className="flex justify-between items-center border-b border-white/5 pb-3">
+                        <span className="text-[10px] uppercase tracking-wider text-white/30 font-black">{label}</span>
+                        <span className="text-sm text-white font-medium">{value || "—"}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Engine image lightbox */}
+            {engineExpanded && car.engine_image_url && (
+              <div
+                className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-8"
+                onClick={() => setEngineExpanded(false)}
+              >
+                <button className="absolute top-6 right-6 text-white/40 hover:text-white transition-colors">
+                  <X size={28} />
+                </button>
+                <img
+                  src={car.engine_image_url}
+                  alt="Engine bay full"
+                  className="max-w-full max-h-full object-contain"
+                />
+              </div>
+            )}
+
+            {/* ══ FEATURES SECTION ══ */}
+            {activeFeatures.length > 0 && (
+              <div>
+                <p className="text-[10px] uppercase tracking-[0.6em] font-black text-white/30 mb-6">Features & Comfort</p>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                  {activeFeatures.map((feat, i) => (
+                    <motion.div
+                      key={feat}
+                      initial={{ opacity: 0, y: 10 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      transition={{ delay: i * 0.04 }}
+                      className="flex items-center gap-3 bg-white/[0.03] border border-white/8 px-4 py-3 hover:border-gold/20 transition-colors"
+                    >
+                      <span className="text-gold flex-shrink-0">
+                        {FEATURE_ICONS[feat] ?? <Check size={14} />}
+                      </span>
+                      <span className="text-xs text-white/70">{feat}</span>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* ══ DIMENSIONS SECTION ══ */}
+            {hasDims && (
+              <div>
+                <p className="text-[10px] uppercase tracking-[0.6em] font-black text-white/30 mb-6">Dimensions</p>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  {[
+                    { icon: <Maximize2 size={18} />, label: "Length", value: dims.length, unit: "mm" },
+                    { icon: <Maximize2 size={18} className="rotate-90" />, label: "Width", value: dims.width, unit: "mm" },
+                    { icon: <Activity size={18} />, label: "Height", value: dims.height, unit: "mm" },
+                    { icon: <Maximize2 size={18} />, label: "Wheelbase", value: dims.wheelbase, unit: "mm" },
+                    { icon: <Weight size={18} />, label: "Kerb Weight", value: dims.kerb_weight, unit: "kg" },
+                    { icon: <Maximize2 size={18} />, label: "Boot Space", value: dims.boot_space, unit: "L" },
+                    { icon: <DoorOpen size={18} />, label: "Doors", value: dims.doors, unit: "" },
+                    { icon: <Users size={18} />, label: "Seats", value: dims.seats, unit: "" },
+                  ].filter(d => d.value).map((d, i) => (
+                    <motion.div
+                      key={d.label}
+                      initial={{ opacity: 0, y: 16 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      transition={{ delay: i * 0.06 }}
+                      className="bg-white/[0.03] border border-white/8 p-5 text-center"
+                    >
+                      <div className="text-white/30 mx-auto mb-2 flex justify-center">{d.icon}</div>
+                      <p className="text-white font-medium text-sm">
+                        {d.value}{d.unit && <span className="text-white/40 text-xs ml-0.5">{d.unit}</span>}
+                      </p>
+                      <p className="text-[9px] uppercase tracking-widest text-white/30 font-black mt-1">{d.label}</p>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {/* Technical specs table */}
             <div>
@@ -228,7 +423,7 @@ export default function CarDetailsPage() {
             </div>
           </div>
 
-          {/* Right: enquiry sidebar */}
+          {/* RIGHT col — sidebar */}
           <div className="space-y-6">
             <div className="bg-white/[0.03] border border-white/8 p-8 sticky top-32">
               <p className="text-[10px] uppercase tracking-[0.4em] font-black text-gold mb-6">Initiate Acquisition</p>
@@ -260,7 +455,7 @@ export default function CarDetailsPage() {
               </Link>
             </div>
 
-            {/* Key details card */}
+            {/* Key details */}
             <div className="bg-white/[0.03] border border-white/8 p-6 space-y-4">
               <p className="text-[10px] uppercase tracking-[0.4em] font-black text-white/30">Key Details</p>
               {[
@@ -268,6 +463,8 @@ export default function CarDetailsPage() {
                 ["Mileage", car.mileage ? `${car.mileage.toLocaleString()} km` : "—"],
                 ["Origin", car.origin],
                 ["Port", car.port],
+                ...(dims.doors ? [["Doors", dims.doors]] : []),
+                ...(dims.seats ? [["Seats", dims.seats]] : []),
               ].map(([label, value]) => (
                 <div key={label} className="flex justify-between items-center border-b border-white/5 pb-3">
                   <span className="text-[10px] uppercase tracking-wider text-white/30 font-black">{label}</span>
@@ -275,6 +472,26 @@ export default function CarDetailsPage() {
                 </div>
               ))}
             </div>
+
+            {/* Features mini-list in sidebar */}
+            {activeFeatures.length > 0 && (
+              <div className="bg-white/[0.03] border border-white/8 p-6">
+                <p className="text-[10px] uppercase tracking-[0.4em] font-black text-white/30 mb-4">Highlights</p>
+                <div className="space-y-2">
+                  {activeFeatures.slice(0, 6).map(feat => (
+                    <div key={feat} className="flex items-center gap-2">
+                      <Check size={11} className="text-gold flex-shrink-0" />
+                      <span className="text-xs text-white/60">{feat}</span>
+                    </div>
+                  ))}
+                  {activeFeatures.length > 6 && (
+                    <p className="text-[10px] text-white/30 uppercase tracking-wider mt-1">
+                      +{activeFeatures.length - 6} more features below ↓
+                    </p>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
 
         </div>
