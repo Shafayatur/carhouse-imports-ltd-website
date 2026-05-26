@@ -1,6 +1,6 @@
 import { motion, useScroll, useTransform } from "motion/react";
 import { Link } from "react-router-dom";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useSiteSettings } from "@/hooks/useSupabase";
 // hello 
 export function Hero() {
@@ -19,7 +19,7 @@ export function Hero() {
   const headline = get("hero_title", "The Art of Superiority");
   const videoUrl = get("hero_video_url", "/videos/hero.mp4");
   const ctaText = get("hero_cta_text", "Explore Collectionsssss");
-  const showreelUrl = get("hero_showreel_url", "");
+  const [videoLoaded, setVideoLoaded] = useState(false);
 
   return (
     <section ref={containerRef} className="relative h-screen w-full overflow-hidden flex items-center justify-center bg-black">
@@ -28,10 +28,16 @@ export function Hero() {
           {/* Video Background */}
           <motion.div style={{ y, scale }} className="absolute inset-0 z-0">
             <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/20 to-black/80 z-10" />
+
+            {/* Loading overlay — fades out once video is ready */}
+            <div className={`absolute inset-0 z-20 bg-black flex items-center justify-center transition-opacity duration-1000 ${videoLoaded ? "opacity-0 pointer-events-none" : "opacity-100"}`}>
+              <div className="w-7 h-7 border border-white/20 border-t-white/70 rounded-full animate-spin" />
+            </div>
+
             <video
               autoPlay loop muted playsInline
+              onCanPlay={() => setVideoLoaded(true)}
               className="w-full h-full object-cover brightness-100"
-              poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
             >
               <source src={videoUrl} type="video/mp4" />
             </video>
