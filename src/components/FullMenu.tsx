@@ -1,7 +1,8 @@
 import { motion, AnimatePresence } from "motion/react";
 import { Link, useLocation } from "react-router-dom";
-import { X, Instagram, Twitter, Linkedin, Globe, Car, BookOpen, Wrench, Phone, Shield, Info } from "lucide-react";
+import { X, Instagram, Twitter, Linkedin, Globe, Car, BookOpen, Wrench, Phone, Shield, Info, GitCompareArrows } from "lucide-react";
 import { useEffect } from "react";
+import { useCompare } from "@/context/CompareContext";
 
 interface FullMenuProps {
   isOpen: boolean;
@@ -14,6 +15,7 @@ const menuSections = [
     label: "The Collection",
     items: [
       { icon: <Car size={18} />, name: "Inventory", desc: "Browse available vehicles", path: "/inventory" },
+      { icon: <GitCompareArrows size={18} />, name: "Compare Cars", desc: "Side-by-side vehicle comparison", path: "/compare" },
       { icon: <Globe size={18} />, name: "Global Sourcing", desc: "We find it anywhere in the world", path: "/sourcing" },
       { icon: <BookOpen size={18} />, name: "The Showroom", desc: "Visit our Dhaka floor", path: "/showroom" },
     ],
@@ -21,10 +23,10 @@ const menuSections = [
   {
     label: "Services",
     items: [
+      { icon: <Phone size={18} />, name: "Private Consultation", desc: "Speak with a dedicated advisor", path: "/consultation" },
       { icon: <Shield size={18} />, name: "Investment Advisory", desc: "Portfolio & appreciation strategy", path: "/advisory" },
       { icon: <Wrench size={18} />, name: "Financing & EMI", desc: "Monthly payment plans & banks", path: "/financing" },
       { icon: <Car size={18} />, name: "Trade-In Programme", desc: "Exchange your current vehicle", path: "/trade-in" },
-      { icon: <Phone size={18} />, name: "Private Consultation", desc: "Speak with a dedicated advisor", path: "/consultation" },
     ],
   },
   {
@@ -40,6 +42,7 @@ const menuSections = [
 
 export function FullMenu({ isOpen, onClose, onOpenProfile }: FullMenuProps) {
   const location = useLocation();
+  const { compareList } = useCompare();
 
   useEffect(() => {
     const lenis = (window as any).__lenis;
@@ -113,8 +116,8 @@ export function FullMenu({ isOpen, onClose, onOpenProfile }: FullMenuProps) {
                           to={item.path}
                           onClick={onClose}
                           className={`group p-5 border rounded-sm flex items-center justify-between transition-all duration-500 ${isActive
-                              ? "border-gold/40 bg-gold/5"
-                              : "bg-white/[0.02] border-white/5 hover:border-gold/30"
+                            ? "border-gold/40 bg-gold/5"
+                            : "bg-white/[0.02] border-white/5 hover:border-gold/30"
                             }`}
                         >
                           <div className="flex items-center gap-5">
@@ -122,8 +125,13 @@ export function FullMenu({ isOpen, onClose, onOpenProfile }: FullMenuProps) {
                               {item.icon}
                             </div>
                             <div>
-                              <h5 className="text-[11px] uppercase tracking-widest text-white font-bold mb-0.5">
+                              <h5 className="text-[11px] uppercase tracking-widest text-white font-bold mb-0.5 flex items-center gap-2">
                                 {item.name}
+                                {item.path === "/compare" && compareList.length > 0 && (
+                                  <span className="px-1.5 py-0.5 bg-gold text-black text-[8px] font-black rounded-full leading-none">
+                                    {compareList.length}
+                                  </span>
+                                )}
                               </h5>
                               <p className="text-[9px] text-white/30 font-medium">{item.desc}</p>
                             </div>
