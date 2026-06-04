@@ -5,10 +5,11 @@ import { GoBack } from "@/components/GoBack";
 import { Contact } from "@/components/Contact";
 import { motion } from "motion/react";
 import {
-  ArrowLeft, CarFront, Coins, ShieldCheck, Gauge, Zap, Wind, Activity,
+  ArrowLeft, CarFront, Coins, GitCompareArrows, ShieldCheck, Gauge, Zap, Wind, Activity,
   Check, X, Maximize2, Weight, Users, DoorOpen,
 } from "lucide-react";
 import { TestDriveModal } from "@/components/TestDriveModal";
+import { useCompare } from "@/context/CompareContext";
 import { useVehicle } from "@/hooks/useSupabase";
 
 function fmtPrice(n: number) {
@@ -30,6 +31,7 @@ export default function CarDetailsPage() {
   const { id } = useParams<{ id: string }>();
   const { vehicle: car, loading } = useVehicle(id);
   const [testDriveOpen, setTestDriveOpen] = useState(false);
+  const { addToCompare, removeFromCompare, isInCompare } = useCompare();
   const [galleryExpanded, setGalleryExpanded] = useState<number>(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [engineExpanded, setEngineExpanded] = useState(false);
@@ -130,13 +132,26 @@ export default function CarDetailsPage() {
         {/* Full-width title + quick specs */}
         <div className="mb-16 space-y-10">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-            <button
-              onClick={() => setTestDriveOpen(true)}
-              className="flex items-center gap-3 px-8 py-4 border border-gold/40 text-gold hover:bg-gold hover:text-black transition-all duration-500 rounded-sm self-start md:self-auto"
-            >
-              <CarFront size={18} />
-              <span className="text-[11px] uppercase tracking-[0.4em] font-black">Request Test Drive</span>
-            </button>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setTestDriveOpen(true)}
+                className="flex items-center gap-2 px-4 py-2.5 border border-gold/40 text-gold hover:bg-gold hover:text-black transition-all duration-500 rounded-sm"
+              >
+                <CarFront size={13} />
+                <span className="text-[9px] uppercase tracking-[0.3em] font-black">Test Drive</span>
+              </button>
+              {car && (
+                <button
+                  onClick={() => isInCompare(car.id) ? removeFromCompare(car.id) : addToCompare(car)}
+                  className={`flex items-center gap-2 px-4 py-2.5 border rounded-sm transition-all duration-500 ${isInCompare(car.id) ? "border-white/40 text-white hover:border-white/20 hover:text-white/50" : "border-white/20 text-white/50 hover:border-white/40 hover:text-white"}`}
+                >
+                  <GitCompareArrows size={13} />
+                  <span className="text-[9px] uppercase tracking-[0.3em] font-black">
+                    {isInCompare(car.id) ? "Remove" : "Compare"}
+                  </span>
+                </button>
+              )}
+            </div>
             <div className="text-center">
               <p className="text-[10px] uppercase tracking-[0.6em] font-black text-gold mb-4">
                 {car.make} • {car.year} • {car.origin}

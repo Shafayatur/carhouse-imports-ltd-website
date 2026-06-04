@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Lenis from "lenis";
 import { WishlistProvider } from "@/context/WishlistContext";
+import { CompareProvider, useCompare } from "@/context/CompareContext";
 import { Navbar } from "@/components/Navbar";
 import ScrollToTop from "@/components/ScrollToTop";
 import { Hero } from "@/components/Hero";
@@ -22,7 +23,9 @@ import { PartnerLogos } from "@/components/PartnerLogos";
 import { FAQ } from "@/components/FAQ";
 import { AIConcierge } from "@/components/AIConcierge";
 import { Contact } from "@/components/Contact";
-import { motion, useScroll, useSpring } from "motion/react";
+import { motion, AnimatePresence, useScroll, useSpring } from "motion/react";
+import { useNavigate } from "react-router-dom";
+import { GitCompareArrows, X } from "lucide-react";
 import { useSiteSettings } from "@/hooks/useSupabase";
 
 // Page Imports
@@ -39,6 +42,51 @@ import WishlistPage from "@/pages/WishlistPage";
 import UpdatesPage from "@/pages/UpdatesPage";
 import SettingsPage from "@/pages/SettingsPage";
 import LegalPage from "@/pages/LegalPage";
+import ComparePage from "@/pages/ComparePage";
+
+function CompareBar() {
+  const { compareList, removeFromCompare, clearCompare } = useCompare();
+  const navigate = useNavigate();
+  return (
+    <AnimatePresence>
+      {compareList.length > 0 && (
+        <motion.div
+          initial={{ y: 100, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          exit={{ y: 100, opacity: 0 }}
+          transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+          className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[150] flex items-center gap-3 px-5 py-3 bg-[#0a0a0a] border border-white/10 shadow-2xl rounded-sm backdrop-blur-md"
+        >
+          <GitCompareArrows size={14} className="text-gold shrink-0" />
+          <div className="flex items-center gap-2">
+            {compareList.map(car => (
+              <div key={car.id} className="flex items-center gap-1.5 px-3 py-1.5 bg-white/5 border border-white/10 rounded-sm">
+                <span className="text-[9px] uppercase tracking-widest font-black text-white/60">{car.make} {car.model}</span>
+                <button onClick={() => removeFromCompare(car.id)} className="text-white/20 hover:text-white transition-colors ml-1">
+                  <X size={10} />
+                </button>
+              </div>
+            ))}
+            {compareList.length < 3 && (
+              <span className="text-[9px] uppercase tracking-widest font-black text-white/20 px-2">
+                +{3 - compareList.length} more
+              </span>
+            )}
+          </div>
+          <button
+            onClick={() => navigate("/compare")}
+            className="ml-2 px-5 py-2 bg-gold text-black text-[9px] uppercase tracking-[0.4em] font-black hover:bg-white transition-colors rounded-sm shrink-0"
+          >
+            Compare
+          </button>
+          <button onClick={clearCompare} className="text-white/20 hover:text-white transition-colors">
+            <X size={14} />
+          </button>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}
 
 function HomePage() {
   const { get } = useSiteSettings();
@@ -158,44 +206,48 @@ export default function App() {
 
   return (
     <BrowserRouter>
-      <WishlistProvider>
-        <ScrollToTop />
-        <main className="relative selection:bg-gold selection:text-black bg-luxury-black min-h-screen">
-          {/* Progress Bar */}
-          <motion.div
-            className="fixed top-0 left-0 right-0 h-[2px] bg-gold z-[110] origin-left"
-            style={{ scaleX }}
-          />
+      <CompareProvider>
+        <WishlistProvider>
+          <ScrollToTop />
+          <main className="relative selection:bg-gold selection:text-black bg-luxury-black min-h-screen">
+            {/* Progress Bar */}
+            <motion.div
+              className="fixed top-0 left-0 right-0 h-[2px] bg-gold z-[110] origin-left"
+              style={{ scaleX }}
+            />
 
-          <Navbar />
+            <Navbar />
 
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/inventory" element={<InventoryPage />} />
-            <Route path="/inventory/:id" element={<CarDetailsPage />} />
-            <Route path="/sourcing" element={<SourcingPage />} />
-            <Route path="/consultation" element={<ConsultationPage />} />
-            <Route path="/advisory" element={<AdvisoryPage />} />
-            <Route path="/heritage" element={<HeritagePage />} />
-            <Route path="/philosophy" element={<PhilosophyPage />} />
-            <Route path="/showroom" element={<ShowroomPage />} />
-            <Route path="/garage" element={<GaragePage />} />
-            <Route path="/wishlist" element={<WishlistPage />} />
-            <Route path="/updates" element={<UpdatesPage />} />
-            <Route path="/settings" element={<SettingsPage />} />
-            <Route path="/legal" element={<LegalPage />} />
-          </Routes>
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/inventory" element={<InventoryPage />} />
+              <Route path="/inventory/:id" element={<CarDetailsPage />} />
+              <Route path="/sourcing" element={<SourcingPage />} />
+              <Route path="/consultation" element={<ConsultationPage />} />
+              <Route path="/advisory" element={<AdvisoryPage />} />
+              <Route path="/heritage" element={<HeritagePage />} />
+              <Route path="/philosophy" element={<PhilosophyPage />} />
+              <Route path="/showroom" element={<ShowroomPage />} />
+              <Route path="/garage" element={<GaragePage />} />
+              <Route path="/wishlist" element={<WishlistPage />} />
+              <Route path="/updates" element={<UpdatesPage />} />
+              <Route path="/settings" element={<SettingsPage />} />
+              <Route path="/legal" element={<LegalPage />} />
+              <Route path="/compare" element={<ComparePage />} />
+            </Routes>
 
-          <AIConcierge />
+            <AIConcierge />
+            <CompareBar />
 
-          {/* Aesthetic Accents */}
-          <div className="fixed bottom-12 right-12 z-50 mix-blend-difference hidden md:block">
-            <p className="vertical-text text-[9px] uppercase tracking-[0.5em] font-black text-white/30">
-              Car House Imports Ltd • 2026
-            </p>
-          </div>
-        </main>
-      </WishlistProvider>
+            {/* Aesthetic Accents */}
+            <div className="fixed bottom-12 right-12 z-50 mix-blend-difference hidden md:block">
+              <p className="vertical-text text-[9px] uppercase tracking-[0.5em] font-black text-white/30">
+                Car House Imports Ltd • 2026
+              </p>
+            </div>
+          </main>
+        </WishlistProvider>
+      </CompareProvider>
     </BrowserRouter>
   );
 }

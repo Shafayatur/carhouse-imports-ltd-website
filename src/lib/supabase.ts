@@ -39,6 +39,9 @@ export interface Vehicle {
     shipping_cost: number;
     featured: boolean;
     body_type: string;
+    image_url: string | null;
+    gallery_urls: string[] | null;
+    engine_image_url: string | null;
 }
 
 export interface HeroSlide {
