@@ -10,10 +10,10 @@ import { useVehicles } from "@/hooks/useSupabase";
 import type { Vehicle } from "@/lib/supabase";
 // hello
 const STATUS_COLOURS: Record<string, string> = {
-  Available: "text-green-400 border-green-400/20 bg-green-400/10",
-  Reserved: "text-yellow-400 border-yellow-400/20 bg-yellow-400/10",
-  "In Transit": "text-blue-400 border-blue-400/20 bg-blue-400/10",
-  Sold: "text-red-400 border-red-400/20 bg-red-400/10",
+  Available: "text-white-400 border-white-400/20 bg-green-400/10",
+  Reserved: "text-white-400 border-white-400/20 bg-yellow-400/10",
+  "In Transit": "text-white-400 border-white-400/20 bg-blue-400/10",
+  Sold: "text-white-400 border-white-400/20 bg-red-400/10",
 };
 
 function fmtPrice(n: number) {
@@ -83,8 +83,8 @@ export default function InventoryPage() {
       const matchOrigin = !filters.origin || v.origin === filters.origin;
       const matchYearFrom = !filters.yearFrom || v.year >= parseInt(filters.yearFrom);
       const matchYearTo = !filters.yearTo || v.year <= parseInt(filters.yearTo);
-      const matchPriceMin = !filters.priceMin || v.price >= parseInt(filters.priceMin);
-      const matchPriceMax = !filters.priceMax || v.price <= parseInt(filters.priceMax);
+      const matchPriceMin = !filters.priceMin || v.selling_price >= parseInt(filters.priceMin);
+      const matchPriceMax = !filters.priceMax || v.selling_price <= parseInt(filters.priceMax);
 
       return matchSearch && matchBrand && matchBody && matchStatus && matchOrigin && matchYearFrom && matchYearTo && matchPriceMin && matchPriceMax;
     });
@@ -298,8 +298,8 @@ export default function InventoryPage() {
                   className="group relative"
                 >
                   <Link to={`/inventory/${car.id}`} className="block">
-                    <div className="relative aspect-[16/10] overflow-hidden rounded-sm mb-6 bg-luxury-gray">
-                      {/* @ts-ignore - image_url might not be in the strict Vehicle type but it exists in DB */}
+                    {/* Image */}
+                    <div className="relative aspect-[16/10] overflow-hidden rounded-t-sm bg-luxury-gray">
                       {car.image_url && (
                         <img
                           src={car.image_url}
@@ -308,56 +308,55 @@ export default function InventoryPage() {
                         />
                       )}
 
+                      {/* Status badge — top left */}
+                      <div className={`absolute top-3 left-3 px-2.5 py-1 rounded-full text-[9px] font-black uppercase tracking-widest border backdrop-blur-sm ${STATUS_COLOURS[car.status] ?? "text-white/60 border-white/20 bg-white/10"}`}>
+                        {car.status}
+                      </div>
 
+                      {/* Wishlist — top right */}
+                      <button
+                        onClick={(e) => { e.preventDefault(); toggleWishlist(car); }}
+                        className="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/40 backdrop-blur-sm border border-white/10 flex items-center justify-center text-white/40 hover:text-gold hover:border-gold/40 transition-all z-20"
+                      >
+                        <Heart size={14} className={isInWishlist(car.id) ? "fill-gold text-gold" : ""} />
+                      </button>
 
-                      {/* Hover Overlay badges */}
-                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
-                        <div className="flex flex-col items-center gap-3 transform translate-y-4 group-hover:translate-y-0 transition-all duration-500">
-                          {car.body_type && (
-                            <span className="px-4 py-2 border border-white/30 rounded-full text-xs font-medium tracking-widest uppercase bg-black/50 backdrop-blur-md">
-                              {car.body_type}
-                            </span>
-                          )}
-                          <span className="w-12 h-12 bg-white text-black rounded-full flex items-center justify-center">
-                            <ArrowUpRight className="w-5 h-5" />
-                          </span>
-                        </div>
+                      {/* Hover arrow */}
+                      <div className="absolute bottom-3 right-3 w-9 h-9 bg-white text-black rounded-full flex items-center justify-center scale-0 group-hover:scale-100 transition-transform duration-300">
+                        <ArrowUpRight className="w-4 h-4" />
                       </div>
                     </div>
 
-                    <div className="flex justify-between items-start gap-4">
-                      <div>
-                        <p className="text-white/40 text-[10px] font-black tracking-[0.2em] uppercase mb-2">
-                          {car.year} {car.make}
-                        </p>
-                        <h3 className="text-2xl font-serif text-white group-hover:text-gold transition-colors leading-tight">
-                          {car.model}
-                        </h3>
-                        <div className="flex items-center gap-3 mt-3">
-                          <p className="text-white/60 font-mono text-sm tracking-wider">
-                            {fmtPrice(car.price)}
-                          </p>
-                          <span className="w-1 h-1 rounded-full bg-white/20"></span>
-                          <span className="text-[9px] uppercase tracking-[0.2em] font-black text-white/40">
-                            {car.status}
-                          </span>
-                        </div>
+                    {/* Card info */}
+                    <div className="pt-4 pb-4 px-4 bg-white/[0.04] backdrop-blur-sm border border-white/8 border-t-0 rounded-b-sm">
+
+                      {/* Make + Year */}
+                      <p className="text-[10px] font-black tracking-[0.25em] uppercase text-white/30 mb-1">
+                        {car.make} · {car.year} · {car.origin}
+                      </p>
+
+                      {/* Model name */}
+                      <h3 className="text-lg font-display font-semibold text-white group-hover:text-gold transition-colors leading-tight tracking-wide mb-3">
+                        {car.model}
+                      </h3>
+
+                      {/* Key specs row */}
+                      <div className="flex items-center gap-3 text-[10px] uppercase tracking-wider text-white/40 font-medium mb-3">
+                        {car.engine_cc && <span>{car.engine_cc}cc</span>}
+                        {car.engine_cc && car.transmission && <span className="text-white/15">·</span>}
+                        {car.transmission && <span>{car.transmission}</span>}
+                        {car.fuel_type && <span className="text-white/15">·</span>}
+                        {car.fuel_type && <span>{car.fuel_type}</span>}
+                        {car.mileage > 0 && <span className="text-white/15">·</span>}
+                        {car.mileage > 0 && <span>{car.mileage.toLocaleString()} km</span>}
                       </div>
+
+                      {/* Price */}
+                      <p className="text-xl font-display font-bold text-gold tracking-wide">
+                        {fmtPrice(car.selling_price)}
+                      </p>
                     </div>
                   </Link>
-
-                  <button
-                    onClick={(e) => {
-                      e.preventDefault();
-                      toggleWishlist(car);
-                    }}
-                    className="absolute bottom-1 right-1 p-3 text-white/30 hover:text-gold transition-colors z-20"
-                  >
-                    <Heart
-                      size={20}
-                      className={isInWishlist(car.id) ? "fill-gold text-gold" : ""}
-                    />
-                  </button>
                 </motion.div>
               ))}
             </AnimatePresence>
