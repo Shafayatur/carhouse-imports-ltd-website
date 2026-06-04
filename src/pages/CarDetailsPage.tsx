@@ -5,10 +5,10 @@ import { GoBack } from "@/components/GoBack";
 import { Contact } from "@/components/Contact";
 import { motion } from "motion/react";
 import {
-  ArrowLeft, Heart, ShieldCheck, Gauge, Zap, Wind, Activity,
+  ArrowLeft, CarFront, Coins, ShieldCheck, Gauge, Zap, Wind, Activity,
   Check, X, Maximize2, Weight, Users, DoorOpen,
 } from "lucide-react";
-import { useWishlist } from "@/context/WishlistContext";
+import { TestDriveModal } from "@/components/TestDriveModal";
 import { useVehicle } from "@/hooks/useSupabase";
 
 function fmtPrice(n: number) {
@@ -29,7 +29,7 @@ export default function CarDetailsPage() {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const { vehicle: car, loading } = useVehicle(id);
-  const { toggleWishlist, isInWishlist } = useWishlist();
+  const [testDriveOpen, setTestDriveOpen] = useState(false);
   const [galleryExpanded, setGalleryExpanded] = useState<number>(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [engineExpanded, setEngineExpanded] = useState(false);
@@ -112,17 +112,6 @@ export default function CarDetailsPage() {
           )}
           <div className="absolute inset-0 bg-gradient-to-t from-luxury-black/90 via-luxury-black/20 to-luxury-black/40" />
 
-          {/* Wishlist */}
-          <button
-            onClick={() => toggleWishlist(car.id)}
-            className={`absolute top-28 right-6 md:right-12 w-12 h-12 rounded-full border backdrop-blur-md flex items-center justify-center transition-all duration-500 ${isInWishlist(car.id)
-                ? "bg-gold text-black border-gold"
-                : "bg-black/20 text-white/40 border-white/10 hover:text-white"
-              }`}
-          >
-            <Heart size={18} fill={isInWishlist(car.id) ? "currentColor" : "none"} />
-          </button>
-
           {/* Status badge */}
           {car.status && car.status !== "Available" && (
             <div className="absolute bottom-8 left-6 md:left-12 px-4 py-2 bg-black/60 backdrop-blur-sm">
@@ -140,17 +129,23 @@ export default function CarDetailsPage() {
 
         {/* Full-width title + quick specs */}
         <div className="mb-16 space-y-10">
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
-            <div>
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+            <button
+              onClick={() => setTestDriveOpen(true)}
+              className="flex items-center gap-3 px-8 py-4 border border-gold/40 text-gold hover:bg-gold hover:text-black transition-all duration-500 rounded-sm self-start md:self-auto"
+            >
+              <CarFront size={18} />
+              <span className="text-[11px] uppercase tracking-[0.4em] font-black">Request Test Drive</span>
+            </button>
+            <div className="text-center">
               <p className="text-[10px] uppercase tracking-[0.6em] font-black text-gold mb-4">
                 {car.make} • {car.year} • {car.origin}
               </p>
               <h1 className="text-5xl md:text-7xl font-serif leading-tight">{car.model}</h1>
             </div>
-            <div className="text-right">
-              <p className="text-[10px] uppercase tracking-widest text-white/30 mb-2">Asking Price</p>
-              <p className="text-5xl font-display font-bold text-gold">{fmtPrice(car.selling_price)}</p>
-              <p className="text-xs text-white/30 mt-2 uppercase tracking-widest">{car.status}</p>
+            <div className="flex items-center gap-3 px-8 py-4 border border-gold/40 text-gold rounded-sm">
+              <Coins size={18} />
+              <span className="text-[11px] uppercase tracking-[0.4em] font-black">AP: {fmtPrice(car.selling_price)}</span>
             </div>
           </div>
 
@@ -490,6 +485,12 @@ export default function CarDetailsPage() {
       </section>
 
       <Contact />
+      <TestDriveModal
+        isOpen={testDriveOpen}
+        onClose={() => setTestDriveOpen(false)}
+        vehicleName={car ? `${car.make} ${car.model}` : ""}
+        vehicleId={id}
+      />
     </main>
   );
 }

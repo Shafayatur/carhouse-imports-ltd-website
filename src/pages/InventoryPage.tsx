@@ -4,8 +4,8 @@ import { GoBack } from "@/components/GoBack";
 import { Contact } from "@/components/Contact";
 import { motion, AnimatePresence } from "motion/react";
 import { Link } from "react-router-dom";
-import { ArrowUpRight, Heart, SlidersHorizontal, Search, X } from "lucide-react";
-import { useWishlist } from "@/context/WishlistContext";
+import { ArrowUpRight, SlidersHorizontal, Search, X, CarFront } from "lucide-react";
+import { TestDriveModal } from "@/components/TestDriveModal";
 import { useVehicles } from "@/hooks/useSupabase";
 import type { Vehicle } from "@/lib/supabase";
 // hello
@@ -47,7 +47,7 @@ export default function InventoryPage() {
   const [filters, setFilters] = useState<FilterState>(initialFilters);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
-  const { toggleWishlist, isInWishlist } = useWishlist();
+  const [testDriveCar, setTestDriveCar] = useState<{ name: string; id: string } | null>(null);
   const { vehicles, loading } = useVehicles();
 
   // Dynamic filter options
@@ -313,12 +313,13 @@ export default function InventoryPage() {
                         {car.status}
                       </div>
 
-                      {/* Wishlist — top right */}
+                      {/* Test Drive — top right */}
                       <button
-                        onClick={(e) => { e.preventDefault(); toggleWishlist(car); }}
-                        className="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/40 backdrop-blur-sm border border-white/10 flex items-center justify-center text-white/40 hover:text-gold hover:border-gold/40 transition-all z-20"
+                        onClick={(e) => { e.preventDefault(); setTestDriveCar({ name: `${car.make} ${car.model}`, id: String(car.id) }); }}
+                        className="absolute top-3 right-3 px-3 py-1.5 rounded-full bg-black/60 backdrop-blur-sm border border-white/10 flex items-center gap-1.5 text-white/60 hover:text-gold hover:border-gold/40 transition-all z-20"
                       >
-                        <Heart size={14} className={isInWishlist(car.id) ? "fill-gold text-gold" : ""} />
+                        <CarFront size={11} />
+                        <span className="text-[8px] uppercase tracking-widest font-black">Test Drive</span>
                       </button>
 
                       {/* Hover arrow */}
@@ -406,6 +407,12 @@ export default function InventoryPage() {
       </section>
 
       <Contact />
+      <TestDriveModal
+        isOpen={!!testDriveCar}
+        onClose={() => setTestDriveCar(null)}
+        vehicleName={testDriveCar?.name}
+        vehicleId={testDriveCar?.id}
+      />
     </main>
   );
 }
