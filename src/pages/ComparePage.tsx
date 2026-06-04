@@ -51,8 +51,8 @@ function CarSlot({ car, onRemove, onAdd, allCars }: {
                         onClick={() => setOpen(o => !o)}
                         className="w-full h-48 border border-dashed border-white/10 hover:border-gold/40 transition-colors flex flex-col items-center justify-center gap-3 group"
                     >
-                        <Plus size={20} className="text-white/20 group-hover:text-gold transition-colors" />
-                        <span className="text-[9px] uppercase tracking-[0.4em] font-black text-white/20 group-hover:text-gold transition-colors">Add Car</span>
+                        <Plus size={20} className="text-white/40 group-hover:text-gold transition-colors" />
+                        <span className="text-[9px] uppercase tracking-[0.4em] font-black text-white/40 group-hover:text-gold transition-colors">Add Car</span>
                     </button>
                     <AnimatePresence>
                         {open && (
@@ -102,14 +102,16 @@ function CarSlot({ car, onRemove, onAdd, allCars }: {
     return (
         <div className="flex-1 min-w-[220px]">
             {/* Image */}
-            <div className="relative h-48 bg-white/5 overflow-hidden">
-                {car.image_url && (
+            <div className="relative h-48 bg-white/5 overflow-hidden flex items-center justify-center">
+                {car.image_url ? (
                     <img
                         src={car.image_url}
                         alt={`${car.make} ${car.model}`}
                         className="w-full h-full object-cover"
                         onError={e => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
                     />
+                ) : (
+                    <p className="text-[9px] uppercase tracking-[0.3em] font-black text-white/20">No image available</p>
                 )}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                 <button
@@ -191,11 +193,11 @@ export default function ComparePage() {
                         {ROWS.map((row, ri) => (
                             <div
                                 key={row.label}
-                                className={`flex ${ri % 2 === 0 ? "bg-white/[0.01]" : "bg-transparent"} border-b border-white/5 last:border-0`}
+                                className={`flex ${ri % 2 === 0 ? "bg-white/[0.01]" : "bg-transparent"} border-b border-white/5 last:border-0 hover:bg-white/[0.02] transition-colors`}
                             >
                                 {/* Label */}
                                 <div className="w-36 shrink-0 px-5 py-4 flex items-center">
-                                    <span className="text-[9px] uppercase tracking-[0.35em] font-black text-white/20">{row.label}</span>
+                                    <span className="text-[9px] uppercase tracking-[0.35em] font-black text-white/40">{row.label}</span>
                                 </div>
                                 {/* Values */}
                                 {slots.map((car, ci) => {
@@ -205,7 +207,7 @@ export default function ComparePage() {
                                     return (
                                         <div key={ci} className="flex-1 px-5 py-4 border-l border-white/5 flex items-center">
                                             {car ? (
-                                                <span className={`text-xs font-medium tracking-wide ${isUnique ? "text-gold" : "text-white/50"}`}>
+                                                <span className={`text-xs font-medium tracking-wide ${isUnique ? "text-gold" : "text-white/70"}`}>
                                                     {val}
                                                 </span>
                                             ) : (
@@ -218,9 +220,9 @@ export default function ComparePage() {
                         ))}
 
                         {/* Actions row */}
-                        <div className="flex border-t border-white/5 bg-white/[0.02]">
+                        <div className="flex border-t border-white/5 bg-white/[0.02] hover:bg-white/[0.03] transition-colors">
                             <div className="w-36 shrink-0 px-5 py-5 flex items-center">
-                                <span className="text-[9px] uppercase tracking-[0.35em] font-black text-white/20">Actions</span>
+                                <span className="text-[9px] uppercase tracking-[0.35em] font-black text-white/40">Actions</span>
                             </div>
                             {slots.map((car, ci) => (
                                 <div key={ci} className="flex-1 px-5 py-5 border-l border-white/5 flex flex-col gap-2">
