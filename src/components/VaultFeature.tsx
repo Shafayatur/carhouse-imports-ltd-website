@@ -104,7 +104,7 @@ function VaultSlide({
           </p>
 
           <p className="text-2xl font-display font-bold text-gold">
-            ৳ {Math.round(item.selling_price).toLocaleString("en-BD")}
+            BDT {Math.round(item.selling_price).toLocaleString("en-BD")}
           </p>
         </div>
       )}

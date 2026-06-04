@@ -78,7 +78,7 @@ export default function GaragePage() {
                     </div>
                     <p className="text-xl font-display font-medium text-white/60">
                       {car.selling_price
-                        ? "৳ " + Math.round(car.selling_price).toLocaleString("en-BD")
+                        ? "BDT " + Math.round(car.selling_price).toLocaleString("en-BD")
                         : "P.O.A"}
                     </p>
                   </div>

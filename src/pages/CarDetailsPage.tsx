@@ -12,7 +12,7 @@ import { useWishlist } from "@/context/WishlistContext";
 import { useVehicle } from "@/hooks/useSupabase";
 
 function fmtPrice(n: number) {
-  return n ? "৳ " + Math.round(n).toLocaleString("en-BD") : "Price on Request";
+  return n ? "BDT " + Math.round(n).toLocaleString("en-BD") : "Price on Request";
 }
 
 // ─── Feature icon map (best-effort, falls back to Check) ─────────────────────

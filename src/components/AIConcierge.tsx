@@ -12,7 +12,7 @@ interface Message {
 }
 
 function fmtPrice(n: number) {
-  return n ? "৳ " + Math.round(n).toLocaleString("en-BD") : "P.O.A";
+  return n ? "BDT " + Math.round(n).toLocaleString("en-BD") : "P.O.A";
 }
 
 export function AIConcierge() {
@@ -299,7 +299,7 @@ function CarCard({ car, onClose }: { car: Vehicle; onClose: () => void }) {
           <p className="text-sm font-serif text-white group-hover:text-gold transition-colors">{car.model}</p>
           <div className="flex justify-between items-center mt-2">
             <p className="text-[10px] text-white/30 font-black">
-              {car.selling_price ? "৳ " + Math.round(car.selling_price).toLocaleString("en-BD") : "P.O.A"}
+              {car.selling_price ? "BDT " + Math.round(car.selling_price).toLocaleString("en-BD") : "P.O.A"}
             </p>
             <Sparkles size={12} className="text-gold opacity-0 group-hover:opacity-100 transition-opacity" />
           </div>

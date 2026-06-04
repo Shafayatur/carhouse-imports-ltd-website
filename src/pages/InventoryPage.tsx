@@ -17,7 +17,7 @@ const STATUS_COLOURS: Record<string, string> = {
 };
 
 function fmtPrice(n: number) {
-  return n ? "৳ " + Math.round(n).toLocaleString("en-BD") : "P.O.A";
+  return n ? "BDT " + Math.round(n).toLocaleString("en-BD") : "P.O.A";
 }
 
 interface FilterState {

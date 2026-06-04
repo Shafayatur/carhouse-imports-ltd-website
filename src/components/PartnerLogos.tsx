@@ -2,28 +2,42 @@ import { motion, AnimatePresence } from "motion/react";
 import { usePartners } from "@/hooks/useSupabase";
 import { useEffect, useState } from "react";
 
+function PartnerCard({ partner }: { partner: { name: string; region: string } }) {
+  const [imgFailed, setImgFailed] = useState(false);
+  const logoSrc = `/partner-logos/${partner.name.toLowerCase()}.png`;
+  return (
+    <div className="flex items-center justify-center w-full">
+      {imgFailed ? (
+        <span className="text-sm md:text-xl text-white font-display font-medium tracking-[0.2em] block">
+          {partner.name}
+        </span>
+      ) : (
+        <img
+          src={logoSrc}
+          alt={partner.name}
+          className="w-28 md:w-36 h-28 md:h-36 object-contain"
+          onError={() => setImgFailed(true)}
+        />
+      )}
+    </div>
+  );
+}
+
 export function PartnerLogos() {
   const { partners, loading } = usePartners();
   const [showLabel, setShowLabel] = useState(false);
 
-  // Cyclic timer: show the beautiful "OUR PARTNERS" card overlay every 12 seconds for 3 seconds
   useEffect(() => {
-    // Start cyclic loop
     const interval = setInterval(() => {
       setShowLabel(true);
-      
-      // Hide card after 3 seconds
       const timeout = setTimeout(() => {
         setShowLabel(false);
       }, 3000);
-
       return () => clearTimeout(timeout);
-    }, 12000);
-
+    }, 35000);
     return () => clearInterval(interval);
   }, []);
 
-  // Fallback to hardcoded if Supabase empty (safe during migration)
   const fallback = [
     { name: "Dutton Garage", region: "Melbourne" },
     { name: "RM SOTHEBY'S", region: "London / NY" },
@@ -36,19 +50,14 @@ export function PartnerLogos() {
   ];
 
   const list = (!loading && partners.length > 0) ? partners : fallback;
-  const doubled = [...list, ...list]; // for infinite scroll
+  const doubled = [...list, ...list];
 
   return (
-    <section id="strategic-network" className="py-12 bg-luxury-black/30 border-y border-white/5 overflow-hidden relative min-h-[140px] flex items-center">
-      {/* Subtle background luxury accent */}
+    <section id="strategic-network" className="py-8 bg-luxury-black/30 border-y border-white/5 overflow-hidden relative flex items-center">
       <div className="absolute inset-0 bg-gradient-to-r from-luxury-black via-transparent to-luxury-black opacity-90 pointer-events-none z-10" />
-      
       <div className="w-full relative">
-        {/* Soft edge fade overlays */}
         <div className="absolute inset-y-0 left-0 w-24 md:w-48 bg-gradient-to-r from-luxury-black to-transparent z-20 pointer-events-none" />
         <div className="absolute inset-y-0 right-0 w-24 md:w-48 bg-gradient-to-l from-luxury-black to-transparent z-20 pointer-events-none" />
-
-        {/* Theatrical Card Overlay: Fades in on top of the blurred scroller */}
         <AnimatePresence>
           {showLabel && (
             <motion.div
@@ -67,33 +76,24 @@ export function PartnerLogos() {
             </motion.div>
           )}
         </AnimatePresence>
-
-        {/* Infinite Scrolling Logo Wrapper - Fades and blurs softly when the overlay card appears */}
-        <motion.div 
-          animate={{ 
-            opacity: showLabel ? 0.08 : 1,
-            filter: showLabel ? "blur(4px)" : "blur(0px)"
-          }}
+        <motion.div
+          animate={{ opacity: showLabel ? 0.08 : 1, filter: showLabel ? "blur(4px)" : "blur(0px)" }}
           transition={{ duration: 0.8, ease: "easeInOut" }}
-          className="flex overflow-hidden group"
+          className="flex overflow-hidden"
         >
           <motion.div
             animate={{ x: ["0%", "-50%"] }}
-            transition={{ duration: 35, ease: "linear", repeat: Infinity }}
-            className="flex gap-4 md:gap-6 whitespace-nowrap"
+            transition={{ duration: 60, ease: "linear", repeat: Infinity }}
+            className="flex gap-6 md:gap-8 whitespace-nowrap"
           >
             {doubled.map((partner, idx) => (
               <div
                 key={`${partner.name}-${idx}`}
-                className="relative w-[180px] md:w-[280px] p-4 md:p-6 border border-white/5 bg-white/[0.01] hover:bg-white/[0.03] hover:border-gold/30 transition-all duration-500 rounded-sm flex flex-col items-center justify-center text-center overflow-hidden shrink-0 group/card"
+                className="relative w-[200px] md:w-[260px] p-4 md:p-6 border border-white/5 bg-white/[0.01] hover:bg-white/[0.03] hover:border-gold/30 transition-all duration-500 rounded-sm flex flex-col items-center justify-center text-center overflow-hidden shrink-0 group/card"
               >
-                <div className="mb-2 md:mb-3 opacity-40 group-hover/card:opacity-100 transition-all duration-500">
-                  <span className="text-sm md:text-xl text-white font-display font-medium tracking-[0.2em] block">
-                    {partner.name}
-                  </span>
-                </div>
-                <div className="h-[1px] w-4 bg-white/10 group-hover/card:bg-gold/40 transition-colors my-1 md:my-2" />
-                <p className="text-[6px] md:text-[8px] uppercase tracking-[0.3em] font-black text-white/20 group-hover/card:text-gold transition-colors">
+                <PartnerCard partner={partner} />
+                <div className="h-[1px] w-4 bg-white/10 group-hover/card:bg-gold/40 transition-colors mt-3 mb-2" />
+                <p className="text-[9px] md:text-[11px] uppercase tracking-[0.3em] font-black text-white/60 group-hover/card:text-gold transition-colors">
                   {partner.region}
                 </p>
                 <div className="absolute inset-0 bg-gold/0 group-hover/card:bg-gold/[0.01] transition-colors pointer-events-none" />

@@ -13,7 +13,7 @@ export function FeaturedVehicles() {
 
   // Format price from number to display string
   const fmtPrice = (v: number) =>
-    v ? "৳ " + Math.round(v).toLocaleString("en-BD") : "P.O.A";
+    v ? "BDT " + Math.round(v).toLocaleString("en-BD") : "P.O.A";
 
   return (
     <section className="py-32 px-6 md:px-12 bg-white text-black">

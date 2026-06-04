@@ -144,7 +144,7 @@ export function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
                     {/* Price */}
                     <div className="text-right shrink-0">
                       <p className="text-sm font-display font-bold text-white/60 group-hover:text-gold transition-colors">
-                        {car.selling_price ? "৳ " + Math.round(car.selling_price).toLocaleString("en-BD") : "P.O.A"}
+                        {car.selling_price ? "BDT " + Math.round(car.selling_price).toLocaleString("en-BD") : "P.O.A"}
                       </p>
                     </div>
 
