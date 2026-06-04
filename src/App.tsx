@@ -43,6 +43,10 @@ import UpdatesPage from "@/pages/UpdatesPage";
 import SettingsPage from "@/pages/SettingsPage";
 import LegalPage from "@/pages/LegalPage";
 import ComparePage from "@/pages/ComparePage";
+import AboutPage from "@/pages/AboutPage";
+import ContactPage from "@/pages/ContactPage";
+import FinancingPage from "@/pages/FinancingPage";
+import TradeInPage from "@/pages/TradeInPage";
 
 function CompareBar() {
   const { compareList, removeFromCompare, clearCompare } = useCompare();
@@ -234,6 +238,10 @@ export default function App() {
               <Route path="/settings" element={<SettingsPage />} />
               <Route path="/legal" element={<LegalPage />} />
               <Route path="/compare" element={<ComparePage />} />
+              <Route path="/about" element={<AboutPage />} />
+              <Route path="/contact" element={<ContactPage />} />
+              <Route path="/financing" element={<FinancingPage />} />
+              <Route path="/trade-in" element={<TradeInPage />} />
             </Routes>
 
             <AIConcierge />

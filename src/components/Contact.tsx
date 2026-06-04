@@ -3,6 +3,23 @@ import { Link } from "react-router-dom";
 import { motion } from "motion/react";
 
 export function Contact() {
+  const exploreLinks = [
+    { label: "Inventory", to: "/inventory" },
+    { label: "Sourcing", to: "/sourcing" },
+    { label: "Advisory", to: "/advisory" },
+    { label: "Financing", to: "/financing" },
+    { label: "Trade-In", to: "/trade-in" },
+    { label: "Updates", to: "/updates" },
+    { label: "About Us", to: "/about" },
+    { label: "Contact", to: "/contact" },
+    { label: "Showroom", to: "/showroom" },
+    { label: "Legal", to: "/legal" },
+  ];
+
+  const half = Math.ceil(exploreLinks.length / 2);
+  const col1 = exploreLinks.slice(0, half);
+  const col2 = exploreLinks.slice(half);
+
   return (
     <footer className="bg-gradient-to-b from-luxury-black via-[#0d0d0d] to-[#111111] relative overflow-hidden border-t border-gold/10">
 
@@ -27,7 +44,6 @@ export function Contact() {
           <div className="h-[1px] flex-1 bg-white/10" />
         </div>
 
-        {/* 🔧 FIXED GRID SPACING (Explore + Contact gap reduced) */}
         <div className="grid lg:grid-cols-4 gap-8 pb-16">
 
           {/* Brand */}
@@ -42,8 +58,7 @@ export function Contact() {
             </div>
 
             <p className="text-white/45 text-[11px] leading-relaxed tracking-widest uppercase">
-              The world's most discerning collectors trust us with what matters
-              most.
+              The world's most discerning collectors trust us with what matters most.
             </p>
 
             <div className="flex items-center gap-3 pt-2">
@@ -67,20 +82,22 @@ export function Contact() {
             </div>
           </div>
 
-          {/* Explore */}
+          {/* Explore — 2 columns */}
           <div>
             <p className="text-[8px] uppercase tracking-[0.6em] font-black text-white/40 mb-6">
               Explore
             </p>
-
-            <div className="space-y-4">
-              {[
-                { label: "Inventory", to: "/inventory" },
-                { label: "Sourcing", to: "/sourcing" },
-                { label: "Financing", to: "/consultation" },
-                { label: "Advisory", to: "/advisory" },
-                { label: "Updates", to: "/updates" },
-              ].map(({ label, to }) => (
+            <div className="grid grid-cols-2 gap-x-4 gap-y-4">
+              {col1.map(({ label, to }) => (
+                <Link
+                  key={to}
+                  to={to}
+                  className="block text-[11px] uppercase tracking-[0.4em] font-bold text-white/60 hover:text-gold transition-colors duration-300"
+                >
+                  {label}
+                </Link>
+              ))}
+              {col2.map(({ label, to }) => (
                 <Link
                   key={to}
                   to={to}
@@ -120,36 +137,53 @@ export function Contact() {
             </div>
           </div>
 
-          {/* 🔧 FIXED MAP (circle → expands, full color restored) */}
+          {/* Showroom — static map image link, no iframe */}
           <div>
             <p className="text-[8px] uppercase tracking-[0.6em] font-black text-white/40 mb-6">
               Showroom
             </p>
 
             <a
-              href="https://www.google.com/maps?q=Tajmahal+Road+Playground+Dhaka"
+              href="https://www.google.com/maps?q=Tajmahal+Road+Mohammadpur+Dhaka"
               target="_blank"
               rel="noopener noreferrer"
-              className="
-                relative block
-                w-24 h-24
-                rounded-full
-                overflow-hidden
-                border border-white/20
-                transition-all duration-500
-                hover:w-full hover:h-48 hover:rounded-xl
-              "
+              className="group relative block w-full h-36 overflow-hidden border border-white/10 hover:border-gold/30 transition-colors duration-500"
             >
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1182.6922972992618!2d90.36140376934057!3d23.764929715496674!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755c188ae9e047f%3A0x83620924e5180839!2sTajmahal%20Road%20Playground!5e0!3m2!1sen!2sbd!4v1780570726202!5m2!1sen!2sbd"
-                className="w-full h-full"
-                style={{ border: 0 }}
-                loading="lazy"
-              />
+              {/* 3x3 OSM tile grid — zoom 15, centered on Mohammadpur Dhaka */}
+              {/* z=15 x=24608 y=14156 is center tile */}
+              <div className="absolute inset-0 grid grid-cols-3 grid-rows-3 grayscale opacity-60 group-hover:opacity-90 group-hover:grayscale-0 transition-all duration-500 scale-105 pointer-events-none">
+                {[
+                  [24607, 14155], [24608, 14155], [24609, 14155],
+                  [24607, 14156], [24608, 14156], [24609, 14156],
+                  [24607, 14157], [24608, 14157], [24609, 14157],
+                ].map(([x, y]) => (
+                  <img
+                    key={`${x}-${y}`}
+                    src={`https://tile.openstreetmap.org/15/${x}/${y}.png`}
+                    alt=""
+                    className="w-full h-full object-cover"
+                  />
+                ))}
+              </div>
+              {/* Dark overlay */}
+              <div className="absolute inset-0 bg-black/40 group-hover:bg-black/10 transition-colors duration-500" />
+              {/* Hover label */}
+              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <span className="text-[9px] uppercase tracking-[0.4em] font-black text-gold bg-black/60 px-3 py-1.5 backdrop-blur-sm">Open in Maps ↗</span>
+              </div>
+              {/* Pin */}
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-full pointer-events-none">
+                <div className="w-3 h-3 bg-gold rounded-full border-2 border-white shadow-lg" />
+                <div className="w-[1px] h-3 bg-gold mx-auto" />
+              </div>
+              {/* Label */}
+              <div className="absolute bottom-2 left-2 bg-black/70 backdrop-blur-sm px-2 py-1 border border-white/10">
+                <span className="text-[8px] uppercase tracking-[0.3em] text-white/60">Tajmahal Road, Dhaka</span>
+              </div>
             </a>
 
-            <p className="mt-4 text-[10px] uppercase tracking-[0.3em] text-white/50">
-              Tajmahal Road, Dhaka
+            <p className="mt-3 text-[10px] uppercase tracking-[0.3em] text-white/50">
+              Mohammadpur, Dhaka 1207
             </p>
           </div>
 
@@ -163,15 +197,12 @@ export function Contact() {
           </p>
 
           <button
-            onClick={() =>
-              window.scrollTo({ top: 0, behavior: "smooth" })
-            }
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             className="group flex items-center gap-3 text-white/50 hover:text-gold transition-colors duration-300"
           >
             <span className="text-[8px] uppercase tracking-[0.5em] font-black">
               Back to Top
             </span>
-
             <div className="w-7 h-7 rounded-full border border-white/20 flex items-center justify-center group-hover:border-gold/40 transition-colors">
               <ArrowRight className="-rotate-90" size={12} />
             </div>
@@ -184,9 +215,7 @@ export function Contact() {
             >
               Privacy
             </Link>
-
             <span className="text-white/30">·</span>
-
             <Link
               to="/legal"
               className="text-[9px] uppercase tracking-[0.5em] font-black text-white/50 hover:text-gold transition-colors"
