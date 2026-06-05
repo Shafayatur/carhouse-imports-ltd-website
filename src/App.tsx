@@ -59,31 +59,31 @@ function CompareBar() {
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 100, opacity: 0 }}
           transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-          className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[150] flex items-center gap-3 px-5 py-3 bg-[#0a0a0a] border border-white/10 shadow-2xl rounded-sm backdrop-blur-md"
+          className="fixed bottom-4 left-2 right-2 md:left-1/2 md:right-auto md:-translate-x-1/2 md:w-auto z-[150] flex items-center gap-2 md:gap-3 px-3 md:px-5 py-3 bg-[#0a0a0a] border border-white/10 shadow-2xl rounded-sm backdrop-blur-md overflow-hidden"
         >
           <GitCompareArrows size={14} className="text-gold shrink-0" />
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 flex-1 min-w-0 overflow-hidden">
             {compareList.map(car => (
-              <div key={car.id} className="flex items-center gap-1.5 px-3 py-1.5 bg-white/5 border border-white/10 rounded-sm">
-                <span className="text-[9px] uppercase tracking-widest font-black text-white/60">{car.make} {car.model}</span>
-                <button onClick={() => removeFromCompare(car.id)} className="text-white/20 hover:text-white transition-colors ml-1">
-                  <X size={10} />
+              <div key={car.id} className="flex items-center gap-1 px-2 py-1.5 bg-white/5 border border-white/10 rounded-sm min-w-0 shrink">
+                <span className="text-[8px] uppercase tracking-wide font-black text-white/60 truncate max-w-[60px] md:max-w-[100px]">{car.make} {car.model}</span>
+                <button onClick={() => removeFromCompare(car.id)} className="text-white/20 hover:text-white transition-colors shrink-0">
+                  <X size={9} />
                 </button>
               </div>
             ))}
             {compareList.length < 3 && (
-              <span className="text-[9px] uppercase tracking-widest font-black text-white/20 px-2">
-                +{3 - compareList.length} more
+              <span className="text-[8px] uppercase tracking-widest font-black text-white/20 px-1 shrink-0">
+                +{3 - compareList.length}
               </span>
             )}
           </div>
           <button
             onClick={() => navigate("/compare")}
-            className="ml-2 px-5 py-2 bg-gold text-black text-[9px] uppercase tracking-[0.4em] font-black hover:bg-white transition-colors rounded-sm shrink-0"
+            className="px-3 md:px-5 py-2 bg-gold text-black text-[8px] uppercase tracking-[0.3em] font-black hover:bg-white transition-colors rounded-sm shrink-0"
           >
             Compare
           </button>
-          <button onClick={clearCompare} className="text-white/20 hover:text-white transition-colors">
+          <button onClick={clearCompare} className="text-white/20 hover:text-white transition-colors shrink-0">
             <X size={14} />
           </button>
         </motion.div>

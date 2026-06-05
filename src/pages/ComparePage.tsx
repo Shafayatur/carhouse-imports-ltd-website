@@ -60,20 +60,20 @@ function CarSlot({ car, onRemove, onAdd, allCars }: {
                                 initial={{ opacity: 0, y: 8 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 exit={{ opacity: 0, y: 8 }}
-                                className="absolute top-full left-0 right-0 z-50 bg-[#0a0a0a] border border-white/10 shadow-2xl mt-1"
+                                className="absolute top-full left-0 right-0 z-50 bg-[#0d0d0d] border border-white/15 shadow-2xl mt-1"
                             >
-                                <div className="p-3 border-b border-white/5">
+                                <div className="p-4 border-b border-white/5">
                                     <input
                                         autoFocus
                                         value={query}
                                         onChange={e => setQuery(e.target.value)}
-                                        placeholder="Search cars..."
-                                        className="w-full bg-white/5 border border-white/10 px-3 py-2 text-xs text-white placeholder:text-white/20 focus:outline-none focus:border-gold"
+                                        placeholder="Search by make or model..."
+                                        className="w-full bg-white/5 border border-white/10 px-4 py-3 text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-gold"
                                     />
                                 </div>
                                 <div
                                     className="overflow-y-scroll overscroll-contain"
-                                    style={{ maxHeight: "220px" }}
+                                    style={{ maxHeight: "450px" }}
                                     data-lenis-prevent
                                 >
                                     {filtered.length === 0 && (
@@ -83,7 +83,7 @@ function CarSlot({ car, onRemove, onAdd, allCars }: {
                                         <button
                                             key={c.id}
                                             onClick={() => { onAdd?.(c); setOpen(false); setQuery(""); }}
-                                            className="w-full text-left px-4 py-3 text-xs text-white/50 hover:text-white hover:bg-white/5 transition-colors border-b border-white/5 last:border-0"
+                                            className="w-full text-left px-4 py-2 md:py-3 text-xs text-white/50 hover:text-white hover:bg-white/5 transition-colors border-b border-white/5 last:border-0"
                                         >
                                             <span className="font-bold text-white/70">{c.make}</span> {c.model}
                                             <span className="text-white/20 ml-2">• {c.year}</span>
@@ -188,7 +188,7 @@ export default function ComparePage() {
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="border border-white/5 border-t-0"
+                        className="border border-white/5 border-t-0 overflow-x-auto"
                     >
                         {ROWS.map((row, ri) => (
                             <div
