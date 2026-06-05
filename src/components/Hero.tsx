@@ -32,8 +32,7 @@ export function Hero() {
             <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/20 to-black/80 z-10" />
 
             {/* Loading overlay — fades out once video is ready */}
-            <div className={`absolute inset-0 z-20 bg-black flex items-center justify-center transition-opacity duration-1000 ${videoLoaded ? "opacity-0 pointer-events-none" : "opacity-100"}`}>
-              <SpeedometerLoader />
+            <div className={`absolute inset-0 z-20 bg-black flex items-start justify-center pt-50 transition-opacity duration-1000 ${videoLoaded ? "opacity-0 pointer-events-none" : "opacity-100"}`}>              <SpeedometerLoader />
             </div>
 
             <video

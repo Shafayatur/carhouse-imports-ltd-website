@@ -3,7 +3,7 @@ import { useVehicles } from "@/hooks/useSupabase";
 import { Contact } from "@/components/Contact";
 import { Navbar } from "@/components/Navbar";
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { X, Plus, ArrowRight, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { Vehicle } from "@/lib/supabase";
@@ -31,68 +31,22 @@ const ROWS = [
     { label: "Status", key: (c: Vehicle) => c.status || "—" },
 ];
 
-function CarSlot({ car, onRemove, onAdd, allCars }: {
+function CarSlot({ car, onRemove, onAddClick }: {
     car: Vehicle | null;
     onRemove?: () => void;
-    onAdd?: (car: Vehicle) => void;
-    allCars: Vehicle[];
+    onAddClick?: () => void;
 }) {
-    const [open, setOpen] = useState(false);
-    const [query, setQuery] = useState("");
-    const filtered = allCars.filter(c =>
-        `${c.make} ${c.model}`.toLowerCase().includes(query.toLowerCase())
-    );
-
     if (!car) {
         return (
             <div className="flex-1 min-w-[220px]">
                 <div className="relative">
                     <button
-                        onClick={() => setOpen(o => !o)}
+                        onClick={onAddClick}
                         className="w-full h-48 border border-dashed border-white/10 hover:border-gold/40 transition-colors flex flex-col items-center justify-center gap-3 group"
                     >
                         <Plus size={20} className="text-white/40 group-hover:text-gold transition-colors" />
                         <span className="text-[9px] uppercase tracking-[0.4em] font-black text-white/40 group-hover:text-gold transition-colors">Add Car</span>
                     </button>
-                    <AnimatePresence>
-                        {open && (
-                            <motion.div
-                                initial={{ opacity: 0, y: 8 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: 8 }}
-                                className="absolute top-full left-0 right-0 z-50 bg-[#0d0d0d] border border-white/15 shadow-2xl mt-1"
-                            >
-                                <div className="p-4 border-b border-white/5">
-                                    <input
-                                        autoFocus
-                                        value={query}
-                                        onChange={e => setQuery(e.target.value)}
-                                        placeholder="Search by make or model..."
-                                        className="w-full bg-white/5 border border-white/10 px-4 py-3 text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-gold"
-                                    />
-                                </div>
-                                <div
-                                    className="overflow-y-scroll overscroll-contain"
-                                    style={{ maxHeight: "450px" }}
-                                    data-lenis-prevent
-                                >
-                                    {filtered.length === 0 && (
-                                        <p className="p-4 text-xs text-white/30 text-center">No cars found</p>
-                                    )}
-                                    {filtered.map(c => (
-                                        <button
-                                            key={c.id}
-                                            onClick={() => { onAdd?.(c); setOpen(false); setQuery(""); }}
-                                            className="w-full text-left px-4 py-2 md:py-3 text-xs text-white/50 hover:text-white hover:bg-white/5 transition-colors border-b border-white/5 last:border-0"
-                                        >
-                                            <span className="font-bold text-white/70">{c.make}</span> {c.model}
-                                            <span className="text-white/20 ml-2">• {c.year}</span>
-                                        </button>
-                                    ))}
-                                </div>
-                            </motion.div>
-                        )}
-                    </AnimatePresence>
                 </div>
                 <div className="h-[1px] bg-white/5 mt-0" />
             </div>
@@ -129,10 +83,116 @@ function CarSlot({ car, onRemove, onAdd, allCars }: {
     );
 }
 
+interface SelectCarModalProps {
+    isOpen: boolean;
+    onClose: () => void;
+    onSelect: (car: Vehicle) => void;
+    allCars: Vehicle[];
+}
+
+function SelectCarModal({ isOpen, onClose, onSelect, allCars }: SelectCarModalProps) {
+    const [query, setQuery] = useState("");
+    const filtered = allCars.filter(c =>
+        `${c.make} ${c.model}`.toLowerCase().includes(query.toLowerCase())
+    );
+
+    useEffect(() => {
+        const lenis = (window as any).__lenis;
+        if (isOpen) {
+            lenis?.stop();
+        } else {
+            lenis?.start();
+        }
+        return () => {
+            lenis?.start();
+        };
+    }, [isOpen]);
+
+    return (
+        <AnimatePresence>
+            {isOpen && (
+                <>
+                    {/* Backdrop */}
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        onClick={onClose}
+                        className="fixed inset-0 bg-black/80 backdrop-blur-md z-[200]"
+                    />
+
+                    {/* Modal */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 40, scale: 0.97 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: 20, scale: 0.97 }}
+                        transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                        className="fixed inset-0 z-[201] flex items-center justify-center px-4"
+                    >
+                        <div className="w-full max-w-md bg-[#0a0a0a] border border-white/10 rounded-sm shadow-2xl overflow-hidden flex flex-col max-h-[85vh]">
+                            {/* Header */}
+                            <div className="px-4 sm:px-6 md:px-8 pt-6 sm:pt-7 md:pt-8 pb-4 sm:pb-5 md:pb-6 border-b border-white/5 flex items-start justify-between shrink-0">
+                                <div>
+                                    <p className="text-[9px] uppercase tracking-[0.6em] font-black text-gold mb-2">Compare</p>
+                                    <h2 className="text-2xl font-serif tracking-tight text-white">Select Vehicle</h2>
+                                </div>
+                                <button onClick={onClose} className="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center text-white/20 hover:text-white transition-colors">
+                                    <X size={18} />
+                                </button>
+                            </div>
+
+                            {/* Search */}
+                            <div className="p-4 border-b border-white/5 shrink-0">
+                                <input
+                                    autoFocus
+                                    value={query}
+                                    onChange={e => setQuery(e.target.value)}
+                                    placeholder="Search by make or model..."
+                                    className="w-full bg-white/5 border border-white/10 px-4 py-3 text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-gold"
+                                />
+                            </div>
+
+                            {/* Car List */}
+                            <div
+                                data-lenis-prevent
+                                className="overflow-y-auto overscroll-contain flex-1"
+                            >
+                                {filtered.length === 0 && (
+                                    <p className="p-8 text-xs text-white/30 text-center">No vehicles found</p>
+                                )}
+                                {filtered.map(c => (
+                                    <button
+                                        key={c.id}
+                                        onClick={() => {
+                                            onSelect(c);
+                                            onClose();
+                                            setQuery("");
+                                        }}
+                                        className="w-full text-left px-6 py-4 text-xs text-white/50 hover:text-white hover:bg-white/5 transition-colors border-b border-white/5 last:border-0 flex items-center justify-between"
+                                    >
+                                        <div>
+                                            <span className="font-bold text-white/70">{c.make}</span> {c.model}
+                                            <span className="text-white/20 ml-2">• {c.year}</span>
+                                        </div>
+                                        <div className="text-gold font-mono text-[10px]">
+                                            {c.selling_price ? "BDT " + Math.round(c.selling_price).toLocaleString("en-BD") : "P.O.A"}
+                                        </div>
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    </motion.div>
+                </>
+            )}
+        </AnimatePresence>
+    );
+}
+
 export default function ComparePage() {
     const { compareList, addToCompare, removeFromCompare, clearCompare } = useCompare();
     const { vehicles } = useVehicles();
     const [testDriveCar, setTestDriveCar] = useState<{ name: string; id: string } | null>(null);
+    const [isSelectModalOpen, setIsSelectModalOpen] = useState(false);
     const navigate = useNavigate();
 
     // Fill slots up to 3
@@ -176,8 +236,7 @@ export default function ComparePage() {
                             <CarSlot
                                 car={car}
                                 onRemove={() => car && removeFromCompare(car.id)}
-                                onAdd={c => addToCompare(c)}
-                                allCars={availableCars}
+                                onAddClick={() => setIsSelectModalOpen(true)}
                             />
                         </div>
                     ))}
@@ -276,6 +335,13 @@ export default function ComparePage() {
                 onClose={() => setTestDriveCar(null)}
                 vehicleName={testDriveCar?.name}
                 vehicleId={testDriveCar?.id}
+            />
+
+            <SelectCarModal
+                isOpen={isSelectModalOpen}
+                onClose={() => setIsSelectModalOpen(false)}
+                onSelect={c => addToCompare(c)}
+                allCars={availableCars}
             />
         </main>
     );
