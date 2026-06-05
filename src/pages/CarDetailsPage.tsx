@@ -99,7 +99,7 @@ export default function CarDetailsPage() {
 
       {/* ══ HERO IMAGE ══════════════════════════════════════════════ */}
       <section className="w-full mb-8 -mt-0">
-        <div className="relative w-full h-screen overflow-hidden bg-luxury-gray">
+        <div className="relative w-full h-[55vw] min-h-[320px] md:h-[70vh] lg:h-screen overflow-hidden bg-luxury-gray">
           {car.image_url ? (
             <img
               src={car.image_url}
