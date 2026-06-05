@@ -48,27 +48,18 @@ export default function AboutPage() {
     return (
         <div className="min-h-screen bg-luxury-black text-white">
             <Navbar />
-            <GoBack />
-
             {/* Hero */}
-            <section className="relative min-h-[70vh] flex items-end pb-24 overflow-hidden">
+            <section className="relative h-[60vw] min-h-[320px] md:h-[75vh] lg:h-[85vh] overflow-hidden">
                 <div className="absolute inset-0">
                     <img
-                        src="/images/avik-homepage.jpg"
-                        alt="Car House Story"
-                        className="w-full h-full object-cover grayscale opacity-20"
+                        src="/images/about.jpg"
+                        alt="About Car House"
+                        className="w-full h-full object-cover"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-luxury-black via-luxury-black/60 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-luxury-black/90 via-luxury-black/30 to-luxury-black/40" />
                 </div>
-
-                {/* Background text */}
-                <div className="absolute inset-0 flex items-center justify-center overflow-hidden pointer-events-none select-none">
-                    <span className="text-[22vw] font-serif font-black text-white/[0.03] whitespace-nowrap tracking-tighter uppercase">
-                        LEGACY
-                    </span>
-                </div>
-
-                <div className="relative z-10 container mx-auto px-6 md:px-12">
+                <GoBack className="absolute top-24 left-6 md:left-12 z-20 pt-0 pb-0" />
+                <div className="absolute bottom-0 left-0 right-0 z-10 container mx-auto px-6 md:px-12 pb-12">
                     <motion.div
                         initial={{ opacity: 0, y: 40 }}
                         animate={{ opacity: 1, y: 0 }}

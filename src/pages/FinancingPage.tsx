@@ -85,17 +85,18 @@ export default function FinancingPage() {
     return (
         <div className="min-h-screen bg-luxury-black text-white">
             <Navbar />
-            <GoBack />
-
             {/* Hero */}
-            <section className="relative pt-40 pb-24 overflow-hidden">
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(197,160,40,0.05),transparent_60%)] pointer-events-none" />
-                <div className="absolute inset-0 flex items-center justify-center overflow-hidden pointer-events-none select-none">
-                    <span className="text-[18vw] font-serif font-black text-white/[0.025] whitespace-nowrap tracking-tighter uppercase">
-                        FINANCING
-                    </span>
+            <section className="relative h-[60vw] min-h-[320px] md:h-[75vh] lg:h-[85vh] overflow-hidden">
+                <div className="absolute inset-0">
+                    <img
+                        src="/images/financing.jpg"
+                        alt="Financing & EMI"
+                        className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-luxury-black/90 via-luxury-black/30 to-luxury-black/40" />
                 </div>
-                <div className="relative z-10 container mx-auto px-6 md:px-12">
+                <GoBack className="absolute top-24 left-6 md:left-12 z-20 pt-0 pb-0" />
+                <div className="absolute bottom-0 left-0 right-0 z-10 container mx-auto px-6 md:px-12 pb-12">
                     <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}>
                         <p className="text-[9px] uppercase tracking-[0.7em] font-black text-gold mb-6">Flexible Payment Options</p>
                         <h1 className="text-6xl md:text-9xl font-serif leading-none mb-6">Drive Now.<br />Pay Smart.</h1>
@@ -135,8 +136,8 @@ export default function FinancingPage() {
                                         key={vp.value}
                                         onClick={() => { setVehiclePrice(vp.value); setCustomPrice(''); }}
                                         className={`py-3 text-[10px] uppercase tracking-[0.3em] font-black border transition-all duration-300 ${vehiclePrice === vp.value && !customPrice
-                                                ? 'border-gold bg-gold/10 text-gold'
-                                                : 'border-white/10 text-white/50 hover:border-white/30'
+                                            ? 'border-gold bg-gold/10 text-gold'
+                                            : 'border-white/10 text-white/50 hover:border-white/30'
                                             }`}
                                     >
                                         {vp.label}
@@ -184,8 +185,8 @@ export default function FinancingPage() {
                                         key={y}
                                         onClick={() => setTenureYears(y)}
                                         className={`flex-1 py-3 text-[11px] font-black border transition-all duration-300 ${tenureYears === y
-                                                ? 'border-gold bg-gold/10 text-gold'
-                                                : 'border-white/10 text-white/50 hover:border-white/30'
+                                            ? 'border-gold bg-gold/10 text-gold'
+                                            : 'border-white/10 text-white/50 hover:border-white/30'
                                             }`}
                                     >
                                         {y}yr

@@ -81,17 +81,18 @@ export default function TradeInPage() {
     return (
         <div className="min-h-screen bg-luxury-black text-white">
             <Navbar />
-            <GoBack />
-
             {/* Hero */}
-            <section className="relative pt-40 pb-24 overflow-hidden">
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_50%,rgba(197,160,40,0.05),transparent_60%)] pointer-events-none" />
-                <div className="absolute inset-0 flex items-center justify-center overflow-hidden pointer-events-none select-none">
-                    <span className="text-[16vw] font-serif font-black text-white/[0.025] whitespace-nowrap tracking-tighter uppercase">
-                        TRADE IN
-                    </span>
+            <section className="relative h-[60vw] min-h-[320px] md:h-[75vh] lg:h-[85vh] overflow-hidden">
+                <div className="absolute inset-0">
+                    <img
+                        src="/images/trade-in.jpg"
+                        alt="Trade-In Programme"
+                        className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-luxury-black/90 via-luxury-black/30 to-luxury-black/40" />
                 </div>
-                <div className="relative z-10 container mx-auto px-6 md:px-12">
+                <GoBack className="absolute top-24 left-6 md:left-12 z-20 pt-0 pb-0" />
+                <div className="absolute bottom-0 left-0 right-0 z-10 container mx-auto px-6 md:px-12 pb-12">
                     <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}>
                         <p className="text-[9px] uppercase tracking-[0.7em] font-black text-gold mb-6">Exchange Programme</p>
                         <h1 className="text-6xl md:text-9xl font-serif leading-none mb-6">Exchange<br />Your Car.</h1>
@@ -247,8 +248,8 @@ export default function TradeInPage() {
                                                 type="button"
                                                 onClick={() => setCondition(c.value)}
                                                 className={`w-full text-left p-5 border transition-all duration-300 ${condition === c.value
-                                                        ? 'border-gold bg-gold/5'
-                                                        : 'border-white/8 hover:border-white/20'
+                                                    ? 'border-gold bg-gold/5'
+                                                    : 'border-white/8 hover:border-white/20'
                                                     }`}
                                             >
                                                 <div className="flex items-center justify-between">

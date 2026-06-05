@@ -33,7 +33,7 @@ export default function LegalPage() {
          <Navbar />
 
          {/* Cinematic Header Cover from the Top */}
-         <header className="relative h-[45vh] flex items-center pt-20 overflow-hidden border-b border-white/5">
+         <header className="relative h-[45vw] min-h-[260px] md:h-[45vh] flex items-center pt-16 md:pt-20 overflow-hidden border-b border-white/5">
             <div className="absolute inset-0 z-0">
                <div className="absolute inset-0 bg-black/75 z-10" />
                <img
@@ -61,10 +61,9 @@ export default function LegalPage() {
                </motion.h1>
             </div>
          </header>
-         <GoBack />
-
          {/* Page Content Layout */}
-         <div className="container mx-auto px-6 md:px-12 py-20 max-w-4xl">
+         <div className="container mx-auto px-6 md:px-12 pt-4 pb-20 max-w-4xl">
+            <GoBack className="pt-0 pb-6" />
 
             <div className="space-y-12">
 
