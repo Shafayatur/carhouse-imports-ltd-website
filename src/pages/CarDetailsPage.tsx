@@ -131,36 +131,36 @@ export default function CarDetailsPage() {
 
         {/* Full-width title + quick specs */}
         <div className="mb-16 space-y-10">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-            <div className="flex items-center gap-2">
+          <div className="flex flex-col sm:flex-row sm:items-start md:items-center md:justify-between gap-4 sm:gap-6">
+            <div className="flex items-center gap-2 flex-shrink-0 justify-center sm:justify-start">
               <button
                 onClick={() => setTestDriveOpen(true)}
-                className="flex items-center gap-2 px-6 py-2.5 border border-gold/40 text-gold hover:bg-gold hover:text-black transition-all duration-500 rounded-sm"
+                className="flex items-center gap-1.5 px-3 sm:px-4 md:px-6 py-2 sm:py-2.5 border border-gold/40 text-gold hover:bg-gold hover:text-black transition-all duration-500 rounded-sm text-[8px] sm:text-[9px] md:text-[9px] whitespace-nowrap"
               >
-                <CarFront size={13} />
-                <span className="text-[9px] uppercase tracking-[0.3em] font-black">Test Drive</span>
+                <CarFront size={11} className="sm:w-[13px] sm:h-[13px]" />
+                <span className="uppercase tracking-[0.2em] sm:tracking-[0.3em] font-black">Test Drive</span>
               </button>
               {car && (
                 <button
                   onClick={() => isInCompare(car.id) ? removeFromCompare(car.id) : addToCompare(car)}
-                  className={`flex items-center gap-2 px-6 py-2.5 border rounded-sm transition-all duration-500 ${isInCompare(car.id) ? "border-white/40 text-white hover:border-white/20 hover:text-white/50" : "border-white/20 text-white/50 hover:border-white/40 hover:text-white"}`}
+                  className={`flex items-center gap-1.5 px-3 sm:px-4 md:px-6 py-2 sm:py-2.5 border rounded-sm transition-all duration-500 text-[8px] sm:text-[9px] md:text-[9px] whitespace-nowrap ${isInCompare(car.id) ? "border-white/40 text-white hover:border-white/20 hover:text-white/50" : "border-white/20 text-white/50 hover:border-white/40 hover:text-white"}`}
                 >
-                  <GitCompareArrows size={13} />
-                  <span className="text-[9px] uppercase tracking-[0.3em] font-black">
+                  <GitCompareArrows size={11} className="sm:w-[13px] sm:h-[13px]" />
+                  <span className="uppercase tracking-[0.2em] sm:tracking-[0.3em] font-black">
                     {isInCompare(car.id) ? "Remove" : "Compare"}
                   </span>
                 </button>
               )}
             </div>
-            <div className="text-center">
-              <p className="text-[10px] uppercase tracking-[0.6em] font-black text-gold mb-4">
+            <div className="text-center flex-1 min-w-0">
+              <p className="text-[9px] sm:text-[10px] uppercase tracking-[0.5em] sm:tracking-[0.6em] font-black text-gold mb-2 sm:mb-4">
                 {car.make} • {car.year} • {car.origin}
               </p>
-              <h1 className="text-5xl md:text-7xl font-serif leading-tight">{car.model}</h1>
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-serif leading-tight break-words">{car.model}</h1>
             </div>
-            <div className="flex items-center gap-3 px-12 py-2.5 border border-gold/40 text-gold rounded-sm">
-              <Coins size={18} />
-              <span className="text-[11px] uppercase tracking-[0.4em] font-black">AP: {fmtPrice(car.selling_price)}</span>
+            <div className="flex items-center justify-center gap-2 sm:gap-3 px-3 sm:px-4 md:px-12 py-2 sm:py-2.5 border border-gold/40 text-gold rounded-sm flex-shrink-0">
+              <Coins size={14} className="sm:w-[16px] sm:h-[16px] md:w-[18px] md:h-[18px]" />
+              <span className="text-[8px] sm:text-[9px] md:text-[11px] uppercase tracking-[0.2em] sm:tracking-[0.3em] md:tracking-[0.4em] font-black whitespace-nowrap">AP: {fmtPrice(car.selling_price)}</span>
             </div>
           </div>
 
