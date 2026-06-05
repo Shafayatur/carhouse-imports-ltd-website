@@ -18,13 +18,13 @@ export function HorizontalCollection() {
     <section ref={targetRef} className="relative h-[300vh] bg-luxury-black">
       <div className="sticky top-0 h-screen flex items-center overflow-hidden">
         {loading ? (
-          <div className="flex gap-12 px-12 md:px-24">
+          <div className="flex gap-4 sm:gap-6 md:gap-12 px-4 sm:px-6 md:px-12 lg:px-24">
             {[1, 2, 3].map(i => (
               <div key={i} className="w-[85vw] md:w-[46vw] h-[72vh] flex-shrink-0 bg-white/5 animate-pulse rounded-sm" />
             ))}
           </div>
         ) : (
-          <motion.div style={{ x }} className="flex gap-12 px-12 md:px-24">
+          <motion.div style={{ x }} className="flex gap-4 sm:gap-6 md:gap-12 px-4 sm:px-6 md:px-12 lg:px-24">
             {vehicles.map((car) => (
               <div key={car.id} className="group relative w-[85vw] md:w-[46vw] h-[72vh] flex-shrink-0">
                 <Link to={`/inventory/${car.id}`} className="block h-full">

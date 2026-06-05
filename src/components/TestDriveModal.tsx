@@ -65,18 +65,18 @@ export function TestDriveModal({ isOpen, onClose, vehicleName = "", vehicleId }:
                         <div className="w-full max-w-md bg-[#0a0a0a] border border-white/10 rounded-sm shadow-2xl overflow-hidden">
 
                             {/* Header */}
-                            <div className="px-8 pt-8 pb-6 border-b border-white/5 flex items-start justify-between">
+                            <div className="px-4 sm:px-6 md:px-8 pt-6 sm:pt-7 md:pt-8 pb-4 sm:pb-5 md:pb-6 border-b border-white/5 flex items-start justify-between">
                                 <div>
                                     <p className="text-[9px] uppercase tracking-[0.6em] font-black text-gold mb-2">Schedule</p>
                                     <h2 className="text-2xl font-serif tracking-tight text-white">Request a Test Drive</h2>
                                 </div>
-                                <button onClick={handleClose} className="text-white/20 hover:text-white transition-colors mt-1">
+                                <button onClick={handleClose} className="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center text-white/20 hover:text-white transition-colors">
                                     <X size={18} />
                                 </button>
                             </div>
 
                             {/* Body */}
-                            <div className="px-8 py-8">
+                            <div className="px-4 sm:px-6 md:px-8 py-6 sm:py-7 md:py-8">
                                 {formState === "success" ? (
                                     <motion.div
                                         initial={{ opacity: 0, y: 10 }}
@@ -157,7 +157,7 @@ export function TestDriveModal({ isOpen, onClose, vehicleName = "", vehicleId }:
                                         <button
                                             type="submit"
                                             disabled={formState === "submitting"}
-                                            className="w-full mt-2 py-4 bg-gold text-black text-[9px] uppercase tracking-[0.4em] font-black rounded-sm hover:bg-white transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
+                                            className="w-full mt-4 sm:mt-6 py-4 md:py-5 bg-gold text-black text-[9px] uppercase tracking-[0.4em] font-black rounded-sm hover:bg-white transition-colors flex items-center justify-center gap-2 disabled:opacity-50\"
                                         >
                                             {formState === "submitting" ? (
                                                 <><Loader2 size={14} className="animate-spin" /> Submitting...</>

@@ -77,7 +77,7 @@ export function FullMenu({ isOpen, onClose, onOpenProfile }: FullMenuProps) {
             className="fixed top-0 left-0 h-full w-full max-w-md bg-luxury-black border-r border-white/5 z-[200] flex flex-col overflow-y-auto"
           >
             {/* Header */}
-            <div className="flex items-center justify-between px-8 md:px-12 py-10 shrink-0">
+            <div className="flex items-center justify-between px-4 sm:px-8 md:px-12 py-6 sm:py-8 md:py-10 shrink-0">
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 rounded-full border border-gold/30 flex items-center justify-center bg-gold/5">
                   <span className="text-gold font-serif text-lg font-bold">CH</span>
@@ -89,14 +89,14 @@ export function FullMenu({ isOpen, onClose, onOpenProfile }: FullMenuProps) {
               </div>
               <button
                 onClick={onClose}
-                className="w-10 h-10 flex items-center justify-center text-white/40 hover:text-white transition-colors"
+                className="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center text-white/40 hover:text-white transition-colors"
               >
                 <X size={20} />
               </button>
             </div>
 
             {/* Nav Sections */}
-            <div className="flex-1 px-8 md:px-12 pb-8 space-y-10">
+            <div className="flex-1 px-4 sm:px-8 md:px-12 pb-6 sm:pb-8 md:pb-8 space-y-8 sm:space-y-10">
               {menuSections.map((section, sIdx) => (
                 <motion.div
                   key={section.label}
@@ -188,7 +188,7 @@ export function FullMenu({ isOpen, onClose, onOpenProfile }: FullMenuProps) {
             </div>
 
             {/* Footer */}
-            <div className="px-8 md:px-12 py-10 border-t border-white/5 bg-black/20 shrink-0 space-y-6">
+            <div className="px-4 sm:px-8 md:px-12 py-6 sm:py-8 md:py-10 border-t border-white/5 bg-black/20 shrink-0 space-y-6">
               <div>
                 <p className="text-[9px] uppercase tracking-[0.5em] text-white/20 font-black mb-2">Enquiries</p>
                 <a href="mailto:concierge@carhouse.uk" className="text-sm font-serif text-white/60 hover:text-gold transition-colors">
@@ -203,7 +203,7 @@ export function FullMenu({ isOpen, onClose, onOpenProfile }: FullMenuProps) {
             </div>
 
             {/* Watermark */}
-            <div className="px-8 md:px-12 pb-6 overflow-hidden">
+            <div className="px-4 sm:px-8 md:px-12 pb-4 sm:pb-6 overflow-hidden">
               <span className="text-[48px] font-serif font-black text-white/[0.02] uppercase whitespace-nowrap">
                 ESTABLISHED 2000
               </span>

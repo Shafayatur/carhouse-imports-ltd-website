@@ -57,16 +57,16 @@ export function Contact() {
               </span>
             </div>
 
-            <p className="text-white/45 text-[11px] leading-relaxed tracking-widest uppercase">
+            <p className="text-white/45 text-sm sm:text-base md:text-[11px] leading-relaxed tracking-widest uppercase">
               The world's most discerning collectors trust us with what matters most.
             </p>
 
             <div className="flex items-center gap-3 pt-2">
               {[
-                { icon: <Instagram size={14} />, href: "https://instagram.com/carhouseimports" },
-                { icon: <Twitter size={14} />, href: "https://twitter.com/carhouseimports" },
-                { icon: <Linkedin size={14} />, href: "https://linkedin.com/company/carhouseimports" },
-                { icon: <Youtube size={14} />, href: "https://youtube.com/@carhouseimports" },
+                { icon: <Instagram size={16} />, href: "https://instagram.com/carhouseimports" },
+                { icon: <Twitter size={16} />, href: "https://twitter.com/carhouseimports" },
+                { icon: <Linkedin size={16} />, href: "https://linkedin.com/company/carhouseimports" },
+                { icon: <Youtube size={16} />, href: "https://youtube.com/@carhouseimports" },
               ].map(({ icon, href }, i) => (
                 <motion.a
                   key={i}
@@ -74,7 +74,7 @@ export function Contact() {
                   target="_blank"
                   rel="noopener noreferrer"
                   whileHover={{ y: -2 }}
-                  className="w-9 h-9 rounded-full border border-white/15 flex items-center justify-center text-white/50 hover:text-gold hover:border-gold/40 transition-all duration-300"
+                  className="w-10 h-10 md:w-9 md:h-9 rounded-full border border-white/15 flex items-center justify-center text-white/50 hover:text-gold hover:border-gold/40 transition-all duration-300"
                 >
                   {icon}
                 </motion.a>

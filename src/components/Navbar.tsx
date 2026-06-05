@@ -32,10 +32,10 @@ export function Navbar() {
         )}
       >
         {/* Left — Menu + Nav links */}
-        <div className="flex items-center gap-4 md:gap-12 flex-1">
+        <div className="flex items-center gap-2 sm:gap-4 md:gap-12 flex-1">
           <button
             onClick={() => setIsMenuOpen(true)}
-            className="text-white hover:text-gold transition-colors flex items-center gap-3 group shrink-0"
+            className="text-white hover:text-gold transition-colors flex items-center gap-2 sm:gap-3 group shrink-0"
           >
             <Menu size={20} className="group-hover:scale-x-125 transition-transform" />
             <span className="hidden md:block text-[10px] uppercase tracking-[0.3em] font-bold">Menu</span>
@@ -57,11 +57,11 @@ export function Navbar() {
         </Link>
 
         {/* Right — Search + Profile + Consult */}
-        <div className="flex items-center gap-4 md:gap-6 flex-1 justify-end">
+        <div className="flex items-center gap-2 sm:gap-4 md:gap-6 flex-1 justify-end">
           {/* Mobile search only */}
           <button
             onClick={() => setIsSearchOpen(true)}
-            className="md:hidden text-white/40 hover:text-white transition-colors"
+            className="md:hidden text-white/40 hover:text-white transition-colors p-2 hover:bg-white/5 rounded-sm"
           >
             <Search size={20} />
           </button>
@@ -92,9 +92,9 @@ export function Navbar() {
         </div>
       </motion.header>
 
-      <FullMenu 
-        isOpen={isMenuOpen} 
-        onClose={() => setIsMenuOpen(false)} 
+      <FullMenu
+        isOpen={isMenuOpen}
+        onClose={() => setIsMenuOpen(false)}
         onOpenProfile={() => {
           setIsMenuOpen(false);
           setIsProfileOpen(true);

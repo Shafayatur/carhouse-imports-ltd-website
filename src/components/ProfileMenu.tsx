@@ -50,7 +50,7 @@ export function ProfileMenu({ isOpen, onClose }: ProfileMenuProps) {
             exit={{ x: "100%" }}
             transition={{ type: "spring", damping: 30, stiffness: 300 }}
             data-lenis-prevent
-            className="fixed top-0 right-0 h-full w-full max-w-md bg-luxury-black border-l border-white/5 z-[1002] p-8 md:p-12 overflow-y-auto"
+            className="fixed top-0 right-0 h-full w-full max-w-md bg-luxury-black border-l border-white/5 z-[1002] px-4 py-6 sm:px-8 md:p-12 overflow-y-auto"
           >
             <div className="flex items-center justify-between mb-16">
               <div className="flex items-center gap-4">
@@ -64,7 +64,7 @@ export function ProfileMenu({ isOpen, onClose }: ProfileMenuProps) {
               </div>
               <button
                 onClick={onClose}
-                className="w-10 h-10 flex items-center justify-center text-white/40 hover:text-white transition-colors"
+                className="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center text-white/40 hover:text-white transition-colors"
               >
                 <X size={20} />
               </button>

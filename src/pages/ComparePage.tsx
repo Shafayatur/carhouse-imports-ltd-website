@@ -168,9 +168,9 @@ export default function ComparePage() {
                 </div>
 
                 {/* Car slots row */}
-                <div className="flex gap-px border border-white/5 bg-white/5">
+                <div className="flex gap-px border border-white/5 bg-white/5 overflow-x-auto">
                     {/* Row label col */}
-                    <div className="w-36 shrink-0 bg-luxury-black" />
+                    <div className="w-24 md:w-36 shrink-0 bg-luxury-black" />
                     {slots.map((car, i) => (
                         <div key={i} className="flex-1 bg-luxury-black">
                             <CarSlot
@@ -196,8 +196,8 @@ export default function ComparePage() {
                                 className={`flex ${ri % 2 === 0 ? "bg-white/[0.01]" : "bg-transparent"} border-b border-white/5 last:border-0 hover:bg-white/[0.02] transition-colors`}
                             >
                                 {/* Label */}
-                                <div className="w-36 shrink-0 px-5 py-4 flex items-center">
-                                    <span className="text-[9px] uppercase tracking-[0.35em] font-black text-white/40">{row.label}</span>
+                                <div className="w-24 md:w-36 shrink-0 px-2 sm:px-3 md:px-5 py-4 flex items-center">
+                                    <span className="text-[8px] sm:text-[9px] uppercase tracking-[0.35em] font-black text-white/40">{row.label}</span>
                                 </div>
                                 {/* Values */}
                                 {slots.map((car, ci) => {
@@ -221,8 +221,8 @@ export default function ComparePage() {
 
                         {/* Actions row */}
                         <div className="flex border-t border-white/5 bg-white/[0.02] hover:bg-white/[0.03] transition-colors">
-                            <div className="w-36 shrink-0 px-5 py-5 flex items-center">
-                                <span className="text-[9px] uppercase tracking-[0.35em] font-black text-white/40">Actions</span>
+                            <div className="w-24 md:w-36 shrink-0 px-2 sm:px-3 md:px-5 py-5 flex items-center">
+                                <span className="text-[8px] sm:text-[9px] uppercase tracking-[0.35em] font-black text-white/40">Actions</span>
                             </div>
                             {slots.map((car, ci) => (
                                 <div key={ci} className="flex-1 px-5 py-5 border-l border-white/5 flex flex-col gap-2">
