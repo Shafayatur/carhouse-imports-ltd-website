@@ -93,7 +93,7 @@ export default function InventoryPage() {
   const resetFilters = () => setFilters(initialFilters);
 
   return (
-    <main className="bg-luxury-black min-h-screen pt-32 selection:bg-gold selection:text-black text-white">
+    <main className="bg-luxury-black min-h-screen pt-20 selection:bg-gold selection:text-black text-white">
       <Navbar />
       <GoBack />
 

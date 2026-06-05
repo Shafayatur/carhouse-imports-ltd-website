@@ -135,7 +135,7 @@ export default function CarDetailsPage() {
             <div className="flex items-center gap-2">
               <button
                 onClick={() => setTestDriveOpen(true)}
-                className="flex items-center gap-2 px-4 py-2.5 border border-gold/40 text-gold hover:bg-gold hover:text-black transition-all duration-500 rounded-sm"
+                className="flex items-center gap-2 px-6 py-2.5 border border-gold/40 text-gold hover:bg-gold hover:text-black transition-all duration-500 rounded-sm"
               >
                 <CarFront size={13} />
                 <span className="text-[9px] uppercase tracking-[0.3em] font-black">Test Drive</span>
@@ -143,7 +143,7 @@ export default function CarDetailsPage() {
               {car && (
                 <button
                   onClick={() => isInCompare(car.id) ? removeFromCompare(car.id) : addToCompare(car)}
-                  className={`flex items-center gap-2 px-4 py-2.5 border rounded-sm transition-all duration-500 ${isInCompare(car.id) ? "border-white/40 text-white hover:border-white/20 hover:text-white/50" : "border-white/20 text-white/50 hover:border-white/40 hover:text-white"}`}
+                  className={`flex items-center gap-2 px-6 py-2.5 border rounded-sm transition-all duration-500 ${isInCompare(car.id) ? "border-white/40 text-white hover:border-white/20 hover:text-white/50" : "border-white/20 text-white/50 hover:border-white/40 hover:text-white"}`}
                 >
                   <GitCompareArrows size={13} />
                   <span className="text-[9px] uppercase tracking-[0.3em] font-black">
@@ -158,7 +158,7 @@ export default function CarDetailsPage() {
               </p>
               <h1 className="text-5xl md:text-7xl font-serif leading-tight">{car.model}</h1>
             </div>
-            <div className="flex items-center gap-3 px-8 py-4 border border-gold/40 text-gold rounded-sm">
+            <div className="flex items-center gap-3 px-12 py-2.5 border border-gold/40 text-gold rounded-sm">
               <Coins size={18} />
               <span className="text-[11px] uppercase tracking-[0.4em] font-black">AP: {fmtPrice(car.selling_price)}</span>
             </div>
