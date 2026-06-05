@@ -1,11 +1,12 @@
 import { motion, useScroll } from "motion/react";
 import { Link } from "react-router-dom";
-import { Menu, Search, User } from "lucide-react";
+import { Menu, Search, User, Bot } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useState, useEffect } from "react";
 import { FullMenu } from "./FullMenu";
 import { SearchOverlay } from "./SearchOverlay";
 import { ProfileMenu } from "./ProfileMenu";
+import { AIConcierge } from "./AIConcierge";
 
 export function Navbar() {
   const { scrollY } = useScroll();
@@ -13,6 +14,7 @@ export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [isAIOpen, setIsAIOpen] = useState(false);
 
   useEffect(() => {
     return scrollY.on("change", (latest) => {
@@ -58,12 +60,19 @@ export function Navbar() {
 
         {/* Right — Search + Profile + Consult */}
         <div className="flex items-center gap-2 sm:gap-4 md:gap-6 flex-1 justify-end">
-          {/* Mobile search only */}
+          {/* Mobile search + AI */}
           <button
             onClick={() => setIsSearchOpen(true)}
             className="md:hidden text-white/40 hover:text-white transition-colors p-2 hover:bg-white/5 rounded-sm"
           >
             <Search size={20} />
+          </button>
+          <button
+            onClick={() => setIsAIOpen(true)}
+            className="md:hidden text-white/40 hover:text-gold transition-colors p-2 relative"
+          >
+            <Bot size={20} />
+            <span className="absolute top-1 right-1 w-1.5 h-1.5 bg-green-500 rounded-full" />
           </button>
 
           {/* Desktop search + profile */}
@@ -79,6 +88,13 @@ export function Navbar() {
               className="text-white/40 hover:text-white transition-colors p-2"
             >
               <User size={18} />
+            </button>
+            <button
+              onClick={() => setIsAIOpen(true)}
+              className="text-white/40 hover:text-gold transition-colors p-2 relative"
+            >
+              <Bot size={18} />
+              <span className="absolute top-1 right-1 w-1.5 h-1.5 bg-green-500 rounded-full" />
             </button>
           </div>
 
@@ -102,6 +118,7 @@ export function Navbar() {
       />
       <SearchOverlay isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
       <ProfileMenu isOpen={isProfileOpen} onClose={() => setIsProfileOpen(false)} />
+      <AIConcierge isOpen={isAIOpen} onClose={() => setIsAIOpen(false)} />
     </>
   );
 }

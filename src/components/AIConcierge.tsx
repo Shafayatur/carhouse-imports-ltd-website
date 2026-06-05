@@ -15,8 +15,12 @@ function fmtPrice(n: number) {
   return n ? "BDT " + Math.round(n).toLocaleString("en-BD") : "P.O.A";
 }
 
-export function AIConcierge() {
-  const [isOpen, setIsOpen] = useState(false);
+interface AIConciergeProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+export function AIConcierge({ isOpen, onClose }: AIConciergeProps) {
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -152,7 +156,7 @@ RULES:
       if (match) {
         const car = vehicles.find(v => v.id === match[1].trim());
         if (!car) return null;
-        return <CarCard key={i} car={car} onClose={() => setIsOpen(false)} />;
+        return <CarCard key={i} car={car} onClose={() => onClose()} />;
       }
       return <span key={i}>{part}</span>;
     });
@@ -160,28 +164,13 @@ RULES:
 
   return (
     <>
-      {/* Open button */}
-      <motion.button
-        onClick={() => setIsOpen(true)}
-        initial={{ scale: 0, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.9 }}
-        className="fixed bottom-6 right-6 z-[500] w-14 h-14 bg-gold text-black rounded-full flex items-center justify-center shadow-[0_0_30px_rgba(197,160,40,0.3)] group border-2 border-white/20"
-      >
-        <Bot size={28} className="group-hover:rotate-6 transition-transform" />
-        <span className="absolute right-full mr-4 px-4 py-2 bg-black/80 backdrop-blur-md text-gold text-[9px] uppercase tracking-[0.3em] font-black rounded-full border border-white/10 opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity whitespace-nowrap">
-          Digital Concierge
-        </span>
-      </motion.button>
-
       <AnimatePresence>
         {isOpen && (
           <>
             {/* Backdrop */}
             <motion.div
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              onClick={() => setIsOpen(false)}
+              onClick={() => onClose()}
               className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[498]"
             />
 
@@ -207,7 +196,7 @@ RULES:
                     </p>
                   </div>
                 </div>
-                <button onClick={() => setIsOpen(false)} className="p-2 text-white/20 hover:text-white transition-colors">
+                <button onClick={() => onClose()} className="p-2 text-white/20 hover:text-white transition-colors">
                   <X size={20} />
                 </button>
               </div>

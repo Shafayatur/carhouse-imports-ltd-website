@@ -21,7 +21,6 @@ import { Membership } from "@/components/Membership";
 import { VideoSection } from "@/components/VideoSection";
 import { PartnerLogos } from "@/components/PartnerLogos";
 import { FAQ } from "@/components/FAQ";
-import { AIConcierge } from "@/components/AIConcierge";
 import { Contact } from "@/components/Contact";
 import { motion, AnimatePresence, useScroll, useSpring } from "motion/react";
 import { useNavigate } from "react-router-dom";
@@ -244,7 +243,6 @@ export default function App() {
               <Route path="/trade-in" element={<TradeInPage />} />
             </Routes>
 
-            <AIConcierge />
             <CompareBar />
 
             {/* Aesthetic Accents */}
