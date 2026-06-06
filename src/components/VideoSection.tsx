@@ -25,8 +25,8 @@ export function VideoSection({ videoUrl, title, subtitle, quote, reverse, button
   const opacity = useTransform(scrollYProgress, [0, 0.3], [0, 1]);
 
   return (
-    <section ref={ref} className="relative h-screen bg-luxury-black overflow-hidden flex items-center">
-      <motion.div 
+    <section ref={ref} className="relative h-[80vw] min-h-[500px] md:h-screen bg-luxury-black overflow-hidden flex items-center">
+      <motion.div
         style={{ width, height: "100%" }}
         className="absolute inset-0 mx-auto z-0"
       >
@@ -43,35 +43,35 @@ export function VideoSection({ videoUrl, title, subtitle, quote, reverse, button
       </motion.div>
 
       <div className="relative z-20 h-full container mx-auto px-6 md:px-12 flex flex-col justify-center">
-        <motion.div 
+        <motion.div
           style={{ y: yText, opacity }}
           className={cn(
-            "max-w-3xl flex flex-col gap-8",
+            "max-w-3xl flex flex-col gap-5 md:gap-8",
             reverse ? "ml-auto text-right items-end" : "mr-auto text-left items-start"
           )}
         >
           <div>
             <p className="text-[10px] uppercase tracking-[0.8em] font-black text-gold mb-6">{subtitle}</p>
-            <h3 className="text-6xl md:text-8xl font-serif  leading-[0.85] tracking-tight">{title}</h3>
+            <h3 className="text-4xl md:text-6xl lg:text-8xl font-serif leading-[0.85] tracking-tight">{title}</h3>
           </div>
-          
+
           <div className="h-[2px] w-24 bg-gold" />
-          
+
           {quote && (
-            <p className="text-white text-xl md:text-2xl font-light  leading-relaxed opacity-80">
+            <p className="text-white text-base md:text-xl lg:text-2xl font-light leading-relaxed opacity-80">
               "{quote}"
             </p>
           )}
 
           {buttonLink ? (
-            <Link 
+            <Link
               to={buttonLink}
-              className="inline-block px-12 py-5 border border-white/20 rounded-full text-[10px] uppercase tracking-[0.4em] font-black hover:bg-gold hover:text-black hover:border-gold transition-all duration-700"
+              className="inline-block px-8 py-4 md:px-12 md:py-5 border border-white/20 rounded-full text-[10px] uppercase tracking-[0.4em] font-black hover:bg-gold hover:text-black hover:border-gold transition-all duration-700"
             >
               {buttonLabel || "Discover Process"}
             </Link>
           ) : (
-            <button className="px-12 py-5 border border-white/20 rounded-full text-[10px] uppercase tracking-[0.4em] font-black hover:bg-gold hover:text-black hover:border-gold transition-all duration-700">
+            <button className="px-8 py-4 md:px-12 md:py-5 border border-white/20 rounded-full text-[10px] uppercase tracking-[0.4em] font-black hover:bg-gold hover:text-black hover:border-gold transition-all duration-700">
               {buttonLabel || "Discover Process"}
             </button>
           )}

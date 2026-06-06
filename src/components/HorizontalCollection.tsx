@@ -11,74 +11,146 @@ export function HorizontalCollection() {
 
   const x = useTransform(scrollYProgress, [0, 1], ["0%", "-60%"]);
 
-  // Show placeholder cards while loading or if none selected yet
-  const showPlaceholder = !loading && vehicles.length === 0;
-
   return (
-    <section ref={targetRef} className="relative h-[300vh] bg-luxury-black">
-      <div className="sticky top-0 h-screen flex items-center overflow-hidden">
-        {loading ? (
-          <div className="flex gap-4 sm:gap-6 md:gap-12 px-4 sm:px-6 md:px-12 lg:px-24">
-            {[1, 2, 3].map(i => (
-              <div key={i} className="w-[85vw] md:w-[46vw] h-[72vh] flex-shrink-0 bg-white/5 animate-pulse rounded-sm" />
-            ))}
+    <>
+      {/* ── MOBILE: touch-scroll snap ── */}
+      <section className="md:hidden bg-luxury-black overflow-hidden">
+        {/* Header */}
+        <div className="px-6 pt-12 pb-6 flex items-end justify-between">
+          <div>
+            <p className="text-[9px] uppercase tracking-[0.6em] font-black text-gold mb-2">The Collection</p>
+            <h2 className="text-3xl font-serif leading-tight">Featured <br />Vehicles</h2>
           </div>
-        ) : (
-          <motion.div style={{ x }} className="flex gap-4 sm:gap-6 md:gap-12 px-4 sm:px-6 md:px-12 lg:px-24">
-            {vehicles.map((car) => (
-              <div key={car.id} className="group relative w-[85vw] md:w-[46vw] h-[72vh] flex-shrink-0">
-                <Link to={`/inventory/${car.id}`} className="block h-full">
-                  <div className="relative w-full h-full overflow-hidden rounded-sm transition-all duration-1000">
-                    {car.image_url ? (
-                      <img
-                        src={car.image_url}
-                        alt={`${car.make} ${car.model}`}
-                        className="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-110"
-                      />
-                    ) : (
-                      <div className="w-full h-full bg-white/[0.03] flex flex-col items-center justify-center">
-                        <p className="text-white/10 text-6xl font-display font-black tracking-tighter">{car.make}</p>
-                        <p className="text-white/5 text-3xl font-serif  mt-2">{car.model}</p>
-                      </div>
-                    )}
-                    <div className="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-colors duration-1000" />
+          <Link to="/inventory" className="text-[9px] uppercase tracking-[0.4em] font-black text-white/30 hover:text-gold transition-colors flex items-center gap-1">
+            All <ArrowUpRight size={10} />
+          </Link>
+        </div>
 
-                    <div className="absolute top-12 left-12 text-white">
-                      <p className="text-[10px] uppercase tracking-[0.5em] font-black text-gold mb-3">{car.make}</p>
-                      <h3 className="text-4xl md:text-5xl font-serif ">{car.model}</h3>
-                    </div>
-
-                    <div className="absolute bottom-12 right-12 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-700">
-                      <div className="w-16 h-16 rounded-full bg-gold text-black flex items-center justify-center hover:bg-white transition-colors">
-                        <ArrowUpRight size={24} />
-                      </div>
-                    </div>
+        {/* Snap scroll row */}
+        <div
+          className="flex gap-4 px-6 pb-12 overflow-x-auto snap-x snap-mandatory scrollbar-none"
+          style={{ scrollbarWidth: "none", WebkitOverflowScrolling: "touch" }}
+          onTouchStart={() => (window as any).__lenis?.stop()}
+          onTouchEnd={() => (window as any).__lenis?.start()}
+        >
+          {loading ? (
+            [1, 2, 3].map(i => (
+              <div key={i} className="w-[78vw] h-[55vw] flex-shrink-0 snap-start bg-white/5 animate-pulse rounded-sm" />
+            ))
+          ) : (
+            <>
+              {vehicles.map((car) => (
+                <Link
+                  key={car.id}
+                  to={`/inventory/${car.id}`}
+                  className="group relative w-[78vw] h-[55vw] flex-shrink-0 snap-start overflow-hidden rounded-sm block"
+                >
+                  {car.image_url ? (
+                    <img
+                      src={car.image_url}
+                      alt={`${car.make} ${car.model}`}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-white/[0.03]" />
+                  )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                  <div className="absolute bottom-4 left-4">
+                    <p className="text-[8px] uppercase tracking-[0.5em] font-black text-gold mb-1">{car.make}</p>
+                    <h3 className="text-xl font-serif text-white">{car.model}</h3>
+                  </div>
+                  <div className="absolute top-3 right-3 w-8 h-8 rounded-full bg-gold/90 flex items-center justify-center opacity-0 group-active:opacity-100 transition-opacity">
+                    <ArrowUpRight size={14} className="text-black" />
                   </div>
                 </Link>
+              ))}
 
-                <div className="mt-8 flex justify-between items-center border-t border-white/10 pt-6">
-                  <p className="text-[10px] uppercase tracking-[0.4em] text-white/30 font-black">{car.year} Bespoke Portfolio</p>
-                  <p className="text-[10px] uppercase tracking-[0.4em] font-black text-white/50">Details • Sourcing • Logistics</p>
-                </div>
-              </div>
-            ))}
-
-            {/* CTA card at end */}
-            <div className="w-[40vw] flex-shrink-0 flex items-center justify-center border-l border-white/10 ml-12">
-              <div className="text-center space-y-8">
-                <h3 className="text-4xl md:text-6xl font-display font-light uppercase tracking-tighter">
-                  Seek <br /><span className=" font-serif text-gold">Something Else?</span>
+              {/* CTA snap card */}
+              <div className="w-[60vw] flex-shrink-0 snap-start flex flex-col items-center justify-center gap-6 px-4">
+                <h3 className="text-2xl font-display font-light uppercase tracking-tighter text-center">
+                  Seek <span className="font-serif text-gold">Something Else?</span>
                 </h3>
                 <Link to="/sourcing">
-                  <button className="px-12 py-5 bg-white text-black rounded-full font-bold uppercase text-[12px] tracking-widest hover:bg-gold transition-colors">
-                    Source Custom Model
+                  <button className="px-6 py-3 bg-white text-black rounded-full font-bold uppercase text-[10px] tracking-widest hover:bg-gold transition-colors">
+                    Source Custom
                   </button>
                 </Link>
               </div>
-            </div>
-          </motion.div>
+            </>
+          )}
+        </div>
+
+        {/* Scroll hint dots */}
+        {!loading && vehicles.length > 1 && (
+          <div className="flex justify-center gap-1.5 pb-8">
+            {vehicles.map((_, i) => (
+              <div key={i} className={`w-1 h-1 rounded-full ${i === 0 ? 'bg-gold' : 'bg-white/20'}`} />
+            ))}
+          </div>
         )}
-      </div>
-    </section>
+      </section>
+
+      {/* ── DESKTOP: sticky horizontal scroll (unchanged) ── */}
+      <section ref={targetRef} className="relative h-[300vh] bg-luxury-black hidden md:block">
+        <div className="sticky top-0 h-screen flex items-center overflow-hidden">
+          {loading ? (
+            <div className="flex gap-4 sm:gap-6 md:gap-12 px-4 sm:px-6 md:px-12 lg:px-24">
+              {[1, 2, 3].map(i => (
+                <div key={i} className="w-[85vw] md:w-[46vw] h-[72vh] flex-shrink-0 bg-white/5 animate-pulse rounded-sm" />
+              ))}
+            </div>
+          ) : (
+            <motion.div style={{ x }} className="flex gap-4 sm:gap-6 md:gap-12 px-4 sm:px-6 md:px-12 lg:px-24">
+              {vehicles.map((car) => (
+                <div key={car.id} className="group relative w-[85vw] md:w-[46vw] h-[72vh] flex-shrink-0">
+                  <Link to={`/inventory/${car.id}`} className="block h-full">
+                    <div className="relative w-full h-full overflow-hidden rounded-sm transition-all duration-1000">
+                      {car.image_url ? (
+                        <img
+                          src={car.image_url}
+                          alt={`${car.make} ${car.model}`}
+                          className="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-110"
+                        />
+                      ) : (
+                        <div className="w-full h-full bg-white/[0.03] flex flex-col items-center justify-center">
+                          <p className="text-white/10 text-6xl font-display font-black tracking-tighter">{car.make}</p>
+                          <p className="text-white/5 text-3xl font-serif mt-2">{car.model}</p>
+                        </div>
+                      )}
+                      <div className="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-colors duration-1000" />
+                      <div className="absolute top-12 left-12 text-white">
+                        <p className="text-[10px] uppercase tracking-[0.5em] font-black text-gold mb-3">{car.make}</p>
+                        <h3 className="text-4xl md:text-5xl font-serif">{car.model}</h3>
+                      </div>
+                      <div className="absolute bottom-12 right-12 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-700">
+                        <div className="w-16 h-16 rounded-full bg-gold text-black flex items-center justify-center hover:bg-white transition-colors">
+                          <ArrowUpRight size={24} />
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
+                  <div className="mt-8 flex justify-between items-center border-t border-white/10 pt-6">
+                    <p className="text-[10px] uppercase tracking-[0.4em] text-white/30 font-black">{car.year} Bespoke Portfolio</p>
+                    <p className="text-[10px] uppercase tracking-[0.4em] font-black text-white/50">Details • Sourcing • Logistics</p>
+                  </div>
+                </div>
+              ))}
+              <div className="w-[40vw] flex-shrink-0 flex items-center justify-center border-l border-white/10 ml-12">
+                <div className="text-center space-y-8">
+                  <h3 className="text-4xl md:text-6xl font-display font-light uppercase tracking-tighter">
+                    Seek <br /><span className="font-serif text-gold">Something Else?</span>
+                  </h3>
+                  <Link to="/sourcing">
+                    <button className="px-12 py-5 bg-white text-black rounded-full font-bold uppercase text-[12px] tracking-widest hover:bg-gold transition-colors">
+                      Source Custom Model
+                    </button>
+                  </Link>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </div>
+      </section>
+    </>
   );
 }

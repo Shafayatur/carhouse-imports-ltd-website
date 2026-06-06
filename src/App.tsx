@@ -15,7 +15,6 @@ import { HorizontalCollection } from "@/components/HorizontalCollection";
 import { VaultFeature } from "@/components/VaultFeature";
 import { GlobalNetwork } from "@/components/GlobalNetwork";
 import { InvestmentAdvisory } from "@/components/InvestmentAdvisory";
-import { Experience } from "@/components/Experience";
 import { RacerSection } from "@/components/RacerSection";
 import { Membership } from "@/components/Membership";
 import { VideoSection } from "@/components/VideoSection";
@@ -126,18 +125,6 @@ function HomePage() {
           <ShowroomGallery />
 
           <InvestmentAdvisory />
-
-          <VideoSection
-            videoUrl={get("video2_url", "/videos/video2.mp4")}
-            title={get("video2_title", "Global Movement")}
-            subtitle={get("video2_subtitle", "Logistics & Delivery")}
-            quote={get("video2_quote", "From the port of Nagoya to the hills of Monaco, we bridge the gap between passion and possession.")}
-            reverse
-            buttonLink="/sourcing"
-            buttonLabel="Discover Sourcing Process"
-          />
-
-          <Experience />
 
           <Membership />
 

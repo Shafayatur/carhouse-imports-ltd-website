@@ -54,18 +54,18 @@ export function RacerSection() {
                         Forged on <br />
                         <span className="font-display font-medium text-white uppercase tracking-tighter">The F1 Circuit</span>
                      </h2>
-                     <p className="text-xl text-white/40 leading-relaxed font-light max-w-xl">
+                     <p className="text-base md:text-xl text-white/40 leading-relaxed font-light max-w-xl">
                         Our founder, Avik Anwar, isn't just an importer—he is a motorsport pioneer. As the first Bangladeshi to win an international racing championship and conquer a Formula 1 circuit, his racing DNA is infused into every vehicle we source.
                      </p>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-12 pt-12 border-t border-white/5">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 pt-12 border-t border-white/5">
                      <div className="space-y-4">
                         <div className="flex items-center gap-4 text-gold">
                            <Timer size={20} />
                            <span className="text-[10px] uppercase tracking-[0.4em] font-black">Track Record</span>
                         </div>
-                        <p className="text-2xl font-serif text-white/80">"If you want to win, you must push limits. We bring that same track precision to imports."</p>
+                        <p className="text-lg md:text-2xl font-serif text-white/80">"If you want to win, you must push limits. We bring that same track precision to imports."</p>
                      </div>
                      <div className="space-y-4 text-right lg:text-left">
                         <div className="flex items-center gap-4 text-gold lg:justify-start justify-end">

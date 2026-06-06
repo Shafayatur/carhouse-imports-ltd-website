@@ -42,7 +42,7 @@ export function GlobalNetwork() {
                         Seamless <br />
                         <span className=" font-display font-medium text-white/90 uppercase">Acquisition</span>
                      </h2>
-                     <p className="text-xl text-white/40 leading-relaxed font-light max-w-lg mb-12 border-l border-gold/30 pl-8">
+                     <p className="text-base md:text-xl text-white/40 leading-relaxed font-light max-w-lg mb-8 md:mb-12 border-l border-gold/30 pl-6 md:pl-8">
                         Our global logistics network operates behind the scenes to ensure your vehicle arrives in pristine condition.
                      </p>
 
@@ -101,7 +101,7 @@ export function GlobalNetwork() {
                                  >
                                     <div className="w-12 h-12 text-gold mb-6 border-b border-white/10 pb-4">{stat.icon}</div>
                                     <div>
-                                       <h4 className="text-2xl font-serif  mb-3 text-white">{stat.title}</h4>
+                                       <h4 className="text-xl md:text-2xl font-serif mb-2 md:mb-3 text-white">{stat.title}</h4>
                                        <p className="text-white/40 text-[10px] leading-relaxed uppercase tracking-widest">{stat.desc}</p>
                                     </div>
                                     <div className="flex justify-between items-center mt-6">
@@ -123,7 +123,7 @@ export function GlobalNetwork() {
          </div>
 
          {/* Philosophy quote section */}
-         <div className="relative h-screen w-full overflow-hidden">
+         <div className="relative h-[60vw] min-h-[320px] md:h-screen w-full overflow-hidden">
             <motion.div
                initial={{ scale: 1.2, opacity: 0 }}
                whileInView={{ scale: 1, opacity: 0.6 }}
