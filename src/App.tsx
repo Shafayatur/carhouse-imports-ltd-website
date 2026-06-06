@@ -22,6 +22,9 @@ import { VideoSection } from "@/components/VideoSection";
 import { PartnerLogos } from "@/components/PartnerLogos";
 import { FAQ } from "@/components/FAQ";
 import { Contact } from "@/components/Contact";
+import { NewArrivals } from "@/components/NewArrivals";
+import { VehicleCategories } from "@/components/VehicleCategories";
+import { ShowroomGallery } from "@/components/ShowroomGallery";
 import { motion, AnimatePresence, useScroll, useSpring } from "motion/react";
 import { useNavigate } from "react-router-dom";
 import { GitCompareArrows, X } from "lucide-react";
@@ -110,11 +113,17 @@ function HomePage() {
             buttonLabel="Explore Collection"
           />
 
+          <NewArrivals />
+
+          <VehicleCategories />
+
           <GlobalNetwork />
 
           <VaultFeature />
 
           <RacerSection />
+
+          <ShowroomGallery />
 
           <InvestmentAdvisory />
 

@@ -111,3 +111,35 @@ export function useVaultFeatureVehicles() {
     }, []);
     return { vehicles, loading };
 }
+
+// ─── useNewArrivals ───────────────────────────────────────────────────────────
+import { getNewArrivals, getCategories, getGalleryImages, type VehicleCategory, type GalleryImage } from '@/lib/supabase';
+
+export function useNewArrivals() {
+    const [vehicles, setVehicles] = useState<Vehicle[]>([]);
+    const [loading, setLoading] = useState(true);
+    useEffect(() => {
+        getNewArrivals().then(setVehicles).finally(() => setLoading(false));
+    }, []);
+    return { vehicles, loading };
+}
+
+// ─── useCategories ────────────────────────────────────────────────────────────
+export function useCategories() {
+    const [categories, setCategories] = useState<VehicleCategory[]>([]);
+    const [loading, setLoading] = useState(true);
+    useEffect(() => {
+        getCategories().then(setCategories).finally(() => setLoading(false));
+    }, []);
+    return { categories, loading };
+}
+
+// ─── useGalleryImages ─────────────────────────────────────────────────────────
+export function useGalleryImages() {
+    const [images, setImages] = useState<GalleryImage[]>([]);
+    const [loading, setLoading] = useState(true);
+    useEffect(() => {
+        getGalleryImages().then(setImages).finally(() => setLoading(false));
+    }, []);
+    return { images, loading };
+}

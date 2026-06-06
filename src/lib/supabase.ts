@@ -38,6 +38,7 @@ export interface Vehicle {
     customs_duty: number;
     shipping_cost: number;
     featured: boolean;
+    show_new_arrival: boolean;
     body_type: string;
     image_url: string | null;
     gallery_urls: string[] | null;
@@ -181,4 +182,54 @@ export async function getVaultFeatureVehicles(): Promise<Vehicle[]> {
         .limit(4);
     if (error) throw error;
     return data as Vehicle[];
+}
+/** Vehicles flagged for New Arrivals homepage section */
+export async function getNewArrivals(): Promise<Vehicle[]> {
+    const { data, error } = await supabase
+        .from('vehicles')
+        .select('*')
+        .eq('show_new_arrival', true)
+        .order('import_date', { ascending: false });
+    if (error) return [];
+    return data as Vehicle[];
+}
+
+/** Categories for homepage category section */
+export interface VehicleCategory {
+    id: number;
+    name: string;
+    slug: string;
+    description: string | null;
+    image_url: string | null;
+    sort_order: number;
+    is_active: boolean;
+}
+export async function getCategories(): Promise<VehicleCategory[]> {
+    const { data, error } = await supabase
+        .from('vehicle_categories')
+        .select('*')
+        .eq('is_active', true)
+        .order('sort_order');
+    if (error) return [];
+    return data as VehicleCategory[];
+}
+
+/** Gallery images for homepage showroom gallery section */
+export interface GalleryImage {
+    id: number;
+    image_url: string;
+    alt: string | null;
+    position: number;  // 1-9 grid position
+    span: '1x1' | '2x1' | '1x2' | '2x2';  // col x row span
+    sort_order: number;
+    is_active: boolean;
+}
+export async function getGalleryImages(): Promise<GalleryImage[]> {
+    const { data, error } = await supabase
+        .from('gallery_images')
+        .select('*')
+        .eq('is_active', true)
+        .order('sort_order');
+    if (error) return [];
+    return data as GalleryImage[];
 }

@@ -1,9 +1,9 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Navbar } from "@/components/Navbar";
 import { GoBack } from "@/components/GoBack";
 import { Contact } from "@/components/Contact";
 import { motion, AnimatePresence } from "motion/react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { ArrowUpRight, SlidersHorizontal, Search, X, CarFront } from "lucide-react";
 import { TestDriveModal } from "@/components/TestDriveModal";
 import { useVehicles } from "@/hooks/useSupabase";
@@ -43,8 +43,17 @@ const initialFilters: FilterState = {
 };
 
 export default function InventoryPage() {
+  const [searchParams] = useSearchParams();
   const [search, setSearch] = useState("");
   const [filters, setFilters] = useState<FilterState>(initialFilters);
+
+  // Read bodyStyle from URL query param (from category section clicks)
+  useEffect(() => {
+    const bodyStyle = searchParams.get("bodyStyle");
+    if (bodyStyle) {
+      setFilters(f => ({ ...f, bodyStyle }));
+    }
+  }, [searchParams]);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   const [testDriveCar, setTestDriveCar] = useState<{ name: string; id: string } | null>(null);
