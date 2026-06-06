@@ -21,6 +21,7 @@ import { VideoSection } from "@/components/VideoSection";
 import { PartnerLogos } from "@/components/PartnerLogos";
 import { FAQ } from "@/components/FAQ";
 import { Contact } from "@/components/Contact";
+import { AnnouncementBanner } from "@/components/AnnouncementBanner";
 import { NewArrivals } from "@/components/NewArrivals";
 import { VehicleCategories } from "@/components/VehicleCategories";
 import { ShowroomGallery } from "@/components/ShowroomGallery";

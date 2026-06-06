@@ -5,39 +5,9 @@ import { motion } from "motion/react";
 import { MapPin, Phone, Mail, Clock, Instagram, Twitter, Linkedin, Youtube, ArrowRight, Loader2, CheckCircle2 } from "lucide-react";
 import { useState } from "react";
 import { submitEnquiry } from "@/lib/supabase";
+import { useSiteSettings } from "@/hooks/useSupabase";
 
-const offices = [
-    {
-        city: "Dhaka",
-        label: "Headquarters & Showroom",
-        address: "Tajmahal Road, Mohammadpur\nDhaka 1207, Bangladesh",
-        phone: "+880 1XXX XXX XXX",
-        email: "dhaka@carhouse.uk",
-        hours: "Sat–Thu: 10:00 AM – 7:00 PM\nFriday: Closed",
-        mapEmbed: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1182.6922972992618!2d90.36140376934057!3d23.764929715496674!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755c188ae9e047f%3A0x83620924e5180839!5e0!3m2!1sen!2sbd!4v1780570726202!5m2!1sen!2sbd",
-        primary: true,
-    },
-    {
-        city: "London",
-        label: "European Liaison Office",
-        address: "Mayfair District\nLondon, United Kingdom",
-        phone: "+44 20 XXXX XXXX",
-        email: "london@carhouse.uk",
-        hours: "Mon–Fri: 9:00 AM – 6:00 PM\nWeekends: By Appointment",
-        mapEmbed: null,
-        primary: false,
-    },
-    {
-        city: "Dubai",
-        label: "Middle East Office",
-        address: "Business Bay\nDubai, UAE",
-        phone: "+971 4 XXX XXXX",
-        email: "dubai@carhouse.uk",
-        hours: "Sun–Thu: 9:00 AM – 6:00 PM\nFriday–Saturday: Closed",
-        mapEmbed: null,
-        primary: false,
-    },
-];
+
 
 const faqs = [
     { q: "Do I need an appointment to visit the showroom?", a: "Walk-ins are welcome during business hours, but we strongly recommend booking ahead for a private consultation to ensure a dedicated advisor is available." },
@@ -46,6 +16,41 @@ const faqs = [
 ];
 
 export default function ContactPage() {
+    const { get } = useSiteSettings();
+
+    const offices = [
+        {
+            city: "Dhaka",
+            label: "Headquarters & Showroom",
+            address: get("contact_dhaka_address", "Tajmahal Road, Mohammadpur\nDhaka 1207, Bangladesh"),
+            phone: get("phone", "+880 1XXX XXX XXX"),
+            email: get("email", "dhaka@carhouse.uk"),
+            hours: get("business_hours", "Sat–Thu: 10:00 AM – 7:00 PM\nFriday: Closed"),
+            mapEmbed: get("contact_map_embed", "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1182.6922972992618!2d90.36140376934057!3d23.764929715496674!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755c188ae9e047f%3A0x83620924e5180839!5e0!3m2!1sen!2sbd!4v1780570726202!5m2!1sen!2sbd"),
+            primary: true,
+        },
+        {
+            city: "London",
+            label: "European Liaison Office",
+            address: get("contact_london_address", "Mayfair District\nLondon, United Kingdom"),
+            phone: get("contact_london_phone", "+44 20 XXXX XXXX"),
+            email: get("contact_london_email", "london@carhouse.uk"),
+            hours: get("contact_london_hours", "Mon–Fri: 9:00 AM – 6:00 PM\nWeekends: By Appointment"),
+            mapEmbed: null,
+            primary: false,
+        },
+        {
+            city: "Dubai",
+            label: "Middle East Office",
+            address: get("contact_dubai_address", "Business Bay\nDubai, UAE"),
+            phone: get("contact_dubai_phone", "+971 4 XXX XXXX"),
+            email: get("contact_dubai_email", "dubai@carhouse.uk"),
+            hours: get("contact_dubai_hours", "Sun–Thu: 9:00 AM – 6:00 PM\nFriday–Saturday: Closed"),
+            mapEmbed: null,
+            primary: false,
+        },
+    ];
+
     const [formState, setFormState] = useState<'idle' | 'submitting' | 'success'>('idle');
     const [name, setName] = useState('');
     const [phone, setPhone] = useState('');
