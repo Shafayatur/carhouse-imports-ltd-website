@@ -17,6 +17,7 @@ const menuSections = [
       { icon: <Car size={18} />, name: "Inventory", desc: "Browse available vehicles", path: "/inventory" },
       { icon: <GitCompareArrows size={18} />, name: "Compare Cars", desc: "Side-by-side vehicle comparison", path: "/compare" },
       { icon: <Globe size={18} />, name: "Global Sourcing", desc: "We find it anywhere in the world", path: "/sourcing" },
+      { icon: <Globe size={18} />, name: "Strategic Partners", desc: "Our global brand network", path: "/#strategic-network" },
       { icon: <BookOpen size={18} />, name: "The Showroom", desc: "Visit our Dhaka floor", path: "/showroom" },
     ],
   },
