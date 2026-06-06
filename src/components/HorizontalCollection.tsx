@@ -8,85 +8,52 @@ export function HorizontalCollection() {
   const targetRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: targetRef });
   const { vehicles, loading } = useHorizontalVehicles();
-
   const x = useTransform(scrollYProgress, [0, 1], ["0%", "-60%"]);
 
   return (
     <>
-      {/* ── MOBILE: touch-scroll snap ── */}
-      <section className="md:hidden bg-luxury-black overflow-hidden">
-        {/* Header */}
-        <div className="px-6 pt-12 pb-6 flex items-end justify-between">
+      {/* ── MOBILE: simple grid ── */}
+      <section className="md:hidden bg-luxury-black pt-8 pb-16 px-4">
+        <div className="flex items-end justify-between mb-6">
           <div>
             <p className="text-[9px] uppercase tracking-[0.6em] font-black text-gold mb-2">The Collection</p>
-            <h2 className="text-3xl font-serif leading-tight">Featured <br />Vehicles</h2>
+            <h2 className="text-3xl font-serif leading-tight">Featured Vehicles</h2>
           </div>
           <Link to="/inventory" className="text-[9px] uppercase tracking-[0.4em] font-black text-white/30 hover:text-gold transition-colors flex items-center gap-1">
             All <ArrowUpRight size={10} />
           </Link>
         </div>
 
-        {/* Snap scroll row */}
-        <div
-          className="flex gap-4 px-6 pb-12 overflow-x-auto snap-x snap-mandatory scrollbar-none"
-          style={{ scrollbarWidth: "none", WebkitOverflowScrolling: "touch" }}
-          onTouchStart={() => (window as any).__lenis?.stop()}
-          onTouchEnd={() => (window as any).__lenis?.start()}
-        >
-          {loading ? (
-            [1, 2, 3].map(i => (
-              <div key={i} className="w-[78vw] h-[55vw] flex-shrink-0 snap-start bg-white/5 animate-pulse rounded-sm" />
-            ))
-          ) : (
-            <>
-              {vehicles.map((car) => (
+        {loading ? (
+          <div className="grid grid-cols-2 gap-3">
+            {[1, 2, 3, 4].map(i => <div key={i} className="h-48 bg-white/5 animate-pulse rounded-sm" />)}
+          </div>
+        ) : (
+          <>
+            <div className="grid grid-cols-2 gap-3">
+              {vehicles.slice(0, 4).map((car, i) => (
                 <Link
                   key={car.id}
                   to={`/inventory/${car.id}`}
-                  className="group relative w-[78vw] h-[55vw] flex-shrink-0 snap-start overflow-hidden rounded-sm block"
+                  className={`group relative overflow-hidden rounded-sm ${i === 0 ? 'col-span-2 h-56' : 'h-40'}`}
                 >
                   {car.image_url ? (
-                    <img
-                      src={car.image_url}
-                      alt={`${car.make} ${car.model}`}
-                      className="w-full h-full object-cover"
-                    />
+                    <img src={car.image_url} alt={`${car.make} ${car.model}`} className="w-full h-full object-cover transition-transform duration-700 group-active:scale-105" />
                   ) : (
-                    <div className="w-full h-full bg-white/[0.03]" />
+                    <div className="w-full h-full bg-white/5" />
                   )}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                  <div className="absolute bottom-4 left-4">
-                    <p className="text-[8px] uppercase tracking-[0.5em] font-black text-gold mb-1">{car.make}</p>
-                    <h3 className="text-xl font-serif text-white">{car.model}</h3>
-                  </div>
-                  <div className="absolute top-3 right-3 w-8 h-8 rounded-full bg-gold/90 flex items-center justify-center opacity-0 group-active:opacity-100 transition-opacity">
-                    <ArrowUpRight size={14} className="text-black" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
+                  <div className="absolute bottom-3 left-3">
+                    <p className="text-[7px] uppercase tracking-[0.4em] font-black text-gold">{car.make}</p>
+                    <p className="text-sm font-serif text-white">{car.model}</p>
                   </div>
                 </Link>
               ))}
-
-              {/* CTA snap card */}
-              <div className="w-[60vw] flex-shrink-0 snap-start flex flex-col items-center justify-center gap-6 px-4">
-                <h3 className="text-2xl font-display font-light uppercase tracking-tighter text-center">
-                  Seek <span className="font-serif text-gold">Something Else?</span>
-                </h3>
-                <Link to="/sourcing">
-                  <button className="px-6 py-3 bg-white text-black rounded-full font-bold uppercase text-[10px] tracking-widest hover:bg-gold transition-colors">
-                    Source Custom
-                  </button>
-                </Link>
-              </div>
-            </>
-          )}
-        </div>
-
-        {/* Scroll hint dots */}
-        {!loading && vehicles.length > 1 && (
-          <div className="flex justify-center gap-1.5 pb-8">
-            {vehicles.map((_, i) => (
-              <div key={i} className={`w-1 h-1 rounded-full ${i === 0 ? 'bg-gold' : 'bg-white/20'}`} />
-            ))}
-          </div>
+            </div>
+            <Link to="/sourcing" className="mt-4 flex items-center justify-center gap-2 w-full py-3 border border-white/10 text-[9px] uppercase tracking-[0.4em] font-black text-white/40 hover:border-gold/40 hover:text-gold transition-all rounded-sm">
+              Source a Custom Model <ArrowUpRight size={10} />
+            </Link>
+          </>
         )}
       </section>
 
@@ -94,9 +61,9 @@ export function HorizontalCollection() {
       <section ref={targetRef} className="relative h-[300vh] bg-luxury-black hidden md:block">
         <div className="sticky top-0 h-screen flex items-center overflow-hidden">
           {loading ? (
-            <div className="flex gap-4 sm:gap-6 md:gap-12 px-4 sm:px-6 md:px-12 lg:px-24">
+            <div className="flex gap-12 px-12 lg:px-24">
               {[1, 2, 3].map(i => (
-                <div key={i} className="w-[85vw] md:w-[46vw] h-[72vh] flex-shrink-0 bg-white/5 animate-pulse rounded-sm" />
+                <div key={i} className="w-[46vw] h-[72vh] flex-shrink-0 bg-white/5 animate-pulse rounded-sm" />
               ))}
             </div>
           ) : (
@@ -106,11 +73,7 @@ export function HorizontalCollection() {
                   <Link to={`/inventory/${car.id}`} className="block h-full">
                     <div className="relative w-full h-full overflow-hidden rounded-sm transition-all duration-1000">
                       {car.image_url ? (
-                        <img
-                          src={car.image_url}
-                          alt={`${car.make} ${car.model}`}
-                          className="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-110"
-                        />
+                        <img src={car.image_url} alt={`${car.make} ${car.model}`} className="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-110" />
                       ) : (
                         <div className="w-full h-full bg-white/[0.03] flex flex-col items-center justify-center">
                           <p className="text-white/10 text-6xl font-display font-black tracking-tighter">{car.make}</p>

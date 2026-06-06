@@ -25,7 +25,7 @@ export function ShowroomGallery() {
     const images = dbImages.length > 0 ? dbImages : (loading ? [] : FALLBACK);
 
     return (
-        <section className="pt-16 pb-24 bg-luxury-black border-t border-white/5 overflow-hidden">
+        <section className="pt-8 pb-16 bg-luxury-black border-t border-white/5 overflow-hidden">
             <div className="container mx-auto px-6 md:px-12">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
