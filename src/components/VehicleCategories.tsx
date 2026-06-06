@@ -41,7 +41,7 @@ export function VehicleCategories() {
     const categories = dbCategories.length > 0 ? dbCategories : (loading ? [] : FALLBACK_CATEGORIES);
 
     if (loading) return (
-        <section className="py-32 bg-[#060606]">
+        <section className="pt-16 pb-24 bg-[#060606]">
             <div className="container mx-auto px-6 md:px-12">
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                     {[1, 2, 3, 4, 5, 6, 7].map(i => <div key={i} className="h-40 bg-white/[0.03] animate-pulse" />)}
@@ -51,7 +51,7 @@ export function VehicleCategories() {
     );
 
     return (
-        <section className="py-32 bg-[#060606] border-t border-white/5 relative overflow-hidden">
+        <section className="pt-16 pb-24 bg-[#060606] border-t border-white/5 relative overflow-hidden">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(197,160,40,0.03),transparent_70%)] pointer-events-none" />
 
             <div className="container mx-auto px-6 md:px-12">
@@ -89,7 +89,7 @@ export function VehicleCategories() {
                                         <img
                                             src={cat.image_url}
                                             alt={cat.name}
-                                            className="absolute inset-0 w-full h-full object-cover opacity-20 group-hover:opacity-30 transition-opacity duration-500"
+                                            className="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:opacity-70 transition-opacity duration-500"
                                         />
                                     )}
 
@@ -98,7 +98,7 @@ export function VehicleCategories() {
                                         <div className="absolute inset-0 flex items-center justify-center">
                                             <svg
                                                 viewBox="0 0 200 70"
-                                                className={`${isFirst ? 'w-3/4' : 'w-full'} h-full opacity-[0.07] group-hover:opacity-[0.13] transition-opacity duration-500`}
+                                                className={`${isFirst ? 'w-3/4' : 'w-full'} h-full opacity-[0.18] group-hover:opacity-[0.30] transition-opacity duration-500`}
                                                 fill="white"
                                             >
                                                 <path d={silhouette(cat.name)} />

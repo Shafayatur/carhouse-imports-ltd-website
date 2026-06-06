@@ -33,9 +33,9 @@ const vehiclePrices = [
 ];
 
 function formatBDT(amount: number) {
-    if (amount >= 10000000) return `৳${(amount / 10000000).toFixed(2)} Cr`;
-    if (amount >= 100000) return `৳${(amount / 100000).toFixed(1)} Lakh`;
-    return `৳${amount.toLocaleString()}`;
+    if (amount >= 10000000) return `BDT ${(amount / 10000000).toFixed(2)} Cr`;
+    if (amount >= 100000) return `BDT ${(amount / 100000).toFixed(1)} Lakh`;
+    return `BDT ${amount.toLocaleString()}`;
 }
 
 export default function FinancingPage() {
@@ -145,7 +145,7 @@ export default function FinancingPage() {
                                 ))}
                             </div>
                             <div className="relative">
-                                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-white/30 text-sm">৳</span>
+                                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-white/30 text-[9px] font-black tracking-widest">BDT</span>
                                 <input
                                     type="text"
                                     value={customPrice}

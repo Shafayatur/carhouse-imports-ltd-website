@@ -25,7 +25,7 @@ export function ShowroomGallery() {
     const images = dbImages.length > 0 ? dbImages : (loading ? [] : FALLBACK);
 
     return (
-        <section className="py-24 bg-luxury-black border-t border-white/5 overflow-hidden">
+        <section className="pt-16 pb-24 bg-luxury-black border-t border-white/5 overflow-hidden">
             <div className="container mx-auto px-6 md:px-12">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -62,7 +62,7 @@ export function ShowroomGallery() {
                             <img
                                 src={img.image_url}
                                 alt={img.alt || ""}
-                                className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-[1.5s] hover:scale-105"
+                                className="w-full h-full object-cover transition-all duration-[1.5s] hover:scale-105"
                             />
                             <div className="absolute inset-0 bg-gradient-to-br from-black/20 via-transparent to-black/30 pointer-events-none" />
                         </motion.div>
@@ -84,7 +84,7 @@ export function ShowroomGallery() {
                         <img
                             src={img.image_url}
                             alt={img.alt || ""}
-                            className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-[1.5s]"
+                            className="w-full h-full object-cover transition-all duration-[1.5s]"
                         />
                         <div className="absolute inset-0 bg-gradient-to-br from-black/20 via-transparent to-black/30 pointer-events-none" />
                     </motion.div>

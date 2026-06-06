@@ -110,7 +110,7 @@ export function NewArrivals() {
                 "grid-cols-1 md:grid-cols-2 lg:grid-cols-3";
 
     return (
-        <section className="py-32 bg-luxury-black relative overflow-hidden">
+        <section className="pt-16 pb-24 bg-luxury-black relative overflow-hidden">
             <div className="absolute top-0 right-0 w-1/2 h-full bg-[radial-gradient(circle_at_80%_30%,rgba(197,160,40,0.04),transparent_60%)] pointer-events-none" />
 
             <div className="container mx-auto px-6 md:px-12">
