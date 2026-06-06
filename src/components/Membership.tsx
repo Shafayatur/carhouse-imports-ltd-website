@@ -30,25 +30,54 @@ export function Membership() {
             </div>
 
             {/* The 4 Options Layout (2x2 Grid) */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {perks.map((perk, i) => (
-                <div
-                  key={i}
-                  className="p-6 border border-white/5 bg-white/[0.01] hover:border-gold/20 hover:bg-white/[0.02] rounded-sm transition-all duration-500 flex flex-col justify-between min-h-[140px] group"
-                >
-                  <div className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-gold group-hover:border-gold/30 transition-colors shrink-0">
-                    {perk.icon}
+            <div className="md:grid md:grid-cols-2 md:gap-4">
+              {/* Mobile Swipe */}
+              <div className="md:hidden flex gap-3 overflow-x-auto snap-x snap-mandatory pb-2 scrollbar-hide">
+                {perks.map((perk, i) => (
+                  <div
+                    key={i}
+                    className="snap-center shrink-0 w-[85vw] p-5 border border-white/5 bg-white/[0.01] rounded-sm flex flex-col justify-between min-h-[120px]"
+                  >
+                    <div className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-gold">
+                      {perk.icon}
+                    </div>
+
+                    <div className="mt-3">
+                      <h4 className="text-[11px] font-display uppercase tracking-widest font-bold text-white/90">
+                        {perk.title}
+                      </h4>
+
+                      <p className="text-[9px] text-white/30 tracking-wider mt-2 uppercase leading-relaxed">
+                        {perk.desc}
+                      </p>
+                    </div>
                   </div>
-                  <div className="mt-4">
-                    <h4 className="text-[11px] font-display uppercase tracking-widest font-bold text-white/90 group-hover:text-gold transition-colors">
-                      {perk.title}
-                    </h4>
-                    <p className="text-[9px] text-white/30 tracking-wider mt-2 uppercase leading-relaxed">
-                      {perk.desc}
-                    </p>
+                ))}
+              </div>
+
+              {/* Desktop Grid */}
+              <div className="hidden md:contents">
+                {perks.map((perk, i) => (
+                  <div
+                    key={i}
+                    className="p-6 border border-white/5 bg-white/[0.01] hover:border-gold/20 hover:bg-white/[0.02] rounded-sm transition-all duration-500 flex flex-col justify-between min-h-[140px] group"
+                  >
+                    <div className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-gold group-hover:border-gold/30 transition-colors shrink-0">
+                      {perk.icon}
+                    </div>
+
+                    <div className="mt-4">
+                      <h4 className="text-[11px] font-display uppercase tracking-widest font-bold text-white/90 group-hover:text-gold transition-colors">
+                        {perk.title}
+                      </h4>
+
+                      <p className="text-[9px] text-white/30 tracking-wider mt-2 uppercase leading-relaxed">
+                        {perk.desc}
+                      </p>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
 
